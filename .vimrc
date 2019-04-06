@@ -59,9 +59,6 @@ inoremap <silent> }L <C-r>=EndSymbol("}")<CR>
 inoremap <silent> ]L <C-r>=EndSymbol("]")<CR>
 inoremap <silent> 'L <C-r>=EndSymbol("'")<CR>
 inoremap <silent> "L <C-r>=EndSymbol('"')<CR>
-tnoremap jjj <C-\><C-N>
-tnoremap <C-C> <C-[>
-tnoremap <C-[> <C-C>
 command! Editvimrc e ~/.vimrc
 command! Evimrc Editvimrc
 command! Sourcevimrc source $VIM/vimrc
