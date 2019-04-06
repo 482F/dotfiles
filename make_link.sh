@@ -6,8 +6,8 @@ ln -s "${DFS_DIR}/.screenrc" ~/.screenrc
 ln -s "${DFS_DIR}/.vimrc" ~/.vimrc
 ln -s "${DFS_DIR}/.vim" ~/.vim
 
-grep -E "^source ${DFS_DIR}/.bashrc_bkfiles$" ~/.bashrc
+grep -E "^source ${DFS_DIR}/.bashrc_dotfiles$" ~/.bashrc
 
 if [ $? -ne 0 ]; then
-    echo "source ${DFS_DIR}/.bashrc_bkfiles" >> ~/.bashrc
+    echo "source ${DFS_DIR}/.bashrc_dotfiles" >> ~/.bashrc
 fi
