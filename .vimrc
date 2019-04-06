@@ -23,6 +23,7 @@ colorscheme pencil
 set directory=$HOME/.vim/bkfiles
 set backupdir=$HOME/.vim/bkfiles
 set undodir=$HOME/.vim/bkfiles
+set undofile
 set viminfo+=n$HOME/.vim/viminfo
 set cursorline
 set encoding=utf-8
