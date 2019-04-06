@@ -1,3 +1,2 @@
-.vim/bkfiles/*
-.vim/viminfo
-.vim/.netrwhist
+/.vim/viminfo
+/.vim/.netrwhist
