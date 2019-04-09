@@ -1,0 +1,10 @@
+defutf8 on
+defencoding utf8
+encoding utf8 utf8
+startup_message off
+vbell off
+defscrollback 10000
+altscreen on
+hardstatus alwayslastline "%{= cd} %-w%{= wk} %n %t* %{-}%+w"
+shell $SHELL
+
