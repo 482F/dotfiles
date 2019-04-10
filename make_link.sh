@@ -6,6 +6,8 @@ declare -a BLACK_LIST=(
 ".bashrc_dotfiles"
 )
 
+cd "${DFS_DIR}"
+
 for f in .??*; do
     if `echo ${array[@]} | grep -q "${f}"`; then
         continue
