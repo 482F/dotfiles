@@ -1,2 +1,3 @@
 alias ll='ls -alF --color'
 HISTSIZE=100000000
+alias ..="cd .."
