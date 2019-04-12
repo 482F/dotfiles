@@ -12,6 +12,9 @@ for f in .??*; do
     if `echo ${BLACK_LIST[@]} | grep -q "${f}"`; then
         continue
     fi
+    if [ -e "${HOME}/${f}" ]; then
+        continue
+    fi
     ln -s "${DFS_DIR}/${f}" "${HOME}/${f}"
 done
 
