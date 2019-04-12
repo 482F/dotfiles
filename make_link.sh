@@ -20,7 +20,7 @@ done
 
 find "${HOME}/" -xtype l | xargs --no-run-if-empty rm
 
-grep -E "^source ${DFS_DIR}/.bashrc_dotfiles$" ~/.bashrc
+grep -qE "^source ${DFS_DIR}/.bashrc_dotfiles$" ~/.bashrc
 
 if [ $? -ne 0 ]; then
     echo "source ${DFS_DIR}/.bashrc_dotfiles" >> ~/.bashrc
