@@ -9,7 +9,7 @@ declare -a BLACK_LIST=(
 cd "${DFS_DIR}"
 
 for f in .??*; do
-    if `echo ${array[@]} | grep -q "${f}"`; then
+    if `echo ${BLACK_LIST[@]} | grep -q "${f}"`; then
         continue
     fi
     ln -s "${DFS_DIR}/${f}" "${HOME}/${f}"
