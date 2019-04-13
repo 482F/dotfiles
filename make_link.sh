@@ -3,6 +3,7 @@ DFS_DIR=$(cd $(dirname $0); pwd)
 declare -a BLACK_LIST=(
 ".git"
 ".gitignore"
+".bashrc_dotfiles"
 )
 
 for f in .??*; do
