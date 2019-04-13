@@ -1,10 +1,16 @@
 #!/bin/bash
 DFS_DIR=$(cd $(dirname $0); pwd)
+declare -a BLACK_LIST=(
+".git"
+".gitignore"
+)
 
-ln -s "${DFS_DIR}/.inputrc" ~/.inputrc
-ln -s "${DFS_DIR}/.screenrc" ~/.screenrc
-ln -s "${DFS_DIR}/.vimrc" ~/.vimrc
-ln -sn "${DFS_DIR}/.vim" ~/.vim
+for f in .??*; do
+    if `echo ${array[@]} | grep -q "${f}"; then
+        continue
+    fi
+    ln -s "${DFS_DIR}/${f}" "${HOME}/${f}"
+done
 
 grep -E "^source ${DFS_DIR}/.bashrc_dotfiles$" ~/.bashrc
 
