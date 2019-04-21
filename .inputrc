@@ -1,2 +1,4 @@
 "\C-n":history-search-forward
 "\C-p":history-search-backward
+set editing-mode vi
+set completion-ignore-case on
