@@ -1,6 +1,7 @@
 alias ll='ls -alF --color'
 HISTSIZE=100000000
 alias ..="cd .."
+alias sudo="sudo "
 
 if type __git_ps1 > /dev/null 2>&1 ; then
   PROMPT_COMMAND="__git_ps1 '\h:\W \u' '\\\$ '; $PROMPT_COMMAND"
