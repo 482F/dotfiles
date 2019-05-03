@@ -8,7 +8,7 @@ declare -a BLACK_LIST=(
 
 cd "${DFS_DIR}"
 
-echo "${DFS_DIR}"
+rm -rf "${DFS_DIR}"
 
 find "${HOME}/" -xtype l | xargs --no-run-if-empty rm
 
