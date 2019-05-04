@@ -1,9 +1,9 @@
 alias ll='ls -alF --color'
-HISTSIZE=100000000
-HISTFILESIZE=100000000
 alias ..="cd .."
 alias sudo="sudo "
 alias dirs="dirs -p -v"
+export HISTSIZE=100000000
+export HISTFILESIZE=100000000
 
 source ~/.git-prompt.sh
 
