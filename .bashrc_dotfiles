@@ -3,6 +3,8 @@ HISTSIZE=100000000
 alias ..="cd .."
 alias sudo="sudo "
 
+source ~/.git-prompt.sh
+
 if type __git_ps1 > /dev/null 2>&1 ; then
   PROMPT_COMMAND="__git_ps1 '\h:\W \u' '\\\$ '; $PROMPT_COMMAND"
   GIT_PS1_SHOWDIRTYSTATE=true
@@ -12,5 +14,3 @@ if type __git_ps1 > /dev/null 2>&1 ; then
   GIT_PS1_SHOWCOLORHINTS=true
 fi
 export PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$\[\033[39m\] '
-
-source ~/.git-prompt.sh
