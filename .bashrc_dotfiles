@@ -2,6 +2,7 @@ alias ll='ls -alF --color'
 HISTSIZE=100000000
 alias ..="cd .."
 alias sudo="sudo "
+alias vim="vim -u ~/.vimrc"
 
 source ~/.git-prompt.sh
 
