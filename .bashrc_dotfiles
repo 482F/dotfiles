@@ -3,6 +3,7 @@ HISTSIZE=100000000
 HISTFILESIZE=100000000
 alias ..="cd .."
 alias sudo="sudo "
+alias dirs="dirs -p -v"
 
 source ~/.git-prompt.sh
 
