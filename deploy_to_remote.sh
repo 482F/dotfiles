@@ -6,4 +6,4 @@ DFS_DIR_NAME=$(basename ${DFS_DIR})
 DEPLOY_SH="make_link.sh"
 
 rsync -r --delete "${DFS_DIR}" "${HOSTNAME}:~/"
-ssh "${HOSTNAME}" "~/${DFS_DIR_NAME}/${DEPLOY_SH}"
+ssh "${HOSTNAME}" "bash ~/${DFS_DIR_NAME}/${DEPLOY_SH}"
