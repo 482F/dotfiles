@@ -85,3 +85,5 @@ function! RestoreFunc(cname, bname)
     execute "w " a:cname
     execute "e " a:cname
 endfunction
+let &t_SI.="\e[5 q"
+let &t_EI.="\e[1 q"
