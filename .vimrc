@@ -75,7 +75,7 @@ inoremap <silent> ''H ''<LEFT>
 inoremap <silent> ""H ""<LEFT>
 command! Editvimrc e ~/.vimrc
 command! Evimrc Editvimrc
-command! Sourcevimrc source $VIM/vimrc
+command! Sourcevimrc source ~/.vimrc
 set clipboard=unnamed,autoselect
 set autochdir
 set shiftwidth=4
