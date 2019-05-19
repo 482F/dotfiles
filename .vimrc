@@ -73,11 +73,6 @@ inoremap <silent> {}H {}<LEFT>
 inoremap <silent> []H []<LEFT>
 inoremap <silent> ''H ''<LEFT>
 inoremap <silent> ""H ""<LEFT>
-inoremap <silent> )L <C-r>=EndSymbol(")")<CR>
-inoremap <silent> }L <C-r>=EndSymbol("}")<CR>
-inoremap <silent> ]L <C-r>=EndSymbol("]")<CR>
-inoremap <silent> 'L <C-r>=EndSymbol("'")<CR>
-inoremap <silent> "L <C-r>=EndSymbol('"')<CR>
 command! Editvimrc e ~/.vimrc
 command! Evimrc Editvimrc
 command! Sourcevimrc source $VIM/vimrc
