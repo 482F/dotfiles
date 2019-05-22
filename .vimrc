@@ -30,6 +30,17 @@ set encoding=utf-8
 set nrformats=alpha
 set virtualedit=onemore
 
+function! BracketSurround(bracket) range
+    let b = a:bracket
+    if (visualmode() != "" && 0 < a:lastline - a:firstline)
+        let b = strpart(b, 0, 1) . "
+" . strpart(b, 1, 1)
+    endif
+    silent normal gvy
+    execute "silent normal gvc" . b
+    silent normal P
+endfunction
+
 nnoremap j gj
 nnoremap k gk
 nnoremap <silent> S> :+tabm<CR>
@@ -47,6 +58,14 @@ cnoremap <C-N> <DOWN>
 cnoremap <UP> <C-P>
 cnoremap <DOWN> <C-N>
 vnoremap <C-H> :s///gc<LEFT><LEFT><LEFT>
+vnoremap <silent> s{ :'<,'>call BracketSurround("{}")<CR>
+vnoremap <silent> s( :'<,'>call BracketSurround("()")<CR>
+vnoremap <silent> s< :'<,'>call BracketSurround("<>")<CR>
+vnoremap <silent> s[ :'<,'>call BracketSurround("[]")<CR>
+vnoremap <silent> s$ :'<,'>call BracketSurround("$$")<CR>
+vnoremap <silent> s" :'<,'>call BracketSurround("\"\"")<CR>
+vnoremap <silent> s' :'<,'>call BracketSurround("\'\'")<CR>
+vnoremap <silent> s` :'<,'>call BracketSurround("\`\`")<CR>
 inoremap <silent> <C-CR> <END><CR>
 inoremap <silent> jj <ESC>
 inoremap <silent> ()H ()<LEFT>
