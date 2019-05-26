@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ue -o pipefail
 
 HOSTNAME="${1}"
 DFS_DIR=$(cd $(dirname $0); pwd)
