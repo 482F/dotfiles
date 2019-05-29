@@ -66,8 +66,8 @@ nnoremap <silent> S< :-tabm<CR>
 nnoremap <C-H> :%s///gc<LEFT><LEFT><LEFT>
 nnoremap / /\v
 nnoremap <C-W><C-V> <C-W><C-V><C-W><C-X><C-W><C-W>
-nnoremap <C-Tab> gt
-nnoremap <C-S-Tab> gT
+nnoremap [1;5I gt
+nnoremap [1;6I gT
 nnoremap Y y$
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
