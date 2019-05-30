@@ -35,6 +35,8 @@ function! SwitchCommentOut()
     let com = ""
     if (ext == "py")
         let com = "#"
+    elseif (ext == "sh")
+        let com = "#"
     endif
     if (com == "")
         return
