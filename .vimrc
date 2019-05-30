@@ -30,6 +30,23 @@ set encoding=utf-8
 set nrformats=alpha
 set virtualedit=onemore
 
+function! SwitchCommentOut()
+    let ext = expand("%:e")
+    let com = ""
+    if (ext == "py")
+        let com = "#"
+    endif
+    if (com == "")
+        return
+    endif
+    let length = len(com)
+    let head = matchstr(getline('.'), '[^ ]\{' . length . '\}')
+    if (head == com)
+        execute "normal ^" . length . "x=="
+    else
+        execute "normal I" . com
+    endif
+endfunction
 function! BracketSurround(bracket) range
     let b = a:bracket
     if (visualmode() != "" && 0 < a:lastline - a:firstline)
@@ -53,10 +70,12 @@ nnoremap <C-S-Tab> gT
 nnoremap Y y$
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
+nnoremap [1;5m[1;5m :call SwitchCommentOut()<CR>
 cnoremap <C-P> <UP>
 cnoremap <C-N> <DOWN>
 cnoremap <UP> <C-P>
 cnoremap <DOWN> <C-N>
+vnoremap [1;5m[1;5m :'<,'>call SwitchCommentOut()<CR>
 vnoremap <C-H> :s///gc<LEFT><LEFT><LEFT>
 vnoremap <silent> s{ :'<,'>call BracketSurround("{}")<CR>
 vnoremap <silent> s( :'<,'>call BracketSurround("()")<CR>
