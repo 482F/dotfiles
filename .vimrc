@@ -31,11 +31,10 @@ set nrformats=alpha
 set virtualedit=onemore
 
 function! SwitchCommentOut()
-    let ext = expand("%:e")
     let com = ""
-    if (ext == "py")
+    if (&syntax == "python")
         let com = "#"
-    elseif (ext == "sh")
+    elseif (&syntax == "sh")
         let com = "#"
     endif
     if (com == "")
