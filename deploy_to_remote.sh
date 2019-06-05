@@ -1,6 +1,8 @@
 #!/bin/bash
 set -ue -o pipefail
 
+export LC_ALL=C
+
 HOSTNAME="${1}"
 DFS_DIR=$(cd $(dirname $0); pwd)
 DFS_DIR_NAME=$(basename ${DFS_DIR})
