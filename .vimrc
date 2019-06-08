@@ -121,3 +121,12 @@ function! RestoreFunc(cname, bname)
 endfunction
 let &t_SI.="\e[5 q"
 let &t_EI.="\e[1 q"
+
+" Windows Subsystem for Linux で、ヤンクでクリップボードにコピー
+if system('uname -a | grep Microsoft') != ''
+    augroup myYank
+    autocmd!
+    autocmd TextYankPost * :call system('/mnt/d/utl/clip.exe', @")
+    augroup END
+
+endif
