@@ -128,5 +128,4 @@ if system('uname -a | grep Microsoft') != ''
     autocmd!
     autocmd TextYankPost * :call system('/mnt/d/utl/clip.exe', @")
     augroup END
-
 endif
