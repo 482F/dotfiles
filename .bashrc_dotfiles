@@ -9,11 +9,11 @@ export HISTFILESIZE=100000000
 export HISTIGNORE=ls:ll:history:pwd
 
 if [[ -t 1 ]]; then
-    bind -x '"\C-j\C-j":"pushd +1 > /dev/null 2>&1 && pwd"'
-    bind -x '"\C-j\C-k":"pushd -0 > /dev/null 2>&1 && pwd"'
-    bind -x '"\C-j\C-a":"pushd . > /dev/null 2>&1 && pwd"'
-    bind -x '"\C-j\C-d":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
-    bind -x '"\C-j\C-l":"dirs -p -v"'
+    bind '"\C-j\C-j":"pushd +1 > /dev/null 2>&1 && pwd"'
+    bind '"\C-j\C-k":"pushd -0 > /dev/null 2>&1 && pwd"'
+    bind '"\C-j\C-a":"pushd . > /dev/null 2>&1 && pwd"'
+    bind '"\C-j\C-d":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
+    bind '"\C-j\C-l":"dirs -p -v"'
     bind -x '"\C-x\C-z":"fg"'
 fi
 
