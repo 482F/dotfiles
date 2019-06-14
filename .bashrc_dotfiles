@@ -14,6 +14,7 @@ if [[ -t 1 ]]; then
     bind -x '"\C-j\C-a":"pushd . > /dev/null 2>&1 && pwd"'
     bind -x '"\C-j\C-d":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
     bind -x '"\C-j\C-l":"dirs -p -v"'
+    bind -x '"\C-x\C-z":"fg"'
 fi
 
 source ~/.git-prompt.sh
