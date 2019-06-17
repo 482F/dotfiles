@@ -19,12 +19,16 @@ set cmdheight=2
 set showcmd
 set title
 set background=light
-colorscheme pencil
-set directory=$HOME/.vim/bkfiles
-set backupdir=$HOME/.vim/bkfiles
-set undodir=$HOME/.vim/bkfiles
-set undofile
-set viminfo+=n$HOME/.vim/viminfo
+if filereadable(expand("$HOME/.vim/colors/pencil.vim"))
+    colorscheme pencil
+endif
+if isdirectory(expand("$HOME/.vim/bkfiles"))
+    set directory=$HOME/.vim/bkfiles
+    set backupdir=$HOME/.vim/bkfiles
+    set undodir=$HOME/.vim/bkfiles
+    set undofile
+    set viminfo+=n$HOME/.vim/viminfo
+endif
 set cursorline
 set encoding=utf-8
 set nrformats=alpha
