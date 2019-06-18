@@ -40,6 +40,8 @@ function! SwitchCommentOut()
         let com = "#"
     elseif (&syntax == "sh")
         let com = "#"
+    elseif (&syntax == "vim")
+        let com = "\""
     endif
     if (com == "")
         return
@@ -79,7 +81,7 @@ cnoremap <C-P> <UP>
 cnoremap <C-N> <DOWN>
 cnoremap <UP> <C-P>
 cnoremap <DOWN> <C-N>
-vnoremap [1;5m[1;5m :'<,'>call SwitchCommentOut()<CR>
+vnoremap [1;5m[1;5m :call SwitchCommentOut()<CR>
 vnoremap <C-H> :s///gc<LEFT><LEFT><LEFT>
 vnoremap <silent> s{ :call BracketSurround("{}")<CR>
 vnoremap <silent> s( :call BracketSurround("()")<CR>
