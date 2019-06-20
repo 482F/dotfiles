@@ -50,7 +50,7 @@ function! SwitchCommentOut()
 endfunction
 function! BracketSurround(bracket) range
     let b = a:bracket
-    if (visualmode() != "" && 0 < a:lastline - a:firstline)
+    if (visualmode() ==# "V")
         let b = strpart(b, 0, 1) . "\n" . strpart(b, 1, 1)
     endif
     silent normal gvy
@@ -77,14 +77,14 @@ cnoremap <UP> <C-P>
 cnoremap <DOWN> <C-N>
 vnoremap [1;5m[1;5m :'<,'>call SwitchCommentOut()<CR>
 vnoremap <C-H> :s///gc<LEFT><LEFT><LEFT>
-vnoremap <silent> s{ :'<,'>call BracketSurround("{}")<CR>
-vnoremap <silent> s( :'<,'>call BracketSurround("()")<CR>
-vnoremap <silent> s< :'<,'>call BracketSurround("<>")<CR>
-vnoremap <silent> s[ :'<,'>call BracketSurround("[]")<CR>
-vnoremap <silent> s$ :'<,'>call BracketSurround("$$")<CR>
-vnoremap <silent> s" :'<,'>call BracketSurround("\"\"")<CR>
-vnoremap <silent> s' :'<,'>call BracketSurround("\'\'")<CR>
-vnoremap <silent> s` :'<,'>call BracketSurround("\`\`")<CR>
+vnoremap <silent> s{ :call BracketSurround("{}")<CR>
+vnoremap <silent> s( :call BracketSurround("()")<CR>
+vnoremap <silent> s< :call BracketSurround("<>")<CR>
+vnoremap <silent> s[ :call BracketSurround("[]")<CR>
+vnoremap <silent> s$ :call BracketSurround("$$")<CR>
+vnoremap <silent> s" :call BracketSurround("\"\"")<CR>
+vnoremap <silent> s' :call BracketSurround("\'\'")<CR>
+vnoremap <silent> s` :call BracketSurround("\`\`")<CR>
 inoremap <silent> <C-CR> <END><CR>
 inoremap <silent> jj <ESC>
 inoremap <silent> ()H ()<LEFT>
