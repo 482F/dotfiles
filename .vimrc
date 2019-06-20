@@ -51,8 +51,7 @@ endfunction
 function! BracketSurround(bracket) range
     let b = a:bracket
     if (visualmode() != "" && 0 < a:lastline - a:firstline)
-        let b = strpart(b, 0, 1) . "
-" . strpart(b, 1, 1)
+        let b = strpart(b, 0, 1) . "\n" . strpart(b, 1, 1)
     endif
     silent normal gvy
     execute "silent normal gvc" . b
