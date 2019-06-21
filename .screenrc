@@ -7,5 +7,3 @@ defscrollback 10000
 altscreen on
 hardstatus alwayslastline "%{= cd} %-w%{= wk} %n %t* %{-}%+w"
 shell $SHELL
-logfile "~/log/screen/screen.log"
-deflog on
