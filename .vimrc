@@ -36,13 +36,13 @@ set virtualedit=onemore
 
 function! SwitchCommentOut()
     let com = ""
-    if (&syntax == "python")
-        let com = "#"
-    elseif (&syntax == "sh")
-        let com = "#"
-    elseif (&syntax == "vim")
-        let com = "\""
-    endif
+    let dict = {
+\        "python": "#",
+\        "sh": "#",
+\        "c": "#",
+\        "vim": "\""
+\    }
+    let com = get(dict, &syntax, "")
     if (com == "")
         return
     endif
