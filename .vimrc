@@ -39,7 +39,7 @@ function! SwitchCommentOut()
     let dict = {
 \        "python": "#",
 \        "sh": "#",
-\        "c": "#",
+\        "c": "//",
 \        "vim": "\""
 \    }
     let com = get(dict, &syntax, "")
