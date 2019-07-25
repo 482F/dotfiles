@@ -1,5 +1,5 @@
 alias ll='ls -hlF --color'
-alias lla='ls -halF --color'
+alias lla='ls -hAlF --color'
 alias ..="cd .."
 alias sudo="sudo "
 alias dirs="dirs -p -v"
