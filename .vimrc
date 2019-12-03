@@ -92,6 +92,7 @@ vnoremap <silent> s$ :call BracketSurround("$$")<CR>
 vnoremap <silent> s" :call BracketSurround("\"\"")<CR>
 vnoremap <silent> s' :call BracketSurround("\'\'")<CR>
 vnoremap <silent> s` :call BracketSurround("\`\`")<CR>
+vnoremap <silent> <C-R> :call RunCmd()<CR>
 inoremap <silent> <C-CR> <END><CR>
 inoremap <silent> jj <ESC>
 inoremap <silent> ()H ()<LEFT>
@@ -114,6 +115,11 @@ command! Delete call delete(expand("%"))
 command! -nargs=1 Rename call RenameFunc(<f-args>)
 command! Backup w! %_bac
 command! Restore call RestoreFunc(expand("%"), expand("%") . "_bac")
+
+function! RunCmd()
+    silent normal gvy
+    execute ":r!" . @"
+endfunction
 
 function! RenameFunc(name)
     execute "f " . a:name . " | call delete(expand(\"#\")) | w"
