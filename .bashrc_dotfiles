@@ -8,6 +8,7 @@ alias sudovim="sudo vim -u ~/.vimrc"
 export HISTSIZE=100000000
 export HISTFILESIZE=100000000
 export HISTIGNORE=ls:ll:history:pwd
+export EDITOR=vim
 
 if [[ -t 1 ]]; then
     bind '"\C-j\C-j":"pushd +1 > /dev/null 2>&1 && pwd"'
