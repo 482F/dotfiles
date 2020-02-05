@@ -10,12 +10,28 @@ export HISTFILESIZE=100000000
 export HISTIGNORE=ls:ll:history:pwd
 export EDITOR=vim
 
+function set_dirs_to_var(){
+    local NUM="${1:-0}"
+    export dirs_tmp="$(dirs -p -v | grep -Po '(~|\/).*$' | sed -n ${NUM}p)"
+}
+alias set_dirs_to_var=set_dirs_to_var
+
 if [[ -t 1 ]]; then
     bind '"\C-jj":"pushd +1 > /dev/null 2>&1 && pwd"'
     bind '"\C-jk":"pushd -0 > /dev/null 2>&1 && pwd"'
     bind '"\C-ja":"pushd . > /dev/null 2>&1 && pwd"'
     bind '"\C-jd":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
     bind '"\C-jl":"dirs -p -v"'
+    bind '"\C-j0":"\C-a\C-kset_dirs_to_var 1${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j1":"\C-a\C-kset_dirs_to_var 2${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j2":"\C-a\C-kset_dirs_to_var 3${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j3":"\C-a\C-kset_dirs_to_var 4${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j4":"\C-a\C-kset_dirs_to_var 5${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j5":"\C-a\C-kset_dirs_to_var 6${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j6":"\C-a\C-kset_dirs_to_var 7${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j7":"\C-a\C-kset_dirs_to_var 8${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j8":"\C-a\C-kset_dirs_to_var 9${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
+    bind '"\C-j9":"\C-a\C-kset_dirs_to_var 10${dirs_tmp}\e\C-e\C-a\C-y\C-e"'
     bind -x '"\C-x\C-f":"fg"'
 fi
 
