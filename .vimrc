@@ -41,7 +41,8 @@ function! SwitchCommentOut()
 \        "sh": "#",
 \        "c": "//",
 \        "vim": "\"",
-\        "go": "//"
+\        "go": "//",
+\        "haskell": "--"
 \    }
     let com = get(dict, &syntax, "")
     if (com == "")
