@@ -5,6 +5,7 @@ alias sudo="sudo "
 alias dirs="dirs -p -v"
 alias relogin='exec "${SHELL}" -l'
 alias sudovim="sudo vim -u ~/.vimrc"
+alias tmux="tmux attach || tmux"
 export HISTSIZE=100000000
 export HISTFILESIZE=100000000
 export HISTIGNORE=ls:ll:history:pwd
