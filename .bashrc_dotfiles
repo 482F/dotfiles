@@ -11,11 +11,11 @@ export HISTIGNORE=ls:ll:history:pwd
 export EDITOR=vim
 
 if [[ -t 1 ]]; then
-    bind '"\C-j\C-j":"pushd +1 > /dev/null 2>&1 && pwd"'
-    bind '"\C-j\C-k":"pushd -0 > /dev/null 2>&1 && pwd"'
-    bind '"\C-j\C-a":"pushd . > /dev/null 2>&1 && pwd"'
-    bind '"\C-j\C-d":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
-    bind '"\C-j\C-l":"dirs -p -v"'
+    bind '"\C-jj":"pushd +1 > /dev/null 2>&1 && pwd"'
+    bind '"\C-jk":"pushd -0 > /dev/null 2>&1 && pwd"'
+    bind '"\C-ja":"pushd . > /dev/null 2>&1 && pwd"'
+    bind '"\C-jd":"pushd +1 > /dev/null 2>&1 && popd -0 -n > /dev/null 2>&1 && pwd"'
+    bind '"\C-jl":"dirs -p -v"'
     bind -x '"\C-x\C-f":"fg"'
 fi
 
