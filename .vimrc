@@ -33,6 +33,7 @@ set cursorline
 set encoding=utf-8
 set nrformats=alpha
 set virtualedit=onemore
+set virtualedit+=block
 
 function! SwitchCommentOut()
     let com = ""
