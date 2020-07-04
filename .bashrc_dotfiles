@@ -1,4 +1,4 @@
-alias ll='ls -hlF --color'
+alias ll='ls -hlF --color --group-directories-first'
 alias lla='ls -hAlF --color'
 alias ..="cd .."
 alias sudo="sudo "
