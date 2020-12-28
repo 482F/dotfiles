@@ -148,7 +148,8 @@ endif
 
 
 function! GolangFunc()
-    nnoremap <F5> :!go run "%"<CR>
+    nnoremap <F5> :!go fmt "%"<CR>:e<CR>:!"./%"<CR>
+    nnoremap <F6> :!go fmt "%"<CR>:e<CR>
 endfunction
 
 autocmd BufRead,BufNew,BufEnter *.go call GolangFunc()
