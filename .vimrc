@@ -145,3 +145,10 @@ if system('uname -a | grep Microsoft') != ''
     autocmd TextYankPost * :call system('/mnt/d/utl/clip.exe', @")
     augroup END
 endif
+
+
+function! GolangFunc()
+    nnoremap <F5> :!go run "%"<CR>
+endfunction
+
+autocmd BufRead,BufNew,BufEnter *.go call GolangFunc()
