@@ -80,11 +80,13 @@ nnoremap Y y$
 nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
 nnoremap [1;5m[1;5m :call SwitchCommentOut()<CR>
+nnoremap  :call SwitchCommentOut()<CR>
 cnoremap <C-P> <UP>
 cnoremap <C-N> <DOWN>
 cnoremap <UP> <C-P>
 cnoremap <DOWN> <C-N>
 vnoremap [1;5m[1;5m :call SwitchCommentOut()<CR>
+vnoremap   :call SwitchCommentOut()<CR>
 vnoremap <C-H> :s///gc<LEFT><LEFT><LEFT>
 vnoremap <silent> s{ :call BracketSurround("{}")<CR>
 vnoremap <silent> s( :call BracketSurround("()")<CR>
