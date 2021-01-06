@@ -151,5 +151,10 @@ function! GolangFunc()
     nnoremap <F5> :!go fmt "%"<CR>:e<CR>:!"./%"<CR>
     nnoremap <F6> :!go fmt "%"<CR>:e<CR>
 endfunction
+function! ShellScriptFunc()
+    nnoremap <F5> :!bash "%"<CR>
+    nnoremap <C-F5> :!bash -x "%"<CR>
+endfunction
 
 autocmd BufRead,BufNew,BufEnter *.go call GolangFunc()
+autocmd BufRead,BufNew,BufEnter *.sh call ShellScriptFunc()
