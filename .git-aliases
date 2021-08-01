@@ -1,0 +1,41 @@
+[alias]
+    alias = !"if test -z $1; then loop=; for k in `git config --get-regexp ^alias\\. | sort | sed -e 's/^alias\\.\\(\\S*\\).*/\\1/g'`; do echo -n $k; loop="${loop}1"; if test ${#loop} -lt 5; then echo -n '\t'; else echo; loop=; fi; done; exit; fi; git config --list | grep ^alias\\.$1= | sed -e s/^alias\\.//; exit;"
+    a = add
+    ap = add -p
+    aN = add -N
+    b = branch
+    bd = branch -d
+    bD = branch -D
+    bm = branch -m
+    ch = checkout
+    chb = checkout -b
+    co = commit -v
+    coal = commit --allow-empty
+    coali = commit --allow-empty -m \"initial commit\"
+    coi = commit --allow-empty -m "initial commit"
+    coam = commit --amend -v
+    coamn = commit --amend --no-edit
+	d = diff --histogram
+	dc = !"mkdir diffs; git dn $1 | while IFS= read f; do mkdir -p "diffs/$(dirname "${f}")"; cp "${f}" "diffs/${f}"; done; exit;"
+	dn = diff --name-only
+	dt = difftool
+	dd = diff --color-words --histogram --word-diff-regex='\\\\w+|[^[:space:]]'
+    f = !"find"
+    fn = !"find . -name *$1*; exit;"
+    l = log
+    lo = log --oneline
+    m = merge
+    ms = merge --squash
+    rb = rebase
+    rba = rebase --abort
+    rbc = rebase --continue
+    rbi = rebase -i
+    rs = reset
+    rsh = reset --hard
+    rss = reset --soft
+    s = stash
+    sa = stash apply
+    sd = stash drop
+    sp = stash pop
+    ss = stash save
+    st = status
