@@ -1,3 +1,11 @@
+set editing-mode vi
+set show-mode-in-prompt on
+set vi-ins-mode-string \1\e[34;1m\2(ins) \1\e[0m\2
+set vi-cmd-mode-string \1\e[31;1m\2(cmd) \1\e[0m\2
+set completion-ignore-case on
+set keymap vi-command
+"ciw": "bcw"
+"diw": "bdw"
+set keymap vi-insert
 "\C-n":history-search-forward
 "\C-p":history-search-backward
-set completion-ignore-case on
