@@ -24,6 +24,9 @@
     fn = !"find . -name *$1*; exit;"
     l = log
     lo = log --oneline
+    lp = log -p
+    lop = log --oneline -p
+    lopco = !"git log --oneline -p \"${1}\" | grep -P \"^[a-z0-9]{7}\"; exit;"
     m = merge
     ms = merge --squash
     rb = rebase
