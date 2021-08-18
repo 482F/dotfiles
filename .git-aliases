@@ -20,8 +20,7 @@
 	dn = diff --name-only
 	dt = difftool
 	dd = diff --color-words --histogram --word-diff-regex='\\\\w+|[^[:space:]]'
-    f = !"find"
-    fn = !"find . -name *$1*; exit;"
+    f = !"git ls-files | grep"
     l = log
     lo = log --oneline
     lp = log -p
