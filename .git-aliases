@@ -21,6 +21,7 @@
 	dt = difftool
 	dd = diff --color-words --histogram --word-diff-regex='\\\\w+|[^[:space:]]'
     f = !"git ls-files | grep"
+    fv = !"fs=\"$(git ls-files | grep $1)\"; echo \"${fs}\" | nl | grep --color=auto "$1"; read -p \"input target file line number: \" number; vim "$(echo \"${fs}\" | sed -n "${number}p")"; exit;"
     l = log
     lo = log --oneline
     lp = log -p
