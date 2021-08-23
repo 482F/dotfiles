@@ -41,3 +41,4 @@
     sp = stash pop
     ss = stash save
     st = status
+    v = !"vim $1; exit;"
