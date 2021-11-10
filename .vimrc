@@ -81,6 +81,7 @@ nnoremap <silent> <C-j> :bprev<CR>
 nnoremap <silent> <C-k> :bnext<CR>
 nnoremap [1;5m[1;5m :call SwitchCommentOut()<CR>
 nnoremap  :call SwitchCommentOut()<CR>
+nnoremap <C-f>m :Prettier<CR>
 cnoremap <C-P> <UP>
 cnoremap <C-N> <DOWN>
 cnoremap <UP> <C-P>
