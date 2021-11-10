@@ -1,0 +1,4 @@
+[submodule ".vim/pack/plugins/start/vim-prettier"]
+	path = .vim/pack/plugins/start/vim-prettier
+	url = https://github.com/prettier/vim-prettier
+    ignore = dirty
