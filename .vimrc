@@ -1,7 +1,7 @@
 scriptencoding utf-8
 set ignorecase
 set smartcase
-set tabstop=4
+set tabstop=2
 set expandtab
 set smartindent
 set backspace=indent,eol,start
@@ -110,11 +110,11 @@ command! Evimrc Editvimrc
 command! Sourcevimrc source ~/.vimrc
 set clipboard=unnamed,autoselect
 set autochdir
-set shiftwidth=4
+set shiftwidth=2
 set foldmethod=indent
 set pumheight=10
 set scrolloff=2
-set softtabstop=4
+set softtabstop=2
 
 command! Delete call delete(expand("%"))
 command! -nargs=1 Rename call RenameFunc(<f-args>)
