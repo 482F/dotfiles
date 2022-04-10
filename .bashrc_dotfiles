@@ -45,6 +45,20 @@ if [[ -t 1 ]]; then
     bind -x '"\C-x\C-f":"fg"'
 fi
 
+
+function open() {
+  if [ $# != 1 ]; then
+    explorer.exe .
+  else
+    if [ -e $1 ]; then
+      cmd.exe /c start $(wslpath -w $1) 2> /dev/null
+    else
+      echo "open: $1 : No such file or directory"
+    fi
+  fi
+}
+alias open="open"
+
 source ~/.git-prompt.sh
 
 if type __git_ps1 > /dev/null 2>&1 ; then
@@ -56,3 +70,4 @@ if type __git_ps1 > /dev/null 2>&1 ; then
   GIT_PS1_SHOWCOLORHINTS=true
 fi
 export PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$\[\033[39m\] '
+
