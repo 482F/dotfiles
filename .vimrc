@@ -138,6 +138,12 @@ function! RestoreFunc(cname, bname)
 endfunction
 let &t_SI.="\e[5 q"
 let &t_EI.="\e[1 q"
+let g:prettier#config#tab_width = '2'
+let g:prettier#config#single_quote = 'true'
+let g:prettier#config#trailing_comma = 'es5'
+let g:prettier#config#semi = 'false'
+let g:prettier#config#end_of_line = 'lf'
+let g:prettier#config#quote_props = 'consistent'
 
 " Windows Subsystem for Linux で、ヤンクでクリップボードにコピー
 if system('uname -a | grep Microsoft') != ''
