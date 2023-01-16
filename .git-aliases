@@ -27,6 +27,7 @@
     lp = log -p
     lop = log --oneline -p
     lopco = !"git log --oneline -p \"${1}\" | grep -P \"^[a-z0-9]{7}\"; exit;"
+    lf = log --pretty=fuller
     m = merge
     ms = merge --squash
     rb = rebase
