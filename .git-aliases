@@ -16,11 +16,11 @@
     coam     = commit --amend -v
     coamn    = commit --amend --no-edit
     cp       = cherry-pick
-    d        = diff --histogram
+    d        = diff --histogram -b
     dc       = !"mkdir diffs; git dn $1 | while IFS= read f; do mkdir -p "diffs/$(dirname "${f}")"; cp "${f}" "diffs/${f}"; done; exit;"
     dn       = diff --name-only
     dt       = difftool
-    dd       = diff --color-words --histogram --word-diff-regex='\\\\w+|[^[:space:]]'
+    dd       = diff --color-words --histogram -b --word-diff-regex='\\w+|[^[:space:]]'
     f        = !"git ls-files | grep"
     fv       = !"fs=\"$(git ls-files | grep $1)\"; echo \"${fs}\" | nl | grep --color=auto "$1"; read -p \"input target file line number: \" number; vim "$(echo \"${fs}\" | sed -n "${number}p")"; exit;"
     l        = log
