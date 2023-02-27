@@ -1,5 +1,9 @@
-alias ll='ls -hlF --color --group-directories-first'
-alias lla='ls -hAlF --color'
+function ll() {
+  type exa > /dev/null 2>&1 \
+    && exa -hlF --color auto --group-directories-first --git "${@}" \
+    || ls -hlF --color --group-directories-first --git "${@}"
+}
+alias lla="ll -a"
 alias ..="cd .."
 alias sudo="sudo "
 alias dirs="dirs -p -v"
