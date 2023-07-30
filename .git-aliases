@@ -32,6 +32,7 @@
     m        = merge
     ms       = merge --squash
     pushu    = !"git push -u origin $(git branch --contains | grep -Po \"(?<=..).+\" )"
+    push-fwl = push --force-with-lease
     rb       = rebase
     rba      = rebase --abort
     rbc      = rebase --continue
