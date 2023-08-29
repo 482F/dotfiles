@@ -1,5 +1,5 @@
 return {
-  'echasnovski/mini.nvim',
+  'echasnovski/mini.base16',
   config = function()
     require('mini.base16').setup({
       palette = {

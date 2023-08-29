@@ -97,8 +97,10 @@ util.join =
 
 util.json_stringify =
   ---@param json unknown
+  ---@param depth integer?
   ---@return string
-  function(json)
+  function(json, depth)
+    depth = depth or 1
     local stream = util.lazy_require('util/stream')
     local json_type = type(json)
     if stream.includes({ 'number', 'boolean' }, json_type) then
@@ -112,24 +114,33 @@ util.json_stringify =
       local is_array = stream.every(keys, function(key)
         return type(key) == 'number'
       end)
+      local indent = function(body)
+        local pad = string.rep(' ', depth * 2)
+        return util.join(
+          stream.map(util.split(body, '\n'), function(line)
+            return pad .. line
+          end),
+          '\n'
+        )
+      end
       if is_array then
-        return '['
-          .. util.join(
+        return '[\n'
+          .. indent(util.join(
             stream.map(json, function(v)
-              return util.json_stringify(v)
+              return util.json_stringify(v, depth + 1)
             end),
-            ', '
-          )
-          .. ']'
+            ',\n'
+          ))
+          .. '\n]'
       else
-        return '{ '
-          .. util.join(
+        return '{\n'
+          .. indent(util.join(
             stream.map(json, function(v, k)
-              return k .. ': ' .. util.json_stringify(v)
+              return k .. ': ' .. util.json_stringify(v, depth + 1)
             end),
-            ', '
-          )
-          .. ' }'
+            ',\n'
+          ))
+          .. '\n}'
       end
     else
       return '`type:' .. json_type .. '`'
@@ -148,8 +159,8 @@ util.show_in_popup =
       border = {
         style = 'rounded',
       },
+      anchor = 'NW',
       position = { row = 1, col = 1 },
-      relative = 'cursor',
       size = {
         width = '80%',
         height = '60%',

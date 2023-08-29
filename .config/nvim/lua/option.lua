@@ -14,6 +14,7 @@ local configs = {
   ignorecase = true, -- 検索時に大文字小文字を区別しない
   smartcase = true, -- 検索文字列に大文字が含まれるときは大文字小文字を区別する
   termguicolors = true, -- 色制限撤廃
+  fileformat = 'unix',
 }
 
 stream.for_each(configs, function(value, key)

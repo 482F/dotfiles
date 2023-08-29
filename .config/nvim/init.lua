@@ -6,6 +6,9 @@ require('plugin/init')
 
 --[[
 
+オレオレ lua ライブラリを vim ビルトインにリプレース
+mason でインストールするサーバを lua から定義
+null-ls.nvim -> formatter.nvim
 java 実行・デバッグ
 ターミナル
 既存プロセスアタッチ
