@@ -26,3 +26,4 @@ vim.keymap.set('n', 'Y', 'y$')
 -- バッファ移動
 vim.keymap.set('n', '<C-j>', ':bprev<CR>')
 vim.keymap.set('n', '<C-k>', ':bnext<CR>')
+

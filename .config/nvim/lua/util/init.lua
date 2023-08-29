@@ -1,103 +1,175 @@
 local util = {}
 
-util.map = function(t, func)
-  local newArr = {}
-  for key, value in pairs(t) do
-    newArr[key] = func(value, key)
+util.is_integer =
+  ---@param val unknown
+  ---@return boolean
+  function(val)
+    if type(val) ~= 'number' then
+      return false
+    else
+      return val % 1 .. '' == '0'
+    end
   end
-  return newArr
-end
 
-util.is_integer = function(inVal)
-  if type(inVal) ~= 'number' then
-    return false
-  else
-    return inVal % 1 .. '' == '0'
-  end
-end
-
-util.for_each = function(t, func)
-  util.map(t, func)
-end
-
-util.filter = function(t, func)
-  local new_arr = {}
-  local i = 1
-  for key, value in pairs(t) do
-    if func(value, key) then
-      local newKey
-      if util.is_integer(key) then
-        newKey = i
-        i = i + 1
-      else
-        newKey = key
+util.reg_commands =
+  ---@generic C : { [string]: function }
+  ---@param commands C
+  ---@param group_name string?
+  ---@return C
+  function(commands, group_name)
+    if group_name == nil then
+      group_name = 'mycommand'
+    end
+    require('util/stream').for_each(commands, function(value, name)
+      if type(value) ~= 'function' then
+        return
       end
-      table.insert(new_arr, newKey, value)
+      vim.keymap.set('n', '<Plug>(' .. group_name .. '.' .. name .. ')', value)
+    end)
+    return commands
+  end
+
+util.loadrequire =
+  ---@param modname string
+  function(modname)
+    local function requiref()
+      return require(modname)
+    end
+    local success, result = pcall(requiref)
+    if not success and not string.find(result, "module '" .. modname .. "' not found", 1, true) then
+      error(result)
+    end
+    return result
+  end
+
+local modules = {}
+util.lazy_require =
+  ---@param modname string
+  function(modname)
+    if modules[modname] == nil then
+      modules[modname] = { require(modname) }
+    end
+    return modules[modname][1]
+  end
+
+util.split =
+  ---@param str string
+  ---@param separator string
+  function(str, separator)
+    ---@type string[]
+    local strs = {}
+
+    local i = 1
+    local sep_len = string.len(separator)
+    local str_len = string.len(str)
+
+    ---@type integer?
+    local s = 1 - sep_len
+
+    ---@type integer
+    local prevS = 1
+    while s ~= str_len + 2 do
+      prevS = s --[[@as integer]]
+      s = string.find(str, separator, s + sep_len, true) or (str_len + 2)
+      strs[i] = string.sub(str, prevS + 1, s - 1)
+      i = i + 1
+    end
+    return strs
+  end
+
+util.join =
+  ---@param strs string[]
+  ---@param separator string
+  ---@return string
+  function(strs, separator)
+    local stream = util.lazy_require('util/stream')
+    local first = stream.start(strs).slice(1, 2).find(function()
+      return true
+    end)
+
+    if first == nil then
+      return ''
+    end
+    return stream.reduce(stream.slice(strs, 2), function(all, str)
+      return all .. separator .. str
+    end, first)
+  end
+
+util.json_stringify =
+  ---@param json unknown
+  ---@return string
+  function(json)
+    local stream = util.lazy_require('util/stream')
+    local json_type = type(json)
+    if stream.includes({ 'number', 'boolean' }, json_type) then
+      return tostring(json)
+    elseif json_type == 'string' then
+      return '"' .. json .. '"'
+    elseif json == nil then
+      return 'null'
+    elseif json_type == 'table' then
+      local keys = stream.keys(json)
+      local is_array = stream.every(keys, function(key)
+        return type(key) == 'number'
+      end)
+      if is_array then
+        return '['
+          .. util.join(
+            stream.map(json, function(v)
+              return util.json_stringify(v)
+            end),
+            ', '
+          )
+          .. ']'
+      else
+        return '{ '
+          .. util.join(
+            stream.map(json, function(v, k)
+              return k .. ': ' .. util.json_stringify(v)
+            end),
+            ', '
+          )
+          .. ' }'
+      end
+    else
+      return '`type:' .. json_type .. '`'
     end
   end
-  return new_arr
-end
 
-util.reduce = function(t, func, initial)
-  local result = initial
-  for key, value in pairs(t) do
-    result = func(result, value, key)
-  end
-  return result
-end
+util.show_in_popup =
+  ---@param json unknown
+  ---@return table
+  function(json)
+    local Popup = require('nui.popup')
 
-util.reg_commands = function(commands, group_name)
-  if group_name == nil then
-    group_name = 'mycommand'
-  end
-  util.for_each(commands, function(value, name)
-    if type(value) ~= 'function' then
-      return
-    end
-    vim.keymap.set('n', '<Plug>(' .. group_name .. '.' .. name .. ')', value)
-  end)
-  return commands
-end
+    local popup = Popup({
+      enter = false,
+      focusable = true,
+      border = {
+        style = 'rounded',
+      },
+      position = { row = 1, col = 1 },
+      relative = 'cursor',
+      size = {
+        width = '80%',
+        height = '60%',
+      },
+    })
 
-util.from_pairs = function(t)
-  local new_table = {}
-  for _, value in pairs(t) do
-    new_table[value[1]] = value[2]
-  end
-  return new_table
-end
+    vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+      callback = function()
+        popup:unmount()
+      end,
+      once = true,
+    })
 
-util.pairs = function(t)
-  local new_table = {}
-  local i = 1
-  for key, value in pairs(t) do
-    new_table[i] = { key, value }
-  end
-  return new_table
-end
+    popup:mount()
 
-util.merge = function(t1, t2)
-  local new_table = {}
-  for key, value in pairs(t1) do
-    new_table[key] = value
+    vim.api.nvim_buf_set_lines(popup.bufnr, 0, 1, false, util.split(util.json_stringify(json), '\n'))
+    return popup
   end
-  for key, value in pairs(t2) do
-    new_table[key] = value
-  end
-  return new_table
-end
 
-util.stream = function(t)
-  local stream = util.from_pairs(util.map({ 'map', 'pairs', 'for_each', 'filter', 'reduce', 'from_pairs', }, function(funcName)
-    return { funcName, function(...)
-      return util.stream(util[funcName](t, ...))
-    end }
-  end))
-
-  stream.terminate = function()
-    return t
-  end
-  return stream
-end
+---@type boolean
+util.is_gui = vim.fn.has('gui_running') == 1
 
 return util

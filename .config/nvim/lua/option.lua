@@ -1,4 +1,6 @@
-require('util').for_each({
+local stream = require('util/stream')
+
+local configs = {
   encoding = 'utf-8', -- vim 内部のエンコーディング
   fileencodings = { 'utf-8', 'cp932' }, -- 読み込み時に試すエンコーディング
   fileencoding = 'utf-8', -- ファイル新規作成時の書き込みエンコーディング
@@ -9,6 +11,11 @@ require('util').for_each({
   timeout = false, -- キー入力のタイムアウト無効化
   number = true, -- 行番号表示
   signcolumn = 'number', -- エラー行などを行番号の場所で表示
-}, function(value, key)
+  ignorecase = true, -- 検索時に大文字小文字を区別しない
+  smartcase = true, -- 検索文字列に大文字が含まれるときは大文字小文字を区別する
+  termguicolors = true, -- 色制限撤廃
+}
+
+stream.for_each(configs, function(value, key)
   vim.opt[key] = value
 end)
