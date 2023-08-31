@@ -13,6 +13,7 @@ return {
   },
   config = function()
     local telescope = util.lazy_require('telescope')
+    local fb_actions = require('telescope._extensions.file_browser.actions')
     telescope.setup({
       extensions = {
         file_browser = {
@@ -24,8 +25,12 @@ return {
           mappings = {
             ['i'] = {
               ['<bs>'] = false,
+              ['<M-->'] = fb_actions.goto_parent_dir,
             },
-            ['n'] = {},
+            ['n'] = {
+              ['<bs>'] = fb_actions.goto_parent_dir,
+              ['-'] = fb_actions.goto_parent_dir,
+            },
           },
         },
       },

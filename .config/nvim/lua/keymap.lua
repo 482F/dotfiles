@@ -11,8 +11,8 @@ vim.keymap.set('n', 'j', 'gj')
 vim.keymap.set('n', 'k', 'gk')
 
 -- タブ入れ替え
-vim.keymap.set('n', 'S>', ':+tabm<CR>')
-vim.keymap.set('n', 'S<', ':-tabm<CR>')
+vim.keymap.set('n', 'S>', ':+tabm<CR>', { silent = true })
+vim.keymap.set('n', 'S<', ':-tabm<CR>', { silent = true })
 
 -- 検索時に正規表現有効化
 vim.keymap.set('n', '/', '/\\v')
@@ -24,6 +24,7 @@ vim.keymap.set('n', '<C-H>', ':%s///gc<LEFT><LEFT><LEFT>')
 vim.keymap.set('n', 'Y', 'y$')
 
 -- バッファ移動
-vim.keymap.set('n', '<C-j>', ':bprev<CR>')
-vim.keymap.set('n', '<C-k>', ':bnext<CR>')
+vim.keymap.set('n', '<C-j>', ':bprev<CR>', { silent = true })
+vim.keymap.set('n', '<C-k>', ':bnext<CR>', { silent = true })
 
+vim.keymap.set('x', '<Leader>q', ':source<CR>', { desc = 'lua スクリプト実行' , silent = true})

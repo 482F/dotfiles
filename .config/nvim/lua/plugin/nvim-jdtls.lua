@@ -45,10 +45,7 @@ return {
       },
       init_options = {
         bundles = {
-          vim.fn.glob(
-            '/home/normal/.local/share/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar',
-            1
-          ),
+          '/home/normal/.local/share/jdtls/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-0.48.0.jar',
         },
       },
     }

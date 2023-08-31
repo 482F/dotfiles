@@ -57,6 +57,27 @@ return {
 
     local lspconfig = require('lspconfig')
 
+    local lsps = {
+      { 'deno', 'denols' },
+      { 'lua-language-server', 'lua_ls' },
+      { 'prettierd' },
+      { 'stylua' },
+      { 'typescript-language-server', 'tsserver' },
+    }
+
+    local need_to_install_lsps = vim.tbl_filter(
+      function(v)
+        return not require('mason-registry').is_installed(v)
+      end,
+      vim.tbl_map(function(v)
+        return v[1]
+      end, lsps)
+    )
+
+    if not vim.tbl_isempty(need_to_install_lsps) then
+      require('mason/api/command').MasonInstall(need_to_install_lsps)
+    end
+
     require('mason-lspconfig').setup({
       handlers = stream.map({
         lua_ls = require('plugin/lsp/lua'),

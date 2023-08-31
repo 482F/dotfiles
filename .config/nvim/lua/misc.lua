@@ -1,3 +1,4 @@
+-- クリップボード共有設定
 vim.opt.clipboard = 'unnamedplus'
 if vim.fn.has('wsl') then
   vim.g.clipboard = {
@@ -13,3 +14,11 @@ if vim.fn.has('wsl') then
     cache_enable = 1,
   }
 end
+
+-- git commit 時の改行コードを LF 強制
+vim.api.nvim_create_autocmd({ 'BufEnter' }, { -- FileType: gitcommit にしたいが何故か効かない
+  pattern = { 'COMMIT_EDITMSG' },
+  callback = function()
+    vim.opt.fileformat = 'unix'
+  end,
+})

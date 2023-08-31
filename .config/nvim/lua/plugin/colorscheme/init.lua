@@ -6,7 +6,8 @@ local plugins = stream.map(
     'catppuccin',
     'mini-base16',
     'everforest',
-    'pencil',
+    -- 'pencil',
+    'stylus',
   }),
   function(name, i)
     local plugin = require('plugin/colorscheme/' .. name)

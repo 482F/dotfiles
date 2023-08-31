@@ -26,13 +26,17 @@ local plugins = {
   'mason', -- LSP 管理
   'mason-lspconfig', -- LSP 設定
   'nvim-cmp', -- 補完
-  'comment', -- コメントアウト
-  'surround', -- 括弧等切り替え
   'treesitter', -- treesitter (構文解析)
   'nvim-highlight-colors', -- カラーコードの色表示
   'colorscheme', -- カラースキーマ
-  'heirline', -- ステータスライン
   'nvim-dap', -- デバッグ
+
+  -- 複数用途
+  -- - ステータスライン
+  -- - コメントアウト
+  -- - 括弧等の操作
+  -- - 引数の展開・折りたたみ
+  'mini',
 
   -- 各言語専用プラグイン
   'nvim-jdtls', -- java
