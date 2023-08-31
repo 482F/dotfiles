@@ -76,6 +76,17 @@ if type __git_ps1 > /dev/null 2>&1 ; then
 fi
 export PS1='\[\033[32m\]\u@\h\[\033[00m\]:\[\033[34m\]\w\[\033[31m\]$(__git_ps1)\[\033[00m\]\$\[\033[39m\] '
 
+function findc() {
+  findecho "$@" | clip.exe
+}
+
+function grepc() {
+  grepecho "$@" | clip.exe
+}
+
+
 if [ -z "${TMUX}" ]; then
-  _tmux
+  if [ "$(pwd)" = "/home/normal" ]; then
+    _tmux; exit
+  fi
 fi
