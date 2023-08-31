@@ -12,7 +12,6 @@
     co       = commit -v
     coal     = commit --allow-empty
     coali    = commit --allow-empty -m \"initial commit\"
-    coi      = commit --allow-empty -m "initial commit"
     coam     = commit --amend -v
     coamn    = commit --amend --no-edit
     cp       = cherry-pick
