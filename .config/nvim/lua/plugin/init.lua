@@ -1,8 +1,8 @@
-local util = require('util')
-
+-- lazy インストール
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
 if not vim.loop.fs_stat(lazypath) then
+  print(lazypath)
   vim.fn.system({
     'git',
     'clone',
@@ -14,89 +14,33 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local util = require('util.init')
+local stream = require('util/stream')
+
 local plugins = {
-  { -- セッション管理
-    name = 'possession',
-    setup = { 'jedrzejboczar/possession.nvim', dependencies = { 'nvim-lua/plenary.nvim' } },
-  },
-  { -- fzf
-    name = 'telescope',
-    setup = { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
-  },
-  { -- easymotion
-    name = 'pounce',
-    setup = { 'rlane/pounce.nvim' },
-  },
-  { -- LSP 管理
-    name = 'mason',
-    setup = { 'williamboman/mason.nvim' },
-  },
-  { -- LSP 設定
-    name = 'mason-lspconfig',
-    setup = {
-      'williamboman/mason-lspconfig.nvim',
-      dependencies = { 'neovim/nvim-lspconfig' },
-    },
-  },
-  { -- フォーマッタ管理
-    name = 'null-ls',
-    setup = {
-      'jose-elias-alvarez/null-ls.nvim',
-      dependencies = { 'mason-org/mason-registry' },
-    },
-  },
-  { -- 補完
-    name = 'nvim-cmp',
-    setup = { 'hrsh7th/nvim-cmp', dependencies = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/vim-vsnip' } },
-  },
-  {
-    name = 'nvim-jdtls',
-    setup = { 'mfussenegger/nvim-jdtls' },
-  },
+  -- 'possession', -- セッション管理
+  'telescope', -- fzf
+  'telescope-file-browser', -- ファイラ
+  'telescope-ui-select', -- 選択 UI telescope 化
+  'pounce', -- easymotion
+  'mason', -- LSP 管理
+  'mason-lspconfig', -- LSP 設定
+  'nvim-cmp', -- 補完
+  'comment', -- コメントアウト
+  'surround', -- 括弧等切り替え
+  'treesitter', -- treesitter (構文解析)
+  'nvim-highlight-colors', -- カラーコードの色表示
+  'colorscheme', -- カラースキーマ
+  'heirline', -- ステータスライン
+  'nvim-dap', -- デバッグ
+
+  -- 各言語専用プラグイン
+  'nvim-jdtls', -- java
 }
 
-local function loadrequire(module)
-  local function requiref(module)
-    require(module)
-  end
-  local _, err = pcall(requiref, module)
-  if err and not string.find(err, "module '" .. module .. "' not found", 1, true) then
-    print(module, err)
-    -- error(err)
-  end
-end
-
-require('lazy').setup(util
-  .stream(plugins)
-  .map(function(plugin, i)
-    return util.merge(plugin.setup, {
-      config = function()
-        loadrequire('plugin/' .. plugin.name)
-      end,
-    })
+require('lazy').setup(stream
+  .start(plugins)
+  .map(function(plugin)
+    return util.loadrequire('plugin/' .. plugin)
   end)
   .terminate())
-
-local cmp = require('cmp')
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn['vsnip#anonymous'](args.body)
-    end,
-  },
-  sources = {
-    { name = 'nvim_lsp' },
-    -- { name = "buffer" },
-    -- { name = "path" },
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-l>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-  }),
-  experimental = {
-    ghost_text = true,
-  },
-})

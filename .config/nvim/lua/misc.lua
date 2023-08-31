@@ -1,5 +1,3 @@
-vim.cmd('colorscheme pencil')
-
 vim.opt.clipboard = 'unnamedplus'
 if vim.fn.has('wsl') then
   vim.g.clipboard = {

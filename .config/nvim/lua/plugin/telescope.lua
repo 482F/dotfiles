@@ -1,12 +1,55 @@
-local builtin = require('telescope.builtin')
+local util = require('util/init')
 
-vim.keymap.set('n', '<leader>to', builtin.find_files, {})
-vim.keymap.set('n', '<leader>tk', function()
-  require('telescope.builtin').keymaps()
-  vim.cmd('normal! imycommand')
-end, {})
-vim.keymap.set('n', '<leader>tg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>tb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>th', builtin.help_tags, {})
-
-require('util').reg_commands(require('telescope.builtin'), 'telescope')
+return {
+  'nvim-telescope/telescope.nvim',
+  dependencies = { 'nvim-lua/plenary.nvim' },
+  config = function()
+    require('util/init').reg_commands(util.lazy_require('telescope.builtin'), 'telescope')
+  end,
+  keys = {
+    {
+      '<leader>to',
+      function()
+        util.lazy_require('telescope.builtin').find_files()
+      end,
+    },
+    {
+      '<leader>tk',
+      function()
+        require('telescope.builtin').keymaps()
+      end,
+    },
+    {
+      '<leader>tg',
+      function()
+        util.lazy_require('telescope.builtin').live_grep()
+      end,
+    },
+    {
+      '<leader>tb',
+      function()
+        util.lazy_require('telescope.builtin').buffers()
+      end,
+    },
+    {
+      '<leader>tB',
+      function()
+        util.lazy_require('telescope.builtin').buffers({
+          show_all_buffers = true,
+        })
+      end,
+    },
+    {
+      '<leader>th',
+      function()
+        util.lazy_require('telescope.builtin').help_tags()
+      end,
+    },
+    {
+      '<leader>tc',
+      function()
+        util.lazy_require('telescope.builtin').commands()
+      end,
+    },
+  },
+}

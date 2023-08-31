@@ -1,11 +1,14 @@
-require('mason').setup()
-
-vim.keymap.set('n', '<leader>lfm', '<cmd>lua vim.lsp.buf.format(nil, 1000)<CR>')
-vim.keymap.set('n', '<leader>lh', '<cmd>lua vim.lsp.buf.hover()<CR>')
-vim.keymap.set('n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>')
-vim.keymap.set('n', '<leader>ld', '<cmd>lua vim.lsp.buf.definition()<CR>')
-vim.keymap.set('n', '<leader>lD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-vim.keymap.set('n', '<leader>li', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-vim.keymap.set('n', '<leader>lt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-vim.keymap.set('n', '<leader>lR', '<cmd>lua vim.lsp.buf.rename()<CR>')
-vim.keymap.set('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+return {
+  'williamboman/mason.nvim',
+  cmd = {
+    'Mason',
+    'MasonInstall',
+    'MasonUninstall',
+    'MasonUninstallAll',
+    'MasonLog',
+    'MasonUpdate',
+  },
+  config = function()
+    require('mason').setup()
+  end,
+}
