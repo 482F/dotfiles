@@ -1,6 +1,7 @@
 return function(server, lspconfig)
+  local root_dir = lspconfig.util.root_pattern('deno.jsonc')
   server.setup({
-    root_dir = lspconfig.util.root_pattern('deno.jsonc'),
+    root_dir = root_dir,
     init_options = {
       lint = true,
       enable = true,

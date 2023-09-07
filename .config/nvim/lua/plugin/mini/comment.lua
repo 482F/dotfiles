@@ -17,13 +17,13 @@ local keys = {
   {
     'x',
     '<C-/>',
-    'gcc',
+    'gc',
     { remap = true },
   },
   {
     'x',
     '<C-_>',
-    'gcc',
+    'gc',
     { remap = true },
   },
   {

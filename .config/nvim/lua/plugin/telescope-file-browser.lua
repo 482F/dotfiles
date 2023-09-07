@@ -9,6 +9,7 @@ return {
       function()
         util.lazy_require('telescope').extensions.file_browser.file_browser()
       end,
+      desc = 'ファイルブラウザ',
     },
   },
   config = function()

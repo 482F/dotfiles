@@ -1,20 +1,21 @@
-require('option')
+require('dir-config')
 require('misc')
+require('option')
 require('keymap')
 require('command')
-require('plugin/init')
+require('plugin')
 
 --[[
 
-オレオレ lua ライブラリを vim ビルトインにリプレース
-mason でインストールするサーバを lua から定義
-null-ls.nvim -> formatter.nvim
-java 実行・デバッグ
-ターミナル
-既存プロセスアタッチ
-DB 接続
+ファイル名、ファイルパスコピー
+スニペットエンジン？
+- cmp の confirm で必要そう
+git
+- 行のログ
+- diff とか merge とか？必要？
 言語変更
-- filetype 変更時に lsp, null-ls 動的切り替え
+- filetype 変更時に lsp, formatter 動的切り替え
+- 無名ファイルでもフォーマッタ可能にしたい
 postman 互換
 
 ]]
