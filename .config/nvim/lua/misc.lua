@@ -25,5 +25,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   callback = function()
     vim.g.editorconfig = false
     vim.opt.fileformat = 'unix'
+    vim.opt.textwidth = 0
   end,
 })
