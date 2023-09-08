@@ -70,3 +70,12 @@ table.foreach({ '()', '{}', '[]', "''", '""', '``', '<>' }, function(_, surround
   vim.keymap.set('i', left .. right .. 'H', left .. right .. '<Left>')
   vim.keymap.set('i', right .. 'L', '<Right>')
 end)
+
+table.foreach({
+  { key = 'fp', str = '%:p', desc = 'ファイルパスをヤンク' },
+  { key = 'fn', str = '%:t', desc = 'ファイル名をヤンク' },
+}, function(_, entry)
+  vim.keymap.set('n', '<leader>y' .. entry.key, function()
+    vim.fn.setreg('*', vim.fn.expand(entry.str))
+  end, { desc = entry.desc })
+end)
