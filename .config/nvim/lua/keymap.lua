@@ -29,29 +29,39 @@ vim.keymap.set('n', '<C-k>', ':bnext<CR>', { desc = '次のバッファへ移動
 
 vim.keymap.set('x', '<Leader>q', ':source<CR>', { desc = 'lua スクリプト実行', silent = true })
 
-local function bd()
+---@param write boolean
+---@param bang boolean
+---@param winclose boolean
+local function bd(write, bang, winclose)
+  if write then
+    vim.cmd.write()
+  end
+
+  if winclose then
+    vim.cmd.bdelete({ args = { '%' }, bang = bang })
+    return
+  end
+
   vim.cmd.bnext()
-  local closed, err = pcall(vim.cmd.bdelete, '#')
+  local closed, err = pcall(vim.cmd.bdelete, { args = { '#' }, bang = bang })
   if not closed then
     vim.cmd.bprev()
     error(err, 0)
   end
 end
-vim.keymap.set('n', '<leader>bd', bd, {
-  desc = '現在のバッファを閉じる',
-})
-vim.keymap.set('n', '<leader>bz', function()
-  vim.cmd.write()
-  bd()
-end, {
-  desc = '現在のバッファを保存して閉じる',
-})
-vim.keymap.set('n', '<leader>b!', function()
-  vim.cmd.bdelete({ bang = true })
-end, { desc = '現在のバッファを保存せずに閉じる' })
-vim.keymap.set('n', '<leader>bq', function()
-  vim.cmd.bdelete()
-end, { desc = '現在のバッファをウィンドウごと閉じる' })
+
+for _, entry in pairs({
+  { key = 'd', write = false, bang = false, winclose = false, desc = '現在のバッファを閉じる' },
+  { key = 'D', write = false, bang = false, winclose = true, desc = '現在のバッファをウィンドウごと閉じる' },
+  { key = 'z', write = true, bang = false, winclose = false, desc = '現在のバッファを保存して閉じる' },
+  { key = 'Z', write = true, bang = false, winclose = true, desc = '現在のバッファを保存してウィンドウごと閉じる' },
+  { key = 'q', write = false, bang = true, winclose = false, desc = '現在のバッファを保存せずに閉じる' },
+  { key = 'Q', write = false, bang = true, winclose = true, desc = '現在のバッファを保存せずにウィンドウごと閉じる' },
+}) do
+  vim.keymap.set('n', '<leader>b' .. entry.key, function()
+    bd(entry.write, entry.bang, entry.winclose)
+  end, { desc = entry.desc })
+end
 
 -- インサートモードで括弧の中に入る/から出る
 table.foreach({ '()', '{}', '[]', "''", '""', '``', '<>' }, function(_, surround)
