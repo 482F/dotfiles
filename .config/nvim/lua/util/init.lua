@@ -183,4 +183,14 @@ util.show_in_popup =
 ---@type boolean
 util.is_gui = vim.fn.has('gui_running') == 1
 
+util.remove_quickfix_by_bufnr_and_lnum =
+  ---@param bufnr integer
+  ---@param lnum integer
+  function(bufnr, lnum)
+    local qflist = vim.fn.getqflist()
+    vim.fn.setqflist(require('util/stream').filter(qflist, function(qf)
+      return qf.bufnr ~= bufnr or qf.lnum ~= lnum
+    end))
+  end
+
 return util
