@@ -123,3 +123,43 @@ for _, entry in pairs({
     vim.cmd[entry.command]()
   end or entry.func, { desc = entry.desc })
 end
+
+vim.keymap.set('n', '<M-o>', function()
+  -- TOOD: インデントをいい感じにするために色々やっているので重い。軽くしたい
+  vim.cmd.normal('i\na\n')
+  vim.cmd.normal('k==$x')
+  vim.cmd.startinsert({ bang = true })
+end, { desc = '現在のカーソル位置に改行を入れてインサートモードに遷移' })
+
+for _, entry in pairs({
+  {
+    key = '<M-j>',
+    func = function()
+      vim.cmd.resize('-1')
+    end,
+    desc = 'ウィンドウの高さ -1',
+  },
+  {
+    key = '<M-k>',
+    func = function()
+      vim.cmd.resize('+1')
+    end,
+    desc = 'ウィンドウの高さ +1',
+  },
+  {
+    key = '<M-h>',
+    func = function()
+      vim.api.nvim_win_set_width(0, (vim.api.nvim_win_get_width(0) - 1))
+    end,
+    desc = 'ウィンドウの幅 -1',
+  },
+  {
+    key = '<M-l>',
+    func = function()
+      vim.api.nvim_win_set_width(0, (vim.api.nvim_win_get_width(0) + 1))
+    end,
+    desc = 'ウィンドウの幅 +1',
+  },
+}) do
+  vim.keymap.set('n', entry.key, entry.func, { desc = entry.desc })
+end
