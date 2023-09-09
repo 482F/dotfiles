@@ -14,9 +14,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local util = require('util.init')
-local stream = require('util/stream')
-
 local plugins = {
   -- 'possession', -- セッション管理
   'telescope', -- fzf
@@ -30,6 +27,12 @@ local plugins = {
   'nvim-highlight-colors', -- カラーコードの色表示
   'colorscheme', -- カラースキーマ
   'nvim-dap', -- デバッグ
+  'chowcho', -- ウィンドウ移動
+  'neodev', -- neovim lua api 等の型情報
+  'open-web', -- ブラウザで開く
+  'nvim-dbee', -- DB クライアント
+  'sidebar', -- サイドバー
+  'which-key', -- キーマップ表示
 
   -- 複数用途
   -- - ステータスライン
@@ -40,11 +43,25 @@ local plugins = {
 
   -- 各言語専用プラグイン
   'nvim-jdtls', -- java
+
+  -- 自作プラグイン
+  'terminal', -- ターミナル
 }
 
-require('lazy').setup(stream
-  .start(plugins)
-  .map(function(plugin)
-    return util.loadrequire('plugin/' .. plugin)
-  end)
-  .terminate())
+require('lazy').setup(vim.tbl_map(function(plugin)
+  return require('plugin/' .. plugin)
+end, plugins))
+
+-- 引数無しで起動したときのみ表示したい
+-- vim.api.nvim_create_autocmd({ 'User' }, {
+--   pattern = { 'VeryLazy' },
+--   callback = function()
+--     local lazy_view = require('lazy.view')
+--     lazy_view.show('profile')
+--     local view = lazy_view.view
+--     vim.print('press any key to continue...')
+--     vim.fn.getchar()
+--     view:hide()
+--     vim.print('')
+--   end,
+-- })

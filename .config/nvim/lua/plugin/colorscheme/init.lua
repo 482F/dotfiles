@@ -6,14 +6,29 @@ local plugins = stream.map(
     'catppuccin',
     'mini-base16',
     'everforest',
-    -- 'pencil',
     'stylus',
+    'rose-pine',
+    'tokyonight',
+    'solarized',
+    'aquarium',
+    'gruvbox-flat',
+    'space-vim-theme',
+    'toast',
+    'cake16',
+    'caret',
+    'leaf',
+    'melange',
+    'atlas',
+    'nord',
+    'nightfox',
   }),
   function(name, i)
     local plugin = require('plugin/colorscheme/' .. name)
     if i ~= 1 then
       plugin.cond = false
     end
+    local name = plugin.name or string.gsub(plugin[1], '.*/', '')
+    plugin.name = 'colorscheme-' .. name
     return plugin
   end
 )

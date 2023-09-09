@@ -11,11 +11,29 @@ intermediates.map =
   ---@param func fun(value: V, key: K): R
   ---@return { [K]: R }
   function(t, func)
-    local newArr = {}
+    local new_arr = {}
     for key, value in pairs(t) do
-      newArr[key] = func(value, key)
+      new_arr[key] = func(value, key)
     end
-    return newArr
+    return new_arr
+  end
+
+intermediates.flat_map =
+  ---@generic V
+  ---@param t V[]
+  ---@generic R
+  ---@param func fun(value: V, key: integer): R[]
+  ---@return R[]
+  function(t, func)
+    local new_arr = {}
+    local new_arr_i = 1
+    for loop_i, value in pairs(t) do
+      for _, result in pairs(func(value, loop_i)) do
+        new_arr[new_arr_i] = result
+        new_arr_i = new_arr_i + 1
+      end
+    end
+    return new_arr
   end
 
 intermediates.filter =
@@ -247,7 +265,7 @@ terminals.length =
     return i
   end
 
----@alias intermediate_names 'map' | 'pairs' | 'filter' | 'from_pairs' | 'merge' | 'keys' | 'values' | 'slice' | 'inserted_all'
+---@alias intermediate_names 'map' | 'flat_map' | 'pairs' | 'filter' | 'from_pairs' | 'merge' | 'keys' | 'values' | 'slice' | 'inserted_all'
 ---@alias terminal_names 'for_each' | 'reduce' | 'includes' | 'find' | 'some' | 'every' | 'length' | 'terminate'
 ---@alias streamed { [intermediate_names]: fun(...: any): streamed; [terminal_names]: fun(...: any): any }
 local start
@@ -281,6 +299,7 @@ return {
   start = start,
 
   map = intermediates.map,
+  flat_map = intermediates.flat_map,
   pairs = intermediates.pairs,
   filter = intermediates.filter,
   from_pairs = intermediates.from_pairs,

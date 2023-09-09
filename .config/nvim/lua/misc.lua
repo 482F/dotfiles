@@ -1,3 +1,5 @@
+vim.cmd.colorscheme('quiet')
+
 -- クリップボード共有設定
 vim.opt.clipboard = 'unnamedplus'
 if vim.fn.has('wsl') then
@@ -15,10 +17,13 @@ if vim.fn.has('wsl') then
   }
 end
 
--- git commit 時の改行コードを LF 強制
-vim.api.nvim_create_autocmd({ 'BufEnter' }, { -- FileType: gitcommit にしたいが何故か効かない
-  pattern = { 'COMMIT_EDITMSG' },
+-- git commit 時に
+-- - editorconfig を無視
+-- - 改行コードを LF 強制
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = { 'gitcommit', 'diff' },
   callback = function()
+    vim.g.editorconfig = false
     vim.opt.fileformat = 'unix'
   end,
 })

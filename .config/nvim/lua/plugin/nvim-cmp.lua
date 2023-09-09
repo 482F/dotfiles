@@ -13,9 +13,9 @@ return {
       mapping = cmp.mapping.preset.insert({
         ['<C-p>'] = cmp.mapping.select_prev_item(),
         ['<C-n>'] = cmp.mapping.select_next_item(),
-        -- ['<C-l>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<C-l>'] = cmp.mapping.confirm({ select = true }),
+        ['<C-o><C-o>'] = cmp.mapping.complete(),
+        ['<C-o><C-a>'] = cmp.mapping.abort(),
+        ['<C-o><C-m>'] = cmp.mapping.confirm({ select = true }),
       }),
       experimental = {
         ghost_text = true,

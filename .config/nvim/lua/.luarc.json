@@ -15,5 +15,6 @@
         "/home/normal/utils/nvim-linux64/lib/nvim",
         "/home/normal/.local/state/nvim/lazy/readme",
         "${3rd}/luassert/library"
-    ]
+    ],
+    "workspace.checkThirdParty": false
 }
