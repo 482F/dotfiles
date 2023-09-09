@@ -52,11 +52,35 @@ end
 
 for _, entry in pairs({
   { key = 'd', write = false, bang = false, winclose = false, desc = '現在のバッファを閉じる' },
-  { key = 'D', write = false, bang = false, winclose = true, desc = '現在のバッファをウィンドウごと閉じる' },
+  {
+    key = 'D',
+    write = false,
+    bang = false,
+    winclose = true,
+    desc = '現在のバッファをウィンドウごと閉じる',
+  },
   { key = 'z', write = true, bang = false, winclose = false, desc = '現在のバッファを保存して閉じる' },
-  { key = 'Z', write = true, bang = false, winclose = true, desc = '現在のバッファを保存してウィンドウごと閉じる' },
-  { key = 'q', write = false, bang = true, winclose = false, desc = '現在のバッファを保存せずに閉じる' },
-  { key = 'Q', write = false, bang = true, winclose = true, desc = '現在のバッファを保存せずにウィンドウごと閉じる' },
+  {
+    key = 'Z',
+    write = true,
+    bang = false,
+    winclose = true,
+    desc = '現在のバッファを保存してウィンドウごと閉じる',
+  },
+  {
+    key = 'q',
+    write = false,
+    bang = true,
+    winclose = false,
+    desc = '現在のバッファを保存せずに閉じる',
+  },
+  {
+    key = 'Q',
+    write = false,
+    bang = true,
+    winclose = true,
+    desc = '現在のバッファを保存せずにウィンドウごと閉じる',
+  },
 }) do
   vim.keymap.set('n', '<leader>b' .. entry.key, function()
     bd(entry.write, entry.bang, entry.winclose)
