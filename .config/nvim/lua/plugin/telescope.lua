@@ -48,7 +48,7 @@ end, {
     func_name = 'diagnostics',
     opt = { desc = '診断' },
     arg = {
-      severity = vim.diagnostic.severity.ERROR,
+      severity = { vim.diagnostic.severity.ERROR },
     },
   },
   {
@@ -123,7 +123,8 @@ return {
     local actions = require('telescope/actions')
     require('telescope').setup({
       defaults = {
-        path_display = { 'smart' },
+        wrap_results = true,
+        file_ignore_patterns = { '^%.git/[^ch].+$' }, -- .git/config と .git/hooks は見れるようにしたいが、先読みとかがないので頭文字だけで判定する
         layout_strategy = 'vertical',
         layout_config = { height = 0.95, width = 0.95 },
         mappings = {
