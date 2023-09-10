@@ -8,6 +8,7 @@ return {
         enable = true, -- syntax highlightを有効にする
         disable = {},
       },
+      ensure_installed = { 'diff', 'git_rebase', 'gitcommit' },
     })
     -- treesitter の diff ハイライトに対応していないカラースキームが多いのでそれの対応
     vim.cmd.highlight('def', 'link', '@text.diff.add', 'DiffAdded')
