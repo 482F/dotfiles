@@ -79,49 +79,16 @@ end, {
   {
     suffix = 'Gc',
     func_name = 'git_commits',
-    arg = {
-      git_command = {
-        'git',
-        'log',
-        '--date=short',
-        '--pretty=format:%h %ad[%an]:%B',
-        '--abbrev-commit',
-        '--',
-        '.',
-      },
-    },
     opt = { desc = 'git-コミット' },
   },
   {
     suffix = 'Gbc',
-    func = function()
-      require('telescope/builtin').git_bcommits({
-        git_command = {
-          'git',
-          'log',
-          '--pretty=format:%h %ad[%an]:%B',
-          '--date=short',
-          '--abbrev-commit',
-          '--follow',
-        },
-      })
-    end,
+    func_name = 'git_bcommits',
     opt = { desc = 'git-バッファコミット' },
   },
   {
     suffix = 'Grc',
     func_name = 'git_bcommits_range',
-    arg = {
-      git_command = {
-        'git',
-        'log',
-        '--date=short',
-        '--pretty=format:%h %ad[%an]:%B',
-        '--abbrev-commit',
-        '--no-patch',
-        '-L',
-      },
-    },
     opt = { desc = 'git-範囲コミット', mode = 'x' },
   },
   {
@@ -146,20 +113,28 @@ return {
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
     require('util/init').reg_commands(require('telescope/builtin'), 'telescope')
+
+    local actions = require('telescope/actions')
     require('telescope').setup({
       defaults = {
         path_display = { 'smart' },
         layout_strategy = 'vertical',
         layout_config = { height = 0.95, width = 0.95 },
+        mappings = {
+          i = {
+            ['<C-s>'] = actions.cycle_previewers_next,
+            ['<C-a>'] = actions.cycle_previewers_prev,
+          },
+        },
       },
       pickers = {
         buffers = {
           mappings = {
             n = {
-              ['<M-d>'] = require('telescope.actions').delete_buffer,
+              ['<M-d>'] = actions.delete_buffer,
             },
             i = {
-              ['<M-d>'] = require('telescope.actions').delete_buffer,
+              ['<M-d>'] = actions.delete_buffer,
             },
           },
         },
