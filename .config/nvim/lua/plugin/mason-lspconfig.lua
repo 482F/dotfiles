@@ -104,6 +104,10 @@ local function formatter()
       data = { require('formatter/filetypes/lua').stylua },
     },
     {
+      filetypes = { 'sql' },
+      data = { require('formatter/filetypes/sql').pgformat },
+    },
+    {
       filetypes = {
         'javascript',
         'typescript',
