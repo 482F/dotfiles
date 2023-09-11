@@ -33,6 +33,7 @@ local plugins = {
   'nvim-dbee', -- DB クライアント
   'sidebar', -- サイドバー
   'which-key', -- キーマップ表示
+  'translate', -- 翻訳
 
   -- 複数用途
   -- - ステータスライン
