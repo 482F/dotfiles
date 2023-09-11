@@ -1,7 +1,7 @@
 local stream = require('util/stream')
 return {
   'sidebar-nvim/sidebar.nvim',
-  event = 'VeryLazy',
+  module = true,
   keys = {
     {
       '<leader>st',
@@ -19,7 +19,9 @@ return {
     },
   },
   config = function()
-    require('sidebar-nvim').setup({
+    -- setup 直後に toggle を実行すると setup が何故かエラーになる
+    -- 設定はされてるっぽいので pcall で黙らせる
+    pcall(require('sidebar-nvim').setup, {
       disable_default_keybindings = 1,
       bindings = {
         ['d'] = function()
