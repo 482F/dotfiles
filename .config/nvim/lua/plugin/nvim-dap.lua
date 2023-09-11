@@ -1,7 +1,9 @@
 local util = require('util/init')
+local stream = require('util/stream')
 
 ---@param bufnr integer
-local function focus_by_bufnr(bufnr)
+local function get_winnr_by_bufnr(bufnr)
+  -- vim.fn.win_id2win(vim.fn.win_findbuf(bufnr)) で実装し直す
   local winnr = (function()
     local tabpagenr = vim.fn.tabpagenr()
     local last_winnr = vim.fn.tabpagewinnr(tabpagenr, '$')
@@ -12,8 +14,36 @@ local function focus_by_bufnr(bufnr)
       end
     end
   end)()
+  return winnr
+end
+
+---@param bufnr integer
+local function focus_by_bufnr(bufnr)
+  local winnr = get_winnr_by_bufnr(bufnr)
   local winid = vim.fn.win_getid(winnr)
   vim.fn.win_gotoid(winid)
+end
+
+local function add_sidebar_if_exists()
+  local sidebar = util.loadrequire('sidebar-nvim')
+  if sidebar == nil then
+    return
+  end
+
+  sidebar.open()
+
+  local sidebar_bufnr = stream.find(vim.fn.tabpagebuflist(), function(bufnr)
+    return vim.fn.bufname(bufnr):find('^SidebarNvim') ~= nil
+  end)
+
+  local sidebar_winnr = get_winnr_by_bufnr(sidebar_bufnr)
+  local watch_winnr = get_winnr_by_bufnr(require('dapui').elements.watches.buffer())
+
+  vim.fn.win_splitmove(sidebar_winnr, watch_winnr)
+  vim.api.nvim_win_set_height(vim.fn.win_getid(sidebar_winnr), 18)
+  vim.api.nvim_win_set_height(vim.fn.win_getid(watch_winnr), 3)
+  sidebar.resize(40)
+  vim.api.nvim_win_set_width(vim.fn.win_getid(sidebar_winnr), 40)
 end
 
 local keys = {
@@ -67,11 +97,18 @@ local keys = {
     desc = 'デバッグ終了',
   },
   {
-    '<leader>put',
+    '<leader>puo',
+    function()
+      require('dapui').open()
+    end,
+    desc = 'UI オープン',
+  },
+  {
+    '<leader>puC',
     function()
       require('dapui').toggle()
     end,
-    desc = 'UI オープン',
+    desc = 'UI クローズ',
   },
   {
     '<leader>pub',
@@ -160,5 +197,11 @@ return {
     })
     util.reg_commands(require('dap'), 'dap')
     util.reg_commands(require('dapui'), 'dapui')
+
+    local original_open = require('dapui').open
+    require('dapui').open = function(...)
+      original_open(...)
+      add_sidebar_if_exists()
+    end
   end,
 }
