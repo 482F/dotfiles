@@ -28,7 +28,7 @@ return {
         -- Strings, Inherited Class, Markup Code, Diff Inserted
         base0B = '#057a47',
         -- Support, Regular Expressions, Escape Characters, Markup Quotes
-        base0C = '#0cb9ed',
+        base0C = '#0b99cd',
         -- Functions, Methods, Attribute IDs, Headings
         base0D = '#1fc70c',
         -- Keywords, Storage, Selector, Markup Italic, Diff Changed
