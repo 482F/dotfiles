@@ -57,6 +57,11 @@ end, {
     opt = { desc = 'コマンド履歴' },
   },
   {
+    suffix = 'q',
+    func_name = 'quickfix',
+    opt = { desc = 'quickfix' },
+  },
+  {
     suffix = 'lr',
     func_name = 'lsp_references',
     opt = { desc = 'LSP-参照' },
@@ -112,7 +117,8 @@ return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
-    require('util/init').reg_commands(require('telescope/builtin'), 'telescope')
+    local util = require('util/init')
+    util.reg_commands(require('telescope/builtin'), 'telescope')
 
     local actions = require('telescope/actions')
     require('telescope').setup({
@@ -124,10 +130,25 @@ return {
           i = {
             ['<C-s>'] = actions.cycle_previewers_next,
             ['<C-a>'] = actions.cycle_previewers_prev,
+            ['<M-q>'] = actions.add_selected_to_qflist,
+            ['<C-q>'] = actions.send_selected_to_qflist,
           },
         },
       },
       pickers = {
+        quickfix = {
+          mappings = {
+            i = {
+              ['<M-d>'] = function(prompt_bufnr)
+                local state = require('telescope/actions.state')
+                local current_picker = state.get_current_picker(prompt_bufnr)
+                current_picker:delete_selection(function(entry)
+                  util.remove_quickfix_by_bufnr_and_lnum(entry.bufnr, entry.lnum)
+                end)
+              end,
+            },
+          },
+        },
         buffers = {
           mappings = {
             n = {

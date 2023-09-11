@@ -1,3 +1,5 @@
+local util = require('util/init')
+
 vim.g.mapleader = ' '
 
 -- コマンド履歴の前方一致検索キーをアローキーから入れ替え
@@ -103,3 +105,21 @@ table.foreach({
     vim.fn.setreg('*', vim.fn.expand(entry.str))
   end, { desc = entry.desc })
 end)
+
+for _, entry in pairs({
+  { key = 'p', command = 'cprevious', desc = 'qflist の前の項目へ移動' },
+  { key = 'n', command = 'cnext', desc = 'qflist の次の項目へ移動' },
+  { key = 'o', command = 'copen', desc = 'qflist を開く' },
+  { key = 'c', command = 'cclose', desc = 'qflist を閉じる' },
+  {
+    key = 'd',
+    func = function()
+      util.remove_quickfix_by_bufnr_and_lnum(vim.fn.bufnr('%'), vim.fn.line('.'))
+    end,
+    desc = '現在行を qflist から削除する',
+  },
+}) do
+  vim.keymap.set('n', '<leader>q' .. entry.key, entry.func == nil and function()
+    vim.cmd[entry.command]()
+  end or entry.func, { desc = entry.desc })
+end
