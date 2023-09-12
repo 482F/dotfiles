@@ -1,4 +1,5 @@
 local util = require('util/init')
+local stream = require('util/stream')
 
 vim.g.mapleader = ' '
 
@@ -111,6 +112,28 @@ for _, entry in pairs({
   { key = 'n', command = 'cnext', desc = 'qflist の次の項目へ移動' },
   { key = 'o', command = 'copen', desc = 'qflist を開く' },
   { key = 'c', command = 'cclose', desc = 'qflist を閉じる' },
+  {
+    key = 'a',
+    func = function()
+      local qflist = vim.fn.getqflist()
+      local qf = {
+        bufnr = vim.fn.bufnr('%'),
+        lnum = vim.fn.line('.'),
+        col = vim.fn.col('.'),
+        text = vim.fn.getline('.'),
+        end_lnum = 0,
+        end_col = 0,
+        module = '',
+        nr = 0,
+        pattern = '',
+        type = '',
+        valid = 1,
+        vcol = 0,
+      }
+      vim.fn.setqflist(stream.inserted_all(qflist, { qf }))
+    end,
+    desc = '現在行を qflist に追加する',
+  },
   {
     key = 'd',
     func = function()
