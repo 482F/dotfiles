@@ -147,7 +147,7 @@ for _, entry in pairs({
   end or entry.func, { desc = entry.desc })
 end
 
-vim.keymap.set('n', '<M-o>', function()
+vim.keymap.set({ 'n', 'i' }, '<M-o>', function()
   -- TOOD: インデントをいい感じにするために色々やっているので重い。軽くしたい
   vim.cmd.normal('i\na\n')
   vim.cmd.normal('k==$x')
