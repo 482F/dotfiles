@@ -38,5 +38,13 @@ return {
       },
       use_cterm = true,
     })
+
+    -- 検索結果の色だけ変える
+    vim.api.nvim_set_hl(0, 'Search', {
+      bg = 11330557,
+      ctermbg = 214,
+      ctermfg = 7,
+      fg = 0,
+    })
   end,
 }
