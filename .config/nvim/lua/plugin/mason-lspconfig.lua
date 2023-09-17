@@ -52,7 +52,7 @@ end, {
   { suffix = 'a', func = vim.lsp.buf.code_action, opt = { desc = 'コードアクション' } },
 })
 
-local function lspconfig()
+local function config()
   local stream = require('util/stream')
   local lspconfig = require('lspconfig')
   local lsps = {
@@ -167,7 +167,7 @@ return {
   event = 'VeryLazy',
   keys = keys,
   config = function()
-    lspconfig()
+    config()
     formatter()
   end,
 }
