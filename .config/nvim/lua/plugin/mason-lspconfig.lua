@@ -156,6 +156,21 @@ local function formatter()
   })
 end
 
+local function linter()
+  local linters_by_ft = {}
+
+  if require('lspconfig').util.root_pattern('deno.jsonc')('.') == nil then
+    linters_by_ft.typescript = { 'eslint' }
+  end
+
+  require('lint').linters_by_ft = linters_by_ft
+  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
+    callback = function()
+      require('lint').try_lint()
+    end,
+  })
+end
+
 return {
   'williamboman/mason-lspconfig.nvim',
   dependencies = {
@@ -163,11 +178,13 @@ return {
     'mason-org/mason-registry',
     'rcarriga/nvim-notify',
     'mhartington/formatter.nvim',
+    'mfussenegger/nvim-lint',
   },
   event = 'VeryLazy',
   keys = keys,
   config = function()
     config()
     formatter()
+    linter()
   end,
 }
