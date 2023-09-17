@@ -48,7 +48,7 @@ end, {
     func_name = 'diagnostics',
     opt = { desc = '診断' },
     arg = {
-      severity = { vim.diagnostic.severity.ERROR },
+      severity = vim.diagnostic.severity.ERROR,
     },
   },
   {
