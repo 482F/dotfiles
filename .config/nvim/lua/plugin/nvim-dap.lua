@@ -1,6 +1,8 @@
 local util = require('util/init')
 local stream = require('util/stream')
 
+local main_winnr = nil
+
 ---@param bufnr integer
 local function get_winnr_by_bufnr(bufnr)
   -- vim.fn.win_id2win(vim.fn.win_findbuf(bufnr)) で実装し直す
@@ -159,6 +161,14 @@ local keys = {
     end,
     desc = 'ウォッチャーに移動',
   },
+  {
+    '<leader>pum',
+    function()
+      local winid = vim.fn.win_getid(main_winnr)
+      vim.fn.win_gotoid(winid)
+    end,
+    desc = 'メインウィンドウに移動',
+  },
 }
 return {
   'mfussenegger/nvim-dap',
@@ -199,9 +209,14 @@ return {
     util.reg_commands(require('dapui'), 'dapui')
 
     local original_open = require('dapui').open
-    require('dapui').open = function(...)
+    local dapui = require('dapui')
+    dapui.get_main_winnr = function()
+      return main_winnr
+    end
+    dapui.open = function(...)
       original_open(...)
       add_sidebar_if_exists()
+      main_winnr = vim.fn.winnr()
     end
   end,
 }
