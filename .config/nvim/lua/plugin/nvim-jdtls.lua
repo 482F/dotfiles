@@ -11,6 +11,15 @@ end
 return {
   'mfussenegger/nvim-jdtls',
   ft = 'java',
+  keys = {
+    {
+      '<leader>po',
+      function()
+        require('jdtls').organize_import()
+      end,
+      desc = 'インポート整理',
+    },
+  },
   config = function()
     local cmd = {
       '/usr/lib/jvm/java-17-openjdk-amd64/bin/java',
