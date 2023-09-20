@@ -15,6 +15,8 @@
     coam     = commit --amend -v
     coamn    = commit --amend --no-edit
     cp       = cherry-pick
+    cpa      = cherry-pick --abort
+    cpc      = cherry-pick --continue
     d        = diff --histogram -b
     dc       = !"mkdir diffs; git dn $1 | while IFS= read f; do mkdir -p "diffs/$(dirname "${f}")"; cp "${f}" "diffs/${f}"; done; exit;"
     dn       = diff --name-only
