@@ -28,3 +28,9 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
     vim.opt.textwidth = 0
   end,
 })
+
+-- 最初に開いたファイルの親ディレクトリを作業ディレクトリにする
+local parent_dir = vim.fn.expand('%:h')
+if parent_dir ~= '' then
+  vim.cmd.cd(parent_dir)
+end
