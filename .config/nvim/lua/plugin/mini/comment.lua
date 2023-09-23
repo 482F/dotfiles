@@ -5,6 +5,12 @@ mini_comment.setup({
     ignore_blank_line = true,
     pad_comment_parts = true,
     start_of_line = false,
+    custom_commentstring = function()
+      local ft = vim.opt.filetype._value
+      return ({
+        json5 = '// %s',
+      })[ft]
+    end,
   },
   mappings = {
     comment = 'gc',
