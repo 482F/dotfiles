@@ -59,6 +59,7 @@ local function config()
     { 'deno', 'denols' },
     { 'lua-language-server', 'lua_ls' },
     { 'typescript-language-server', 'tsserver' },
+    { 'vue-language-server', 'volar' },
   }
 
   local need_to_install_lsps = vim.tbl_filter(
