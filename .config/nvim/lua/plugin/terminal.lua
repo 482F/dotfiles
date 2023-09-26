@@ -1,3 +1,5 @@
+local util = require('util/init')
+
 local id = 'terminal-' .. math.random(0, 10000000)
 local last_i = 0
 
@@ -19,7 +21,11 @@ local function open(index, force_new)
   if force_new or (#buffers <= 0) then
     last_i = last_i + 1
     index = #buffers + 1
-    vim.cmd.terminal()
+    if vim.fn.has('windows') and not util.is_wsl() then
+      vim.cmd.terminal('wsl.exe')
+    else
+      vim.cmd.terminal()
+    end
     vim.cmd.file(id .. '-' .. last_i)
     buffers = get_terminal_buffers()
   else
