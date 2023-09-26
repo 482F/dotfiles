@@ -3,29 +3,6 @@ local stream = require('util/stream')
 
 local main_winnr = nil
 
----@param bufnr integer
-local function get_winnr_by_bufnr(bufnr)
-  -- vim.fn.win_id2win(vim.fn.win_findbuf(bufnr)) で実装し直す
-  local winnr = (function()
-    local tabpagenr = vim.fn.tabpagenr()
-    local last_winnr = vim.fn.tabpagewinnr(tabpagenr, '$')
-
-    for i = 1, last_winnr, 1 do
-      if bufnr == vim.fn.winbufnr(i) then
-        return i
-      end
-    end
-  end)()
-  return winnr
-end
-
----@param bufnr integer
-local function focus_by_bufnr(bufnr)
-  local winnr = get_winnr_by_bufnr(bufnr)
-  local winid = vim.fn.win_getid(winnr)
-  vim.fn.win_gotoid(winid)
-end
-
 local function add_sidebar_if_exists()
   local sidebar = util.loadrequire('sidebar-nvim')
   if sidebar == nil then
@@ -38,8 +15,8 @@ local function add_sidebar_if_exists()
     return vim.fn.bufname(bufnr):find('^SidebarNvim') ~= nil
   end)
 
-  local sidebar_winnr = get_winnr_by_bufnr(sidebar_bufnr)
-  local watch_winnr = get_winnr_by_bufnr(require('dapui').elements.watches.buffer())
+  local sidebar_winnr = util.get_winnr_by_bufnr(sidebar_bufnr)
+  local watch_winnr = util.get_winnr_by_bufnr(require('dapui').elements.watches.buffer())
 
   vim.fn.win_splitmove(sidebar_winnr, watch_winnr)
   vim.api.nvim_win_set_height(vim.fn.win_getid(sidebar_winnr), 18)
@@ -143,21 +120,21 @@ local keys = {
   {
     '<leader>puc',
     function()
-      focus_by_bufnr(require('dapui').elements.console.buffer())
+      util.focus_by_bufnr(require('dapui').elements.console.buffer())
     end,
     desc = 'コンソールに移動',
   },
   {
     '<leader>pup',
     function()
-      focus_by_bufnr(require('dapui').elements.scopes.buffer())
+      util.focus_by_bufnr(require('dapui').elements.scopes.buffer())
     end,
     desc = 'スコープに移動',
   },
   {
     '<leader>puw',
     function()
-      focus_by_bufnr(require('dapui').elements.watches.buffer())
+      util.focus_by_bufnr(require('dapui').elements.watches.buffer())
     end,
     desc = 'ウォッチャーに移動',
   },
