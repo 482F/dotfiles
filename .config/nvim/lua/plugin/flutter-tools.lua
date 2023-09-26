@@ -8,6 +8,19 @@ return {
   },
   keys = {
     {
+      '<leader>pud',
+      function()
+        -- 何故か require('flutter-tools/dev_tools').start() とかを呼んでもうまく行かない
+        vim.cmd.FlutterDevTools()
+        vim.cmd.FlutterCopyProfilerUrl()
+        local url = vim.fn.getreg('*')
+        if url ~= nil then
+          util.open_url(url)
+        end
+      end,
+      desc = 'devtool を開く',
+    },
+    {
       '<C-F5>',
       function()
         require('flutter-tools/devices').list_devices()
@@ -70,7 +83,7 @@ return {
         end,
       },
       dev_tools = {
-        autostart = true,
+        autostart = false,
         auto_open_browser = false,
       },
     })
