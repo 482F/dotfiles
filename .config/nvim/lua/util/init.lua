@@ -193,4 +193,33 @@ util.remove_quickfix_by_bufnr_and_lnum =
     end))
   end
 
+util.get_winnr_by_bufnr = function(bufnr)
+  local winids = vim.fn.win_findbuf(bufnr)
+  local tabnr = vim.fn.tabpagenr()
+  for _, winid in pairs(winids) do
+    if tabnr == vim.api.nvim_win_get_tabpage(winid) then
+      local winnr = vim.fn.win_id2win(winid)
+      return winnr
+    end
+  end
+  return
+end
+
+util.focus_by_bufnr =
+  ---@param bufnr integer
+  function(bufnr)
+    local winnr = util.get_winnr_by_bufnr(bufnr)
+    local winid = vim.fn.win_getid(winnr)
+    vim.fn.win_gotoid(winid)
+  end
+
+util.is_wsl =
+  ---@return boolean
+  function()
+    if vim.fn.has('unix') == 1 and vim.fn.readfile('/proc/version')[1]:find('Microsoft') then
+      return true
+    end
+    return false
+  end
+
 return util
