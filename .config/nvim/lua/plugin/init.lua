@@ -44,6 +44,7 @@ local plugins = {
 
   -- 各言語専用プラグイン
   'nvim-jdtls', -- java
+  'flutter-tools', -- flutter
 
   -- 自作プラグイン
   'terminal', -- ターミナル
