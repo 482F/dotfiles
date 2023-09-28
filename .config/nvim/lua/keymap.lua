@@ -187,16 +187,6 @@ for _, entry in pairs({
   vim.keymap.set('n', entry.key, entry.func, { desc = entry.desc })
 end
 
-local open_url = (function()
-  if vim.fn.has('windows') then
-    return function(url)
-      vim.notify(vim.inspect(url))
-      vim.fn.jobstart({ 'cmd.exe', '/c', 'start', url }, { detach = true })
-    end
-  end
-  return function() end
-end)()
-
 vim.keymap.set('n', '<leader><leader>uo', function()
-  open_url(vim.fn.getline('.'):match('https?:[^ <>&":]+'))
+  util.open_url(vim.fn.getline('.'):match('https?:[^ <>&":]+'))
 end, { desc = 'URL をブラウザで開く' })

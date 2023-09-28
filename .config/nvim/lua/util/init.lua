@@ -222,4 +222,14 @@ util.is_wsl =
     return false
   end
 
+util.open_url = (function()
+  if vim.fn.has('windows') then
+    return function(url)
+      vim.notify(vim.inspect(url))
+      vim.fn.jobstart({ 'cmd.exe', '/c', 'start', url }, { detach = true })
+    end
+  end
+  return function() end
+end)()
+
 return util
