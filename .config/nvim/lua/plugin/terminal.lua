@@ -108,11 +108,23 @@ end, {
   },
 })
 
-keys = require('util/stream').inserted_all(keys, { {
-  '<C-Space><C-Space>',
-  '<C-\\><C-n>',
-  mode = 't',
-} })
+keys = require('util/stream').inserted_all(keys, {
+  {
+    '<C-@><C-@>',
+    '<C-\\><C-n>',
+    mode = 't',
+  },
+  {
+    '@@<C-[>',
+    '<C-\\><C-n>',
+    mode = 't',
+  },
+  {
+    '<C-Space><C-Space>',
+    '<C-\\><C-n>',
+    mode = 't',
+  },
+})
 
 return {
   dir = '',
