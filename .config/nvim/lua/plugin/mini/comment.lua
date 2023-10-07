@@ -9,6 +9,7 @@ mini_comment.setup({
       local ft = vim.opt.filetype._value
       return ({
         json5 = '// %s',
+        sql = '-- %s',
       })[ft]
     end,
   },
