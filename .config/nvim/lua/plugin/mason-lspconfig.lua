@@ -95,6 +95,28 @@ local function config()
   vim.cmd.LspStart()
 end
 
+local ft2ext_map = {
+  javascript = 'js',
+  typescript = 'ts',
+  markdown = 'md',
+}
+
+local get_file_path = function()
+  local path = require('formatter/util').get_current_buffer_file_path()
+  if path == '' then
+    path = vim.fn.getcwd() .. '/'
+  end
+  local ext = ft2ext_map[vim.bo.filetype] or vim.bo.filetype
+  if path:find('%.' .. ext .. '$') then
+    return path
+  end
+  local name = vim.fn.expand('%:t')
+  if name == '' then
+    name = 'temp'
+  end
+  return path .. name .. '.' .. ext
+end
+
 local function formatter()
   local lspconfig = require('lspconfig')
   local stream = require('util/stream')
@@ -129,7 +151,11 @@ local function formatter()
           if is_deno then
             return require('formatter/defaults/denofmt')(...)
           else
-            return require('formatter/defaults/prettierd')(...)
+            return {
+              exe = 'prettierd',
+              args = { require('formatter/util').escape_path(get_file_path()) },
+              stdin = true,
+            }
           end
         end,
       },
