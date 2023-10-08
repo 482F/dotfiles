@@ -87,8 +87,26 @@ table.foreach({
 end)
 
 for _, entry in pairs({
-  { key = 'p', command = 'cprevious', desc = 'qflist の前の項目へ移動' },
-  { key = 'n', command = 'cnext', desc = 'qflist の次の項目へ移動' },
+  {
+    key = 'p',
+    func = function()
+      local success = pcall(vim.cmd.cprevious)
+      if not success then
+        vim.cmd.clast()
+      end
+    end,
+    desc = 'qflist の前の項目へ移動',
+  },
+  {
+    key = 'n',
+    func = function()
+      local success = pcall(vim.cmd.cnext)
+      if not success then
+        vim.cmd.cfirst()
+      end
+    end,
+    desc = 'qflist の次の項目へ移動',
+  },
   { key = 'o', command = 'copen', desc = 'qflist を開く' },
   { key = 'c', command = 'cclose', desc = 'qflist を閉じる' },
   {
