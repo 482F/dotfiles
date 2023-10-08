@@ -213,14 +213,11 @@ util.focus_by_bufnr =
     vim.fn.win_gotoid(winid)
   end
 
-util.is_wsl =
-  ---@return boolean
-  function()
-    if vim.fn.has('unix') == 1 and vim.fn.readfile('/proc/version')[1]:find('Microsoft') then
-      return true
-    end
-    return false
-  end
+---@type boolean
+util.is_windows = vim.fn.exists('+shellslash') ~= 0
+
+---@type boolean
+util.is_wsl = not util.is_windows and vim.fn.readfile('/proc/version')[1]:find('Microsoft')
 
 util.open_url = (function()
   if vim.fn.has('windows') then
