@@ -71,7 +71,8 @@ end, {
   {
     suffix = 't',
     func = function()
-      vim.cmd.tabnew('%')
+      vim.cmd.tabnew()
+      util.bd(false, false, false)
       open()
     end,
     desc = 'ターミナルを新しいタブで開く',
@@ -79,7 +80,8 @@ end, {
   {
     suffix = '"',
     func = function()
-      vim.cmd.new({ args = { '%' }, mods = { split = 'belowright' } })
+      vim.cmd.new({ mods = { split = 'belowright' } })
+      util.bd(false, false, false)
       open()
     end,
     desc = 'ターミナルを水平に分割して開く',
@@ -87,7 +89,8 @@ end, {
   {
     suffix = '%',
     func = function()
-      vim.cmd.vnew({ args = { '%' }, mods = { split = 'belowright' } })
+      vim.cmd.vnew({ mods = { split = 'belowright' } })
+      util.bd(false, false, false)
       open()
     end,
     desc = 'ターミナルを垂直に分割して開く',
