@@ -35,6 +35,20 @@ end, {
     },
   },
   {
+    suffix = 'O',
+    func_name = 'find_files',
+    opt = { desc = 'ファイル (.gitignore 参照なし)' },
+    arg = {
+      no_ignore = true,
+    },
+  },
+  {
+    suffix = '/',
+    func_name = 'current_buffer_fuzzy_find',
+    opt = { desc = '現在のバッファ内' },
+    arg = { skip_empty_lines = true },
+  },
+  {
     suffix = 'b',
     func_name = 'buffers',
     opt = { desc = 'バッファ' },
@@ -52,6 +66,11 @@ end, {
     },
   },
   {
+    suffix = 'D',
+    func_name = 'diagnostics',
+    opt = { desc = '診断 (警告などを含む)' },
+  },
+  {
     suffix = 'C',
     func_name = 'command_history',
     opt = { desc = 'コマンド履歴' },
@@ -60,6 +79,21 @@ end, {
     suffix = 'q',
     func_name = 'quickfix',
     opt = { desc = 'quickfix' },
+  },
+  {
+    suffix = 'Q',
+    func_name = 'quickfixhistory',
+    opt = { desc = 'quickfix 履歴' },
+  },
+  {
+    suffix = 'r',
+    func_name = 'resume',
+    opt = { desc = '前回の telescope を開く' },
+  },
+  {
+    suffix = 't',
+    func_name = 'filetypes',
+    opt = { desc = 'filetypes' },
   },
   {
     suffix = 'lr',
@@ -133,6 +167,7 @@ return {
             ['<C-a>'] = actions.cycle_previewers_prev,
             ['<M-q>'] = actions.add_selected_to_qflist,
             ['<C-q>'] = actions.send_selected_to_qflist,
+            ['<C-Space>'] = actions.to_fuzzy_refine,
           },
         },
       },
