@@ -120,6 +120,18 @@ end
 local function formatter()
   local lspconfig = require('lspconfig')
   local stream = require('util/stream')
+  local util = require('util/init')
+
+  local prettierrc_path = vim.fn.stdpath('data') .. util.path_delimiter .. '.prettierrc.js'
+  local prettierrc_env = ''
+  if vim.fn.filereadable(prettierrc_path) == 1 then
+    if util.is_windows then
+      prettierrc_env = 'set PRETTIERD_DEFAULT_CONFIG=' .. prettierrc_path .. '&'
+    else
+      prettierrc_env = 'PRETTIERD_DEFAULT_CONFIG=' .. prettierrc_path .. ' '
+    end
+  end
+
   local filetypes = {}
   filetypes = stream.from_pairs(stream.flat_map({
     {
@@ -152,7 +164,7 @@ local function formatter()
             return require('formatter/defaults/denofmt')(...)
           else
             return {
-              exe = 'prettierd',
+              exe = prettierrc_env .. 'prettierd',
               args = { require('formatter/util').escape_path(get_file_path()) },
               stdin = true,
             }
