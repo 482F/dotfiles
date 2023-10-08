@@ -232,4 +232,26 @@ util.open_url = (function()
   return function() end
 end)()
 
+util.bd =
+  ---@param write boolean
+  ---@param bang boolean
+  ---@param winclose boolean
+  function(write, bang, winclose)
+    if write then
+      vim.cmd.write()
+    end
+
+    if winclose then
+      vim.cmd.bdelete({ args = { '%' }, bang = bang })
+      return
+    end
+
+    vim.cmd.bnext()
+    local closed, err = pcall(vim.cmd.bdelete, { args = { '#' }, bang = bang })
+    if not closed then
+      vim.cmd.bprev()
+      error(err, 0)
+    end
+  end
+
 return util
