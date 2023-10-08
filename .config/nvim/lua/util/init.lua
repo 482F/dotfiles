@@ -229,6 +229,15 @@ util.open_url = (function()
   return function() end
 end)()
 
+---@type string
+util.path_delimiter = (function()
+  if util.is_windows then
+    return '\\'
+  else
+    return '/'
+  end
+end)()
+
 util.bd =
   ---@param write boolean
   ---@param bang boolean
