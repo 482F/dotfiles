@@ -110,6 +110,11 @@ end, {
 
 keys = require('util/stream').inserted_all(keys, {
   {
+    '<C-[><C-[>',
+    '<C-\\><C-n>',
+    mode = 't',
+  },
+  {
     '<C-@><C-@>',
     '<C-\\><C-n>',
     mode = 't',
