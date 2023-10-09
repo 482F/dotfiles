@@ -46,6 +46,7 @@ return {
 
             local console_winid = vim.fn.win_getid(console_winnr)
             vim.api.nvim_win_set_height(console_winid, 10)
+            vim.bo[console_bufnr].buflisted = false
 
             vim.keymap.set('n', '<leader>puc', function()
               vim.fn.win_gotoid(console_winid)
@@ -87,5 +88,9 @@ return {
         auto_open_browser = false,
       },
     })
+
+    vim.keymap.set('n', '<leader>lfm', function()
+      vim.lsp.buf.format(nil, 10000000)
+    end, { desc = 'フォーマット' })
   end,
 }
