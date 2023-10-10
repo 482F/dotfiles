@@ -21,7 +21,7 @@ local function open(index, force_new)
   if force_new or (#buffers <= 0) then
     last_i = last_i + 1
     index = #buffers + 1
-    if vim.fn.has('windows') and not util.is_wsl() then
+    if vim.fn.has('windows') and not util.is_wsl then
       vim.cmd.terminal('wsl.exe')
     else
       vim.cmd.terminal()
