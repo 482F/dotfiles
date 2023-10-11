@@ -1,6 +1,6 @@
 return {
   'hrsh7th/nvim-cmp',
-  dependencies = { 'hrsh7th/cmp-nvim-lsp' },
+  dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip' },
   event = 'VeryLazy',
   config = function()
     local cmp = require('cmp')
@@ -19,6 +19,11 @@ return {
       }),
       experimental = {
         ghost_text = true,
+      },
+      snippet = {
+        expand = function(args)
+          require('luasnip').lsp_expand(args.body)
+        end,
       },
     })
   end,
