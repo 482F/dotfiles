@@ -17,6 +17,8 @@ local configs = {
   foldmethod = 'indent', -- インデントで折りたたみができるように
   foldenable = false, -- ファイルを開いた時の自動折り畳みを無効化
   scrolloff = 5, -- 上下に 5 行の余裕を持ってカーソル移動
+  list = true,
+  listchars = { tab = '→→', trail = '␣', nbsp = '¤' },
 }
 
 for key, value in pairs(configs) do
