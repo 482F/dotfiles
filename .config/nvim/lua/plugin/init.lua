@@ -1,3 +1,4 @@
+local stream = require('util/stream')
 -- lazy インストール
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 
@@ -50,9 +51,19 @@ local plugins = {
   'terminal', -- ターミナル
 }
 
-require('lazy').setup(vim.tbl_map(function(plugin)
-  return require('plugin/' .. plugin)
-end, plugins))
+require('lazy').setup(stream.flat_map(plugins, function(plugin)
+  local plugin = require('plugin/' .. plugin)
+  if
+    type(plugin[1]) == 'string'
+    or not stream.every(stream.keys(plugin), function(key)
+      return type(key) == 'number'
+    end)
+  then
+    return { plugin }
+  else
+    return plugin
+  end
+end))
 
 -- 引数無しで起動したときのみ表示したい
 -- vim.api.nvim_create_autocmd({ 'User' }, {

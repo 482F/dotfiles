@@ -1,4 +1,6 @@
-local colorscheme = require('plugin/colorscheme').name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', '')
+local status = {
+  colorscheme = require('plugin/colorscheme')[1].name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', ''),
+}
 
 -- ステータスライン
 local mini_statusline = require('mini.statusline')
@@ -17,7 +19,7 @@ mini_statusline.setup({
         '%<', -- Mark general truncate point
         { hl = 'MiniStatuslineFilename', strings = { filename } },
         '%=', -- End left alignment
-        { hl = 'MiniStatuslineDevinfo', strings = { colorscheme } },
+        { hl = 'MiniStatuslineDevinfo', strings = { status.colorscheme } },
         { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
         { hl = mode_hl, strings = { location } },
       })
@@ -26,3 +28,5 @@ mini_statusline.setup({
   use_icons = false,
   set_vim_settings = true,
 })
+
+return status
