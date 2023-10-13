@@ -27,6 +27,34 @@ end
 
 local keys = {
   {
+    '<leader>ps5',
+    function()
+      require('dap').step_into()
+    end,
+    desc = 'ステップイン',
+  },
+  {
+    '<leader>ps6',
+    function()
+      require('dap').step_over()
+    end,
+    desc = 'ステップオーバー',
+  },
+  {
+    '<leader>ps7',
+    function()
+      require('dap').step_out()
+    end,
+    desc = 'ステップアウト',
+  },
+  {
+    '<leader>ps8',
+    function()
+      require('dap').continue()
+    end,
+    desc = 'デバッグ再開',
+  },
+  {
     '<F5>',
     function()
       require('dap').step_into()
