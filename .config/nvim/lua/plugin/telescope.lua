@@ -22,6 +22,11 @@ end, {
     opt = { desc = 'ヘルプ' },
   },
   {
+    suffix = 'H',
+    func_name = 'oldfiles',
+    opt = { desc = '過去のファイル' },
+  },
+  {
     suffix = 'c',
     func_name = 'commands',
     opt = { desc = 'コマンド' },
