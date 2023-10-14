@@ -34,3 +34,9 @@ local parent_dir = vim.fn.expand('%:h')
 if parent_dir ~= '' then
   vim.cmd.cd(parent_dir)
 end
+
+-- rg が使えれば :grep で使うように
+if vim.fn.executable('rg') then
+  vim.opt.grepprg = 'rg --vimgrep'
+  vim.opt.grepformat = '%f:%l:%c:%m'
+end
