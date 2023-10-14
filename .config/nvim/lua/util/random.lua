@@ -15,7 +15,7 @@ end
 ---@return T, integer
 random.pick = function(t)
   local stream = require('util/stream')
-  local r = random.randint(1, stream.length(t))
+  local r = random.randint(1, stream.length(t) - 1)
   return t[r], r
 end
 
