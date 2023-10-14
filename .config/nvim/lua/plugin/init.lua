@@ -35,6 +35,7 @@ local plugins = {
   'sidebar', -- サイドバー
   'which-key', -- キーマップ表示
   'translate', -- 翻訳
+  'git-conflict', -- git コンフリクト関連
 
   -- 複数用途
   -- - ステータスライン
