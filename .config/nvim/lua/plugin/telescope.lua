@@ -84,6 +84,9 @@ end, {
     suffix = 'q',
     func_name = 'quickfix',
     opt = { desc = 'quickfix' },
+    arg = {
+      show_line = false,
+    },
   },
   {
     suffix = 'Q',
