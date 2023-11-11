@@ -185,5 +185,5 @@ for _, entry in pairs({
 end
 
 vim.keymap.set('n', '<leader><leader>uo', function()
-  util.open_url(vim.fn.getline('.'):match('https?:[^ <>&":]+'))
+  util.open_url(vim.fn.getline('.'):match('https?:[^ <>&"\':]+'))
 end, { desc = 'URL をブラウザで開く' })
