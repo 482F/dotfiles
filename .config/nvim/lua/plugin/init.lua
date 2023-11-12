@@ -32,7 +32,6 @@ local plugins = {
   'neodev', -- neovim lua api 等の型情報
   'open-web', -- ブラウザで開く
   'nvim-dbee', -- DB クライアント
-  'sidebar', -- サイドバー
   'which-key', -- キーマップ表示
   'translate', -- 翻訳
   'git-conflict', -- git コンフリクト関連

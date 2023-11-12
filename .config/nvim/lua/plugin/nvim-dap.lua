@@ -3,28 +3,6 @@ local stream = require('util/stream')
 
 local main_winnr = nil
 
-local function add_sidebar_if_exists()
-  local sidebar = util.loadrequire('sidebar-nvim')
-  if sidebar == nil then
-    return
-  end
-
-  sidebar.open()
-
-  local sidebar_bufnr = stream.find(vim.fn.tabpagebuflist(), function(bufnr)
-    return vim.fn.bufname(bufnr):find('^SidebarNvim') ~= nil
-  end)
-
-  local sidebar_winnr = util.get_winnr_by_bufnr(sidebar_bufnr)
-  local watch_winnr = util.get_winnr_by_bufnr(require('dapui').elements.watches.buffer())
-
-  vim.fn.win_splitmove(sidebar_winnr, watch_winnr)
-  vim.api.nvim_win_set_height(vim.fn.win_getid(sidebar_winnr), 18)
-  vim.api.nvim_win_set_height(vim.fn.win_getid(watch_winnr), 3)
-  sidebar.resize(40)
-  vim.api.nvim_win_set_width(vim.fn.win_getid(sidebar_winnr), 40)
-end
-
 local keys = {
   {
     '<leader>ps5',
@@ -220,7 +198,6 @@ return {
     end
     dapui.open = function(...)
       original_open(...)
-      add_sidebar_if_exists()
       main_winnr = vim.fn.winnr()
     end
   end,
