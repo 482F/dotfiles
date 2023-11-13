@@ -21,7 +21,6 @@ local plugins = stream.map(
     'atlas',
     'nord',
     'nightfox',
-    'flexoki',
   }),
   function(name, i)
     local plugin = require('plugin/colorscheme/' .. name)
