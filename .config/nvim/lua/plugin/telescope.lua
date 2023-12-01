@@ -107,6 +107,9 @@ end, {
     suffix = 'lr',
     func_name = 'lsp_references',
     opt = { desc = 'LSP-参照' },
+    arg = {
+      show_line = false,
+    },
   },
   {
     suffix = 'li',
