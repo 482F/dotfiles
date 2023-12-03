@@ -1,6 +1,8 @@
 local random = require('util/random')
 local stream = require('util/stream')
 
+math.randomseed(math.floor(os.time() / (60 * 60 * 24)))
+
 local plugins = stream.map(
   random.shuffle({
     'catppuccin',
@@ -60,10 +62,15 @@ local plugins = stream.map(
   end
 )
 
+local i = 1
+
 vim.keymap.set('n', '<leader><leader>cs', function()
-  local plugin = random.pick(plugins)
+  i = i + 1
+  local plugin = plugins[(i % #plugins) + 1]
   plugin.config()
   require('plugin/mini/statusline').colorscheme = plugin.name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', '')
 end, { desc = 'カラースキーム変更' })
+
+math.randomseed(os.time())
 
 return plugins
