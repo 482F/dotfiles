@@ -60,6 +60,7 @@ local function config()
     { 'lua-language-server', 'lua_ls' },
     { 'typescript-language-server', 'tsserver' },
     { 'vue-language-server', 'volar' },
+    { 'python-lsp-server', 'pylsp' },
   }
 
   local need_to_install_lsps = vim.tbl_filter(
@@ -171,6 +172,10 @@ local function formatter()
           end
         end,
       },
+    },
+    {
+      filetypes = { 'python' },
+      data = { require('formatter/filetypes/python').autopep8 },
     },
     {
       filetypes = { '*' },
