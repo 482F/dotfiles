@@ -17,6 +17,11 @@ return {
         ['<C-o><C-a>'] = cmp.mapping.abort(),
         ['<C-o><C-m>'] = cmp.mapping.confirm({ select = true }),
       }),
+      confirmation = {
+        get_commit_characters = function()
+          return {}
+        end,
+      },
       experimental = {
         ghost_text = true,
       },
