@@ -82,6 +82,28 @@ return {
         require('jdtls').start_or_attach(config)
       end,
     })
+    local stream = require('util/stream')
+    local jdtls_util = require('jdtls.util')
+    local original_execute_command = jdtls_util.execute_command
+    jdtls_util.execute_command = function(opt, callback, ...)
+      if opt ~= nil and opt.command == 'vscode.java.resolveMainClass' then
+        local project_name_map = stream.from_pairs(stream.map(vim.g.jdtls_project_names or {}, function(name)
+          return { name, true }
+        end))
+        local original_callback = callback
+        callback = function(err, mainclasses)
+          original_callback(
+            err,
+            vim.tbl_filter(function(mc)
+              return project_name_map[mc.projectName]
+            end, mainclasses)
+          )
+        end
+      end
+
+      original_execute_command(opt, callback, ...)
+    end
+
     local util = require('util/init')
     util.reg_commands(require('jdtls'), 'jdtls')
   end,
