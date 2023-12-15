@@ -69,14 +69,6 @@ for _, entry in pairs({
   end, { desc = entry.desc })
 end
 
--- インサートモードで括弧の中に入る/から出る
-table.foreach({ '()', '{}', '[]', "''", '""', '``', '<>' }, function(_, surround)
-  local left = surround:sub(1, 1)
-  local right = surround:sub(2, 2)
-  vim.keymap.set('i', left .. right .. 'H', left .. right .. '<Left>')
-  vim.keymap.set('i', right .. 'L', '<Right>')
-end)
-
 table.foreach({
   { key = 'fp', str = '%:p', desc = 'ファイルパスをヤンク' },
   { key = 'fn', str = '%:t', desc = 'ファイル名をヤンク' },
