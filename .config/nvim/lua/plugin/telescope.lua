@@ -123,37 +123,65 @@ end, {
   },
   {
     suffix = 'Gf',
-    func_name = 'git_files',
+    func = function()
+      require('telescope/builtin').git_files({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-ファイル' },
   },
   {
     suffix = 'Gc',
-    func_name = 'git_commits',
+    func = function()
+      require('telescope/builtin').git_commits({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-コミット' },
   },
   {
     suffix = 'Gbc',
-    func_name = 'git_bcommits',
+    func = function()
+      require('telescope/builtin').git_bcommits({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-バッファコミット' },
   },
   {
     suffix = 'Grc',
-    func_name = 'git_bcommits_range',
+    func = function()
+      require('telescope/builtin').git_bcommits_range({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-範囲コミット', mode = 'x' },
   },
   {
     suffix = 'Gh',
-    func_name = 'git_branches',
+    func = function()
+      require('telescope/builtin').git_branches({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-ブランチ' },
   },
   {
     suffix = 'Gs',
-    func_name = 'git_status',
+    func = function()
+      require('telescope/builtin').git_status({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-ステータス' },
   },
   {
     suffix = 'G/',
-    func_name = 'git_stash',
+    func = function()
+      require('telescope/builtin').git_stash({
+        cwd = vim.fn.expand('%:p:h'),
+      })
+    end,
     opt = { desc = 'git-スタッシュ' },
   },
 })
