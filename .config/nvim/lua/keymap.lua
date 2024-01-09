@@ -30,7 +30,14 @@ vim.keymap.set('n', 'Y', 'y$', { desc = '行末までヤンク' })
 vim.keymap.set('n', '<C-j>', ':bprev<CR>', { desc = '前のバッファへ移動', silent = true })
 vim.keymap.set('n', '<C-k>', ':bnext<CR>', { desc = '次のバッファへ移動', silent = true })
 
-vim.keymap.set('x', '<Leader>q', ':source<CR>', { desc = 'lua スクリプト実行', silent = true })
+vim.keymap.set('x', '<Leader>q', function()
+  vim.fn.feedkeys(':', 'nx') -- ビジュアルモード解除
+  local s = vim.fn.getpos("'<")
+  local e = vim.fn.getpos("'>")
+  local text = vim.api.nvim_buf_get_lines(s[1], s[2] - 1, e[2], false)
+  local script = vim.fn.join(vim.tbl_flatten({ 'vim.notify(vim.inspect((function()', text, 'end)()))' }), '\n')
+  vim.fn.luaeval(script)
+end, { desc = 'lua スクリプト実行' })
 
 for _, entry in pairs({
   { key = 'd', write = false, bang = false, winclose = false, desc = '現在のバッファを閉じる' },
