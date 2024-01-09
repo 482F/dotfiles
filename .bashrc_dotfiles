@@ -93,7 +93,7 @@ fi
 
 alias spush="tsd start 'sleep-until 15:00 && git push'"
 alias spush-fwl="tsd start 'sleep-until 15:00 && git push-fwl'"
-
+alias spush-init='tsd start "sleep-until 15:00 && gh repo create $(basename $(pwd)) --public --source=. --remote=origin && git push -u origin master"'
 function screpo(){
   local repo_name="${1:-}"
   if [ "${repo_name}" = "" ]; then
