@@ -35,7 +35,20 @@ vim.keymap.set('x', '<Leader>q', function()
   local s = vim.fn.getpos("'<")
   local e = vim.fn.getpos("'>")
   local text = vim.api.nvim_buf_get_lines(s[1], s[2] - 1, e[2], false)
-  local script = vim.fn.join(vim.tbl_flatten({ 'vim.notify(vim.inspect((function()', text, 'end)()))' }), '\n')
+  local script = vim.fn.join(
+    vim.tbl_flatten({
+      '(function()',
+      '  local result = vim.inspect((function()',
+      text,
+      '  end)())',
+      '  vim.notify(result)',
+      '  if result ~= "nil" then',
+      '    vim.fn.setreg("*", result)',
+      '  end',
+      'end)()',
+    }),
+    '\n'
+  )
   vim.fn.luaeval(script)
 end, { desc = 'lua スクリプト実行' })
 
