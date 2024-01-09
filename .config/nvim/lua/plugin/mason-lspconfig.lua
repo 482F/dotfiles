@@ -52,36 +52,67 @@ end, {
   { suffix = 'a', func = vim.lsp.buf.code_action, opt = { desc = 'コードアクション' } },
 })
 
+local function install()
+  local stream = require('util/stream')
+  local tools = {
+    {
+      name = 'deno',
+      filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
+    },
+    {
+      name = 'lua-language-server',
+      filetypes = { 'lua' },
+    },
+    {
+      name = 'typescript-language-server',
+      filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
+    },
+    {
+      name = 'vue-language-server',
+      filetypes = { 'vue' },
+    },
+    {
+      name = 'python-lsp-server',
+      filetypes = { 'python' },
+    },
+  }
+
+  local need_to_install_tools = stream.filter(tools, function(tool)
+    return not require('mason-registry').is_installed(tool.name)
+  end)
+
+  vim.api.nvim_create_autocmd({ 'FileType' }, {
+    callback = function(e)
+      local filtered_need_to_install_tools = stream
+        .start(need_to_install_tools)
+        .filter(function(tool)
+          return vim.tbl_contains(tool.filetypes, e.match)
+        end)
+        .map(function(tool)
+          return tool.name
+        end)
+        .terminate()
+      if not vim.tbl_isempty(filtered_need_to_install_tools) then
+        require('mason/api/command').MasonInstall(filtered_need_to_install_tools)
+      end
+    end,
+  })
+end
+
 local function config()
   local stream = require('util/stream')
   local lspconfig = require('lspconfig')
   local lsps = {
-    { 'deno', 'denols' },
-    { 'lua-language-server', 'lua_ls' },
-    { 'typescript-language-server', 'tsserver' },
-    { 'vue-language-server', 'volar' },
-    { 'python-lsp-server', 'pylsp' },
+    'denols',
+    'lua_ls',
+    'tsserver',
+    'volar',
+    'pylsp',
   }
-
-  local need_to_install_lsps = vim.tbl_filter(
-    function(v)
-      return not require('mason-registry').is_installed(v)
-    end,
-    vim.tbl_map(function(v)
-      return v[1]
-    end, lsps)
-  )
-
-  if not vim.tbl_isempty(need_to_install_lsps) then
-    require('mason/api/command').MasonInstall(need_to_install_lsps)
-  end
 
   require('mason-lspconfig').setup({
     handlers = stream
       .start(lsps)
-      .map(function(v)
-        return v[2]
-      end)
       .map(function(name)
         return { name, require('plugin/lsp/' .. name) }
       end)
@@ -227,6 +258,7 @@ return {
   event = 'VeryLazy',
   keys = keys,
   config = function()
+    install()
     config()
     formatter()
     linter()
