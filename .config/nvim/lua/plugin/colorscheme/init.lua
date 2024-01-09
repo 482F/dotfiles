@@ -1,7 +1,7 @@
 local random = require('util/random')
 local stream = require('util/stream')
 
-math.randomseed(math.floor(os.time() / (60 * 60 * 24)))
+math.randomseed(tonumber(os.date('%Y%m%d')))
 
 local plugins = stream.map(
   random.shuffle({
