@@ -7,6 +7,8 @@ return {
       'comment',
       'surround',
       'splitjoin',
+      'pairs',
+      'notify',
     }
 
     for _, modname in pairs(modnames) do
