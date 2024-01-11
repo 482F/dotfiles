@@ -10,8 +10,8 @@ return function(server, lspconfig)
         imports = {
           hosts = {
             ['https://deno.land'] = true,
-            ['https://cdn.nest.land'] = true,
-            ['https://crux.land'] = true,
+            ['https://crux.land'] = false,
+            ['https://x.nest.land'] = false,
           },
         },
       },
