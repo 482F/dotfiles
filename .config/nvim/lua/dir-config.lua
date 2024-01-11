@@ -9,10 +9,9 @@ local function luafile(path)
   end
 end
 
----@type string
-local dir = vim.loop.cwd() .. '/'
-while dir ~= '' do
+local util = require('util/init')
+
+for _, dir in pairs(util.ancestor_dirs(vim.loop.cwd())) do
   local config_path = dir .. 'nvim-config.lua'
   luafile(config_path)
-  dir = dir:gsub('[^/]*/$', '')
 end
