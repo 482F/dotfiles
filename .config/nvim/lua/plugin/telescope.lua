@@ -122,6 +122,16 @@ end, {
     opt = { desc = 'LSP-呼び出し元' },
   },
   {
+    suffix = 'ld',
+    func_name = 'lsp_definitions',
+    opt = { desc = 'LSP-定義' },
+  },
+  {
+    suffix = 'lc',
+    func_name = 'lsp_type_definitions',
+    opt = { desc = 'LSP-型定義' },
+  },
+  {
     suffix = 'Gf',
     func = function()
       require('telescope/builtin').git_files({
