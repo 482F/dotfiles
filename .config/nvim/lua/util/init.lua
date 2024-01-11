@@ -242,20 +242,35 @@ util.bd =
   ---@param write boolean
   ---@param bang boolean
   ---@param winclose boolean
-  function(write, bang, winclose)
+  ---@param bufnr integer
+  function(write, bang, winclose, bufnr)
+    bufnr = bufnr or vim.fn.bufnr()
+
     if write then
-      vim.cmd.write()
+      vim.fn.win_execute(vim.fn.bufwinid(bufnr), 'write')
     end
 
     if winclose then
-      vim.cmd.bdelete({ args = { '%' }, bang = bang })
+      vim.cmd.bdelete({ args = { bufnr }, bang = bang })
       return
     end
 
-    vim.cmd.bnext()
-    local closed, err = pcall(vim.cmd.bdelete, { args = { '#' }, bang = bang })
+    local allwinids = vim.fn.win_findbuf(bufnr)
+    local runallwin = function(func)
+      require('util/stream').for_each(allwinids, function(winid)
+        vim.api.nvim_win_call(winid, func)
+      end)
+    end
+
+    runallwin(function()
+      vim.cmd.bnext()
+    end)
+
+    local closed, err = pcall(vim.cmd.bdelete, { args = { bufnr }, bang = bang })
     if not closed then
-      vim.cmd.bprev()
+      runallwin(function()
+        vim.cmd.bprev()
+      end)
       error(err, 0)
     end
   end
