@@ -179,3 +179,11 @@ end
 vim.keymap.set('n', '<leader><leader>uo', function()
   util.open_url(vim.fn.getline('.'):match('https?:[^ <>&"\':]+'))
 end, { desc = 'URL をブラウザで開く' })
+
+-- gt の t 連打でタブ移動
+vim.keymap.set('n', '<Plug>g', '<Nop>')
+for _, key in pairs({ 't', 'T' }) do
+  local keys = 'g' .. key .. '<Plug>g'
+  vim.keymap.set('n', 'g' .. key, keys)
+  vim.keymap.set('n', '<Plug>g' .. key, keys)
+end
