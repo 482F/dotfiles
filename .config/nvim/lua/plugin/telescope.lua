@@ -186,6 +186,15 @@ end, {
   },
 })
 
+local function delete_tele_buffer(prompt_bufnr)
+  local action_state = require('telescope/actions/state')
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  current_picker:delete_selection(function(selection)
+    local force = vim.api.nvim_buf_get_option(selection.bufnr, 'buftype') == 'terminal'
+    return pcall(require('util/init').bd, false, force, false, selection.bufnr)
+  end)
+end
+
 return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
@@ -227,10 +236,10 @@ return {
         buffers = {
           mappings = {
             n = {
-              ['<M-d>'] = actions.delete_buffer,
+              ['<M-d>'] = delete_tele_buffer,
             },
             i = {
-              ['<M-d>'] = actions.delete_buffer,
+              ['<M-d>'] = delete_tele_buffer,
             },
           },
         },
