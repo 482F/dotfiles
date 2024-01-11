@@ -29,4 +29,6 @@ mini_statusline.setup({
   set_vim_settings = true,
 })
 
+vim.wo.statusline = '%!v:lua.MiniStatusline.active()'
+
 return status
