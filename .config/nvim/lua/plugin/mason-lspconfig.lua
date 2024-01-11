@@ -232,9 +232,15 @@ local function formatter()
 end
 
 local function linter()
+  local stream = require('util/stream')
+  local util = require('util/init')
+
   local linters_by_ft = {}
 
-  if require('lspconfig').util.root_pattern('deno.jsonc')('.') == nil then
+  local deno_jsonc_exists = stream.some(util.ancestor_dirs(vim.loop.cwd()), function(dir)
+    return util.file_exists(dir .. 'deno.jsonc')
+  end)
+  if not deno_jsonc_exists then
     linters_by_ft.typescript = { 'eslint' }
   end
 
