@@ -22,6 +22,7 @@ local plugins = {
   'telescope-ui-select', -- 選択 UI telescope 化
   'pounce', -- easymotion
   'mason', -- LSP 管理
+  'neodev', -- neovim lua api 等の型情報
   'mason-lspconfig', -- LSP 設定
   'nvim-cmp', -- 補完
   'treesitter', -- treesitter (構文解析)
@@ -29,7 +30,6 @@ local plugins = {
   'colorscheme', -- カラースキーマ
   'nvim-dap', -- デバッグ
   'chowcho', -- ウィンドウ移動
-  'neodev', -- neovim lua api 等の型情報
   'open-web', -- ブラウザで開く
   'nvim-dbee', -- DB クライアント
   'which-key', -- キーマップ表示

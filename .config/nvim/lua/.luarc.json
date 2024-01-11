@@ -1,20 +1,3 @@
 {
-    "workspace.library": [
-        "/home/normal/.config/nvim",
-        "/home/normal/.local/share/nvim/site",
-        "/home/normal/.local/share/nvim/lazy/lazy.nvim",
-        "/home/normal/.local/share/nvim/lazy/pounce.nvim",
-        "/home/normal/.local/share/nvim/lazy/plenary.nvim",
-        "/home/normal/.local/share/nvim/lazy/telescope.nvim",
-        "/home/normal/.local/share/nvim/lazy/possession.nvim",
-        "/home/normal/.local/share/nvim/lazy/mason-lspconfig.nvim",
-        "/home/normal/.local/share/nvim/lazy/mason.nvim",
-        "/home/normal/.local/share/nvim/lazy/nvim-lspconfig",
-        "/home/normal/utils/nvim-linux64/share/nvim/runtime",
-        "/home/normal/utils/nvim-linux64/share/nvim/runtime/pack/dist/opt/matchit",
-        "/home/normal/utils/nvim-linux64/lib/nvim",
-        "/home/normal/.local/state/nvim/lazy/readme",
-        "${3rd}/luassert/library"
-    ],
     "workspace.checkThirdParty": false
 }
