@@ -275,4 +275,16 @@ util.bd =
     end
   end
 
+util.ancestor_dirs =
+  ---@param base string
+  function(base)
+    local dirs = {}
+    local dir = base:gsub('/$', '') .. '/'
+    while dir ~= '' do
+      table.insert(dirs, dir)
+      dir = dir:gsub('[^/]*/$', '')
+    end
+    return dirs
+  end
+
 return util
