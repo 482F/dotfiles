@@ -287,4 +287,11 @@ util.ancestor_dirs =
     return dirs
   end
 
+util.file_exists =
+  ---@param filename string
+  function(filename)
+    local stat = vim.loop.fs_stat(filename)
+    return stat and stat.type or false
+  end
+
 return util
