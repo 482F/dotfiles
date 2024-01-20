@@ -41,4 +41,6 @@ if vim.fn.executable('rg') then
   vim.opt.grepformat = '%f:%l:%c:%m'
 end
 
+vim.cmd.filetype('plugin', 'off') -- ftplugin を無効化
+
 vim.cmd.cabbrev('h', 'tab help')
