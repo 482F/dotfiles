@@ -8,6 +8,7 @@ declare -a BLACK_LIST=(
 ".git"
 ".gitignore"
 ".bashrc_dotfiles"
+".gitconfig"
 ".config"
 )
 

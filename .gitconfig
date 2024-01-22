@@ -1,0 +1,16 @@
+[core]
+  autocrlf = input
+  editor = rnvim --wait
+  pager = less
+  preloadindex = true
+  fscache = true
+[difftool]
+  prompt = input
+[merge]
+  tool = rnvim -d
+  conflictstyle = diff3
+[mergetool]
+  prompt = false
+  keepBackup = false
+[credential]
+  helper = store
