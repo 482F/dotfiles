@@ -19,6 +19,7 @@ local configs = {
   scrolloff = 5, -- 上下に 5 行の余裕を持ってカーソル移動
   list = true,
   listchars = { tab = '→→', trail = '␣', nbsp = '¤' },
+  virtualedit = { 'block', 'onemore' } -- 矩形選択時に行末を超えて選択できるように
 }
 
 for key, value in pairs(configs) do
