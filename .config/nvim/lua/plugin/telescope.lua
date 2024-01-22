@@ -127,7 +127,7 @@ end, {
     opt = { desc = 'LSP-定義' },
   },
   {
-    suffix = 'lc',
+    suffix = 'lt',
     func_name = 'lsp_type_definitions',
     opt = { desc = 'LSP-型定義' },
   },
