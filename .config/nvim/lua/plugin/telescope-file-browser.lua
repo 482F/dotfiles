@@ -7,18 +7,17 @@ return {
     {
       '<leader>tf',
       function()
-        util.lazy_require('telescope').extensions.file_browser.file_browser()
+        require('telescope').extensions.file_browser.file_browser({ path = vim.fn.expand('%:p:h') })
       end,
       desc = 'ファイルブラウザ',
     },
   },
   config = function()
-    local telescope = util.lazy_require('telescope')
+    local telescope = require('telescope')
     local fb_actions = require('telescope._extensions.file_browser.actions')
     telescope.setup({
       extensions = {
         file_browser = {
-          path = vim.fn.expand('%:p:h'),
           grouped = true,
           hide_parent_dir = true,
           hidden = true,
