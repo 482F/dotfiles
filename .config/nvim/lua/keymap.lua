@@ -27,8 +27,8 @@ vim.keymap.set('n', '<C-H>', ':%s///gc<LEFT><LEFT><LEFT>', { desc = '置換' })
 vim.keymap.set('n', 'Y', 'y$', { desc = '行末までヤンク' })
 
 -- バッファ移動
-vim.keymap.set('n', '<C-j>', ':bprev<CR>', { desc = '前のバッファへ移動', silent = true })
-vim.keymap.set('n', '<C-k>', ':bnext<CR>', { desc = '次のバッファへ移動', silent = true })
+vim.keymap.set('n', '<C-j>', ':bnext<CR>', { desc = '前のバッファへ移動', silent = true })
+vim.keymap.set('n', '<C-k>', ':bprev<CR>', { desc = '次のバッファへ移動', silent = true })
 
 vim.keymap.set('x', '<Leader>q', function()
   vim.fn.feedkeys(':', 'nx') -- ビジュアルモード解除

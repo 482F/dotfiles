@@ -263,13 +263,13 @@ util.bd =
     end
 
     runallwin(function()
-      vim.cmd.bnext()
+      vim.cmd.bprev()
     end)
 
     local closed, err = pcall(vim.cmd.bdelete, { args = { bufnr }, bang = bang })
     if not closed then
       runallwin(function()
-        vim.cmd.bprev()
+        vim.cmd.bnext()
       end)
       error(err, 0)
     end
