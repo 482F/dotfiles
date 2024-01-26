@@ -207,3 +207,14 @@ for _, key in pairs({ 't', 'T' }) do
   vim.keymap.set('n', 'g' .. key, keys)
   vim.keymap.set('n', '<Plug>g' .. key, keys)
 end
+
+vim.keymap.set('n', '<leader>br', function()
+  local filepath = vim.fn.expand('%:p')
+  if vim.fn.filereadable(filepath) == 0 then
+    return
+  end
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  vim.cmd.bwipeout()
+  vim.cmd.edit(filepath)
+  vim.api.nvim_win_set_cursor(0, cursor)
+end, { desc = 'バッファを開き直す' })
