@@ -1,4 +1,14 @@
 local hover_handler = vim.lsp.with(vim.lsp.handlers.hover, {})
+
+local function on_list(result)
+  vim.fn.setloclist(0, {}, ' ', result)
+  if #result.items <= 1 then
+    vim.cmd.lfirst()
+  else
+    require('telescope/builtin').loclist({ show_line = false })
+  end
+end
+
 local keys = vim.tbl_map(function(def)
   local desc = def.opt.desc
   if desc ~= nil then
@@ -43,11 +53,41 @@ end, {
   { suffix = 'fm', func = vim.cmd.Format, opt = { silent = true, desc = 'フォーマット' } },
   { suffix = 'h', func = vim.lsp.buf.hover, opt = { desc = '情報を表示' } },
   { suffix = 'H', func = vim.diagnostic.open_float, opt = { desc = '診断を表示' } },
-  { suffix = 'r', func = vim.lsp.buf.references, opt = { desc = '参照に移動' } },
-  { suffix = 'd', func = vim.lsp.buf.definition, opt = { desc = '宣言に移動' } },
-  { suffix = 'D', func = vim.lsp.buf.declaration, opt = { desc = '定義に移動' } },
-  { suffix = 'i', func = vim.lsp.buf.implementation, opt = { desc = '実装に移動' } },
-  { suffix = 't', func = vim.lsp.buf.type_definition, opt = { desc = '型定義に移動' } },
+  {
+    suffix = 'r',
+    func = function()
+      vim.lsp.buf.references(nil, { on_list = on_list })
+    end,
+    opt = { desc = '参照に移動' },
+  },
+  {
+    suffix = 'd',
+    func = function()
+      vim.lsp.buf.definition({ on_list = on_list })
+    end,
+    opt = { desc = '宣言に移動' },
+  },
+  {
+    suffix = 'D',
+    func = function()
+      vim.lsp.buf.declaration({ on_list = on_list })
+    end,
+    opt = { desc = '定義に移動' },
+  },
+  {
+    suffix = 'i',
+    func = function()
+      vim.lsp.buf.implementation({ on_list = on_list })
+    end,
+    opt = { desc = '実装に移動' },
+  },
+  {
+    suffix = 't',
+    func = function()
+      vim.lsp.buf.type_definition({ on_list = on_list })
+    end,
+    opt = { desc = '型定義に移動' },
+  },
   { suffix = 'R', func = vim.lsp.buf.rename, opt = { desc = 'リネーム' } },
   { suffix = 'a', func = vim.lsp.buf.code_action, opt = { desc = 'コードアクション' } },
 })
