@@ -242,7 +242,7 @@ util.bd =
   ---@param write boolean
   ---@param bang boolean
   ---@param winclose boolean
-  ---@param bufnr integer
+  ---@param bufnr? integer
   function(write, bang, winclose, bufnr)
     bufnr = bufnr or vim.fn.bufnr()
 
