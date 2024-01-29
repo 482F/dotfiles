@@ -279,10 +279,10 @@ util.ancestor_dirs =
   ---@param base string
   function(base)
     local dirs = {}
-    local dir = base:gsub('/$', '') .. '/'
+    local dir = base:gsub('%' .. util.path_delimiter .. '$', '') .. util.path_delimiter
     while dir ~= '' do
       table.insert(dirs, dir)
-      dir = dir:gsub('[^/]*/$', '')
+      dir = dir:gsub('[^%' .. util.path_delimiter .. ']*' .. util.path_delimiter .. '$', '')
     end
     return dirs
   end
