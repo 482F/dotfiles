@@ -215,6 +215,26 @@ local function formatter()
       data = { require('formatter/filetypes/sql').pgformat },
     },
     {
+      filetypes = { 'markdown' },
+      data = {
+        function()
+          return {
+            exe = 'prettier',
+            args = {
+              '--tab-width',
+              '4',
+              '--stdin-filepath',
+              require('formatter/util').escape_path(get_file_path()),
+              '--parser',
+              'markdown',
+            },
+            stdin = true,
+            try_node_modules = false,
+          }
+        end,
+      },
+    },
+    {
       filetypes = {
         'javascript',
         'typescript',
@@ -226,7 +246,6 @@ local function formatter()
         'tsx',
         'css',
         'scss',
-        'markdown',
         'html',
       },
       data = {
