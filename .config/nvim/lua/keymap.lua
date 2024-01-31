@@ -38,9 +38,10 @@ vim.keymap.set('x', '<Leader>q', function()
   local script = vim.fn.join(
     vim.tbl_flatten({
       '(function()',
-      '  local result = vim.inspect((function()',
+      '  local raw_result = (function()',
       text,
-      '  end)())',
+      '  end)()',
+      '  local result = vim.inspect(raw_result)',
       '  vim.notify(result)',
       '  if result ~= "nil" then',
       '    vim.fn.setreg("*", result)',
