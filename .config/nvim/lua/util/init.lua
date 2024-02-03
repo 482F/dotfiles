@@ -294,4 +294,31 @@ util.file_exists =
     return stat and stat.type or false
   end
 
+util.set_repeat_keymap =
+  ---@param mode string | table
+  ---@param lhs string
+  ---@param rhs string | function
+  ---@param opts? table
+  function(mode, lhs, rhs, opts)
+    local without_last_keys = lhs:sub(1, -2)
+    local repeat_keys = '<Plug>' .. without_last_keys
+    vim.keymap.set(mode, repeat_keys, '<Nop>', opts)
+
+    ---@type string | function
+    local repeat_rhs
+    if type(rhs) == 'string' then
+      repeat_rhs = rhs .. repeat_keys
+    elseif type(rhs) == 'function' then
+      repeat_rhs = function()
+        rhs()
+        vim.api.nvim_input(repeat_keys)
+      end
+    else
+      error('rhs is not string or function')
+    end
+
+    vim.keymap.set(mode, lhs, repeat_rhs, opts)
+    vim.keymap.set(mode, '<Plug>' .. lhs, repeat_rhs, opts)
+  end
+
 return util
