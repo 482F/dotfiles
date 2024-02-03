@@ -215,7 +215,9 @@ vim.keymap.set('n', '<leader>br', function()
     return
   end
   local cursor = vim.api.nvim_win_get_cursor(0)
-  vim.cmd.bwipeout()
+  local bufnr = vim.fn.bufnr()
+  vim.cmd.bnext()
+  vim.cmd.bwipeout(bufnr)
   vim.cmd.edit(filepath)
   vim.api.nvim_win_set_cursor(0, cursor)
 end, { desc = 'バッファを開き直す' })
