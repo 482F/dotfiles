@@ -14,8 +14,8 @@ vim.keymap.set('n', 'k', 'gk', { desc = '表示行で上に移動' })
 vim.keymap.set('n', 'j', 'gj', { desc = '表示行で下に移動' })
 
 -- タブ入れ替え
-vim.keymap.set('n', 'S>', ':+tabm<CR>', { desc = '次のタブと入れ替え', silent = true })
-vim.keymap.set('n', 'S<', ':-tabm<CR>', { desc = '前のタブと入れ替え', silent = true })
+util.set_repeat_keymap('n', 'S>', ':+tabm<CR>', { desc = '次のタブと入れ替え', silent = true })
+util.set_repeat_keymap('n', 'S<', ':-tabm<CR>', { desc = '前のタブと入れ替え', silent = true })
 
 -- 検索時に正規表現有効化
 vim.keymap.set('n', '/', '/\\v', { desc = '正規表現を有効にして検索' })
@@ -202,12 +202,8 @@ vim.keymap.set('n', '<leader><leader>uo', function()
 end, { desc = 'URL をブラウザで開く' })
 
 -- gt の t 連打でタブ移動
-vim.keymap.set('n', '<Plug>g', '<Nop>')
-for _, key in pairs({ 't', 'T' }) do
-  local keys = 'g' .. key .. '<Plug>g'
-  vim.keymap.set('n', 'g' .. key, keys)
-  vim.keymap.set('n', '<Plug>g' .. key, keys)
-end
+util.set_repeat_keymap('n', 'gt', 'gt')
+util.set_repeat_keymap('n', 'gT', 'gT')
 
 vim.keymap.set('n', '<leader>br', function()
   local filepath = vim.fn.expand('%:p')
