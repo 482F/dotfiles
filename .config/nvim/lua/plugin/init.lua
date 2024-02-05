@@ -20,6 +20,7 @@ local plugins = {
   'telescope', -- fzf
   'telescope-file-browser', -- ファイラ
   'telescope-ui-select', -- 選択 UI telescope 化
+  'telescope-emoji', -- 絵文字 FF
   'pounce', -- easymotion
   'mason', -- LSP 管理
   'neodev', -- neovim lua api 等の型情報
