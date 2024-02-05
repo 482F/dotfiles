@@ -104,6 +104,50 @@ end, {
     opt = { desc = 'filetypes' },
   },
   {
+    suffix = '@',
+    func = function()
+      local conf = require('telescope.config').values
+      local make_entry = require('telescope.make_entry')
+      local finders = require('telescope.finders')
+      local pickers = require('telescope.pickers')
+      local opts = {}
+
+      local bufnrs = vim.tbl_filter(function(bufnr)
+        return vim.api.nvim_buf_get_option(bufnr, 'buftype') == 'terminal'
+      end, vim.api.nvim_list_bufs())
+
+      if not next(bufnrs) then
+        return
+      end
+
+      local buffers = vim.tbl_map(function(bufnr)
+        return {
+          bufnr = bufnr,
+          flag = ' ',
+          info = vim.fn.getbufinfo(bufnr)[1],
+        }
+      end, bufnrs)
+      local default_selection_idx = 1
+
+      local max_bufnr = math.max(unpack(bufnrs))
+      opts.bufnr_width = #tostring(max_bufnr)
+
+      pickers
+        .new(opts, {
+          prompt_title = 'Terminal Buffers',
+          finder = finders.new_table({
+            results = buffers,
+            entry_maker = make_entry.gen_from_buffer(opts),
+          }),
+          previewer = conf.grep_previewer(opts),
+          sorter = conf.generic_sorter(opts),
+          default_selection_index = default_selection_idx,
+        })
+        :find()
+    end,
+    opt = { desc = 'terminal バッファ' },
+  },
+  {
     suffix = 'lr',
     func_name = 'lsp_references',
     opt = { desc = 'LSP-参照' },
