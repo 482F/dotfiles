@@ -160,7 +160,10 @@ return {
   },
   keys = keys,
   config = function()
+    local dapui = require('dapui')
+    local dap = require('dap')
     require('dapui').setup({
+      force_buffers = false,
       layouts = {
         {
           elements = {
@@ -192,13 +195,25 @@ return {
     util.reg_commands(require('dapui'), 'dapui')
 
     local original_open = require('dapui').open
-    local dapui = require('dapui')
     dapui.get_main_winnr = function()
       return main_winnr
     end
     dapui.open = function(...)
       original_open(...)
       main_winnr = vim.fn.winnr()
+    end
+
+    local original_run = dap.run
+    local i = 1
+    dap.run = function(...)
+      -- dapui がコンソールのバッファを使い回すのを抑制する
+      -- 既存のバッファの判定にバッファ名を使用しているので、バッファ名を変更することで新規バッファを作らせることができる
+      local bufnr = require('dapui/elements/console')().buffer()
+      vim.api.nvim_buf_set_name(bufnr, 'DAP Console' .. tostring(i))
+      i = i + 1
+
+      vim.fn.setreg('*', 'console run')
+      original_run(...)
     end
   end,
 }
