@@ -36,6 +36,7 @@ local plugins = {
   'which-key', -- キーマップ表示
   'translate', -- 翻訳
   'git-conflict', -- git コンフリクト関連
+  'skkeleton', -- SKK
 
   -- 複数用途
   -- - ステータスライン
