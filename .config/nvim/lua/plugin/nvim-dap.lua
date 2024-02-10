@@ -2,6 +2,7 @@ local util = require('util/init')
 local stream = require('util/stream')
 
 local main_winnr = nil
+local console_winnr = nil
 
 local keys = {
   {
@@ -126,7 +127,8 @@ local keys = {
   {
     '<leader>puc',
     function()
-      util.focus_by_bufnr(require('dapui').elements.console.buffer())
+      local winid = vim.fn.win_getid(console_winnr)
+      vim.fn.win_gotoid(winid)
     end,
     desc = 'コンソールに移動',
   },
@@ -201,6 +203,7 @@ return {
     dapui.open = function(...)
       original_open(...)
       main_winnr = vim.fn.winnr()
+      console_winnr = util.get_winnr_by_bufnr(require('dapui').elements.console.buffer())
     end
 
     local original_run = dap.run
