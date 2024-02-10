@@ -1,3 +1,12 @@
+local function delete_tele_buffer(prompt_bufnr)
+  local action_state = require('telescope/actions/state')
+  local current_picker = action_state.get_current_picker(prompt_bufnr)
+  current_picker:delete_selection(function(selection)
+    local force = vim.api.nvim_buf_get_option(selection.bufnr, 'buftype') == 'terminal'
+    return pcall(require('util/init').bd, false, force, false, selection.bufnr)
+  end)
+end
+
 local keys = vim.tbl_map(function(def)
   return vim.tbl_extend('keep', {
     '<leader>t' .. def.suffix,
@@ -142,6 +151,10 @@ end, {
           previewer = conf.grep_previewer(opts),
           sorter = conf.generic_sorter(opts),
           default_selection_index = default_selection_idx,
+          attach_mappings = function(_, map)
+            map({ 'i', 'n' }, '<M-d>', delete_tele_buffer)
+            return true
+          end,
         })
         :find()
     end,
@@ -239,15 +252,6 @@ end, {
     opt = { desc = 'git-スタッシュ' },
   },
 })
-
-local function delete_tele_buffer(prompt_bufnr)
-  local action_state = require('telescope/actions/state')
-  local current_picker = action_state.get_current_picker(prompt_bufnr)
-  current_picker:delete_selection(function(selection)
-    local force = vim.api.nvim_buf_get_option(selection.bufnr, 'buftype') == 'terminal'
-    return pcall(require('util/init').bd, false, force, false, selection.bufnr)
-  end)
-end
 
 return {
   'nvim-telescope/telescope.nvim',
