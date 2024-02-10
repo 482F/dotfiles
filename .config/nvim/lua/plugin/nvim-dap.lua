@@ -215,7 +215,6 @@ return {
       vim.api.nvim_buf_set_name(bufnr, 'DAP Console' .. tostring(i))
       i = i + 1
 
-      vim.fn.setreg('*', 'console run')
       original_run(...)
     end
   end,
