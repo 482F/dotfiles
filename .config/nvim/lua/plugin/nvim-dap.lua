@@ -2,7 +2,7 @@ local util = require('util/init')
 local stream = require('util/stream')
 
 local main_winnr = nil
-local console_winnr = nil
+local console_winid = nil
 
 local keys = {
   {
@@ -127,8 +127,7 @@ local keys = {
   {
     '<leader>puc',
     function()
-      local winid = vim.fn.win_getid(console_winnr)
-      vim.fn.win_gotoid(winid)
+      vim.fn.win_gotoid(console_winid)
     end,
     desc = 'コンソールに移動',
   },
@@ -153,6 +152,43 @@ local keys = {
       vim.fn.win_gotoid(winid)
     end,
     desc = 'メインウィンドウに移動',
+  },
+  {
+    '<leader>puS',
+    function()
+      local dap = require('dap')
+      vim.ui.select(
+        stream.filter(dap.sessions(), function(s)
+          return s
+        end),
+        {
+          prompt = 'select session',
+          format_item = function(item)
+            return item.config.name
+          end,
+        },
+        function(session)
+          if not session then
+            return
+          end
+
+          dap.set_session(session)
+
+          local console_bufnr = stream.find(vim.api.nvim_list_bufs(), function(bufnr)
+            return vim.api.nvim_buf_get_name(bufnr):find(session.config.name, 1, true) ~= nil
+          end)
+          if not console_bufnr then
+            return
+          end
+
+          vim.api.nvim_win_set_buf(console_winid, console_bufnr)
+          vim.api.nvim_win_call(console_winid, function()
+            vim.cmd.normal({ args = { 'G' }, bang = true })
+          end)
+        end
+      )
+    end,
+    desc = 'セッション選択',
   },
 }
 return {
@@ -203,7 +239,7 @@ return {
     dapui.open = function(...)
       original_open(...)
       main_winnr = vim.fn.winnr()
-      console_winnr = util.get_winnr_by_bufnr(require('dapui').elements.console.buffer())
+      console_winid = vim.fn.win_getid(util.get_winnr_by_bufnr(require('dapui').elements.console.buffer()))
     end
 
     local original_run = dap.run
@@ -216,6 +252,12 @@ return {
       i = i + 1
 
       original_run(...)
+
+      -- コンソールのウィンドウのバッファを新しく生成したものに切り替える
+      vim.api.nvim_win_set_buf(console_winid, require('dapui/elements/console')().buffer())
+      vim.api.nvim_win_call(console_winid, function()
+        vim.cmd.normal({ args = { 'G' }, bang = true })
+      end)
     end
   end,
 }
