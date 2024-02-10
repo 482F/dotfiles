@@ -17,6 +17,10 @@ return {
 
         vim.fn['skkeleton#config']({
           globalDictionaries = { skkpath .. util.path_delimiter .. 'SKK-JISYO.L' },
+          eggLikeNewline = true,
+          showCandidatesCount = 0,
+          selectCandidateKeys = '1234567',
+          immediatelyOkuriConvert = true,
         })
       end,
     })
