@@ -20,19 +20,19 @@ return {
         -- Light Background (Not often used)
         base07 = '#ffffff',
         -- Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
-        base08 = '#b00c0c',
+        base08 = '#a72817',
         -- Integers, Boolean, Constants, XML Attributes, Markup Link Url
-        base09 = '#eda60c',
+        base09 = '#476857',
         -- Classes, Markup Bold, Search Text Background
-        base0A = '#2b17e6',
+        base0A = '#575807',
         -- Strings, Inherited Class, Markup Code, Diff Inserted
-        base0B = '#057a47',
+        base0B = '#477817',
         -- Support, Regular Expressions, Escape Characters, Markup Quotes
-        base0C = '#0b99cd',
+        base0C = '#972867',
         -- Functions, Methods, Attribute IDs, Headings
-        base0D = '#1fc70c',
+        base0D = '#472877',
         -- Keywords, Storage, Selector, Markup Italic, Diff Changed
-        base0E = '#0cd3ed',
+        base0E = '#773817',
         -- Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
         base0F = '#000000',
       },
