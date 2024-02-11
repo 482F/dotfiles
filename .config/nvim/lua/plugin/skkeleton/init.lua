@@ -10,11 +10,13 @@ return {
     vim.api.nvim_create_autocmd({ 'User' }, {
       pattern = { 'DenopsPluginPost:skkeleton' },
       callback = function()
+        local tablename = 'azik'
+
         vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
 
         vim.fn['skkeleton#initialize']()
 
-        require('plugin/skkeleton-azik').register_kanatable()
+        require('plugin/skkeleton/kanatable-' .. tablename).register_kanatable()
 
         local skkpath = vim.fn.stdpath('data') .. util.path_delimiter .. 'skk'
 
@@ -26,7 +28,7 @@ return {
           immediatelyOkuriConvert = true,
           markerHenkan = '',
           markerHenkanSelect = '',
-          kanaTable = 'azik',
+          kanaTable = tablename,
         })
 
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
