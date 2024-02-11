@@ -12,8 +12,6 @@ return {
       callback = function()
         local tablename = 'azik'
 
-        vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
-
         vim.fn['skkeleton#initialize']()
 
         require('plugin/skkeleton/kanatable-' .. tablename).register_kanatable()
@@ -44,6 +42,8 @@ return {
           opts = { relative = 'cursor', col = 0, row = 1, anchor = 'NW', style = 'minimal' },
         })
         vim.fn['skkeleton_state_popup#enable']()
+
+        vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
       end,
     })
   end,
