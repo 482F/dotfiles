@@ -153,6 +153,19 @@ end, {
           default_selection_index = default_selection_idx,
           attach_mappings = function(_, map)
             map({ 'i', 'n' }, '<M-d>', delete_tele_buffer)
+
+            local actions = require('telescope.actions')
+            local action_state = require('telescope.actions.state')
+            local action_set = require('telescope.actions.set')
+            actions.select_default:replace(function(bufnr)
+              local result = action_set.select(bufnr, 'default')
+              local entry = action_state.get_selected_entry()
+              if not entry then
+                return
+              end
+              vim.bo[entry.bufnr].buflisted = false
+              return result
+            end)
             return true
           end,
         })
