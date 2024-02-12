@@ -159,8 +159,9 @@ end
 
 vim.keymap.set({ 'n', 'i' }, '<M-o>', function()
   -- TOOD: インデントをいい感じにするために色々やっているので重い。軽くしたい
-  vim.cmd.normal('i\na\n')
-  vim.cmd.normal('k==$"_x')
+  vim.cmd.normal('i\n\n')
+  vim.cmd.normal('kia')
+  vim.cmd.normal('==$"_x')
   vim.cmd.startinsert({ bang = true })
 end, { desc = '現在のカーソル位置に改行を入れてインサートモードに遷移' })
 
