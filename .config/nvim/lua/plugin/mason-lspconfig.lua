@@ -100,6 +100,27 @@ local function install()
       filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
     },
     {
+      name = 'stylua',
+      filetypes = { 'lua' },
+    },
+    {
+      name = 'prettierd',
+      filetypes = {
+        'markdown',
+        'javascript',
+        'typescript',
+        'json',
+        'jsonc',
+        'json5',
+        'vue',
+        'jsx',
+        'tsx',
+        'css',
+        'scss',
+        'html',
+      },
+    },
+    {
       name = 'lua-language-server',
       filetypes = { 'lua' },
     },
@@ -236,11 +257,18 @@ local function formatter()
     },
     {
       filetypes = {
-        'javascript',
-        'typescript',
         'json',
         'jsonc',
         'json5',
+      },
+      data = {
+        require('formatter/defaults').prettierd,
+      },
+    },
+    {
+      filetypes = {
+        'javascript',
+        'typescript',
         'vue',
         'jsx',
         'tsx',
