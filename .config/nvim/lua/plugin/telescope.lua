@@ -282,6 +282,7 @@ return {
         layout_config = { height = 0.95, width = 0.95 },
         mappings = {
           i = {
+            ['<C-l>'] = false,
             ['<C-s>'] = actions.cycle_previewers_next,
             ['<C-a>'] = actions.cycle_previewers_prev,
             ['<M-q>'] = actions.add_selected_to_qflist,
