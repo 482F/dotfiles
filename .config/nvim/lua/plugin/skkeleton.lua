@@ -13,6 +13,8 @@ return {
 
         vim.fn['skkeleton#initialize']()
 
+        require('plugin/skkeleton-azik').register_kanatable()
+
         local skkpath = vim.fn.stdpath('data') .. util.path_delimiter .. 'skk'
 
         vim.fn['skkeleton#config']({
@@ -21,7 +23,10 @@ return {
           showCandidatesCount = 0,
           selectCandidateKeys = '1234567',
           immediatelyOkuriConvert = true,
+          kanaTable = 'azik',
         })
+
+        vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
       end,
     })
   end,
