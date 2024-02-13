@@ -4,7 +4,7 @@ local function luafile(path)
   local success, result = pcall(function()
     vim.cmd.luafile(path)
   end)
-  if not success and not (result or ''):find('cannot open ' .. path .. ': No such file or directory', 1, true) then
+  if not success and not (result or ''):find('cannot open ' .. path, 1, true) then
     error(result)
   end
 end
