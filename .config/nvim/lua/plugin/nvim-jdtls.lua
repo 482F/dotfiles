@@ -3,7 +3,7 @@
 -- フォーマッタの設定を /home/normal/.local/share/jdtls/format-settings.xml に配置
 -- 各プロジェクトで `mvn clean & mvn install`
 -- microsoft/java-debug を /home/normal/.local/share/jdtls/java-debug にクローン
-function parseUrl(url)
+local function parse_url(url)
   for ip, port in string.gmatch(url, 'https?://([^:]+):(%d+)$') do
     return ip, port
   end
@@ -21,6 +21,8 @@ return {
     },
   },
   config = function()
+    local stream = require('util/stream')
+
     local cmd = {
       '/usr/lib/jvm/java-17-openjdk-amd64/bin/java',
 
@@ -46,13 +48,13 @@ return {
       '-data',
       '/home/normal/.local/share/nvim-jdtls/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t'),
     }
-    table.foreach({ 'http', 'https' }, function(_, protocol)
+    stream.for_each({ 'http', 'https' }, function(_, protocol)
       local proxy = vim.env[protocol .. '_proxy']
       if proxy == nil then
         return
       end
       local ip, port
-      ip, port = parseUrl(proxy)
+      ip, port = parse_url(proxy)
       if ip ~= nil then
         table.insert(cmd, '-D' .. protocol .. '.proxyHost=' .. ip)
         table.insert(cmd, '-D' .. protocol .. '.proxyPort=' .. port)
@@ -82,7 +84,6 @@ return {
         require('jdtls').start_or_attach(config)
       end,
     })
-    local stream = require('util/stream')
     local jdtls_util = require('jdtls.util')
     local original_execute_command = jdtls_util.execute_command
     jdtls_util.execute_command = function(opt, callback, ...)

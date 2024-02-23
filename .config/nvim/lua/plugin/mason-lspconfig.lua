@@ -280,6 +280,8 @@ local function formatter()
         function(...)
           local is_deno = lspconfig.util.root_pattern('deno.jsonc', 'deno.json')(vim.api.nvim_buf_get_name(0)) ~= nil
           if is_deno then
+            -- 引数が追加されるかもしれないので受け取ったものをそのまま渡す
+            ---@diagnostic disable-next-line: redundant-parameter
             return require('formatter/defaults/denofmt')(...)
           else
             return {
@@ -299,11 +301,10 @@ local function formatter()
       filetypes = { '*' },
       data = {
         function()
-          local filetype = vim.opt.filetype._value
-          if filetypes[filetype] ~= nil then
+          if filetypes[vim.bo.filetype] ~= nil then
             return
           end
-          vim.lsp.buf.format(nil, 10000000)
+          vim.lsp.buf.format({ timeout_ms = 10000000 })
         end,
       },
     },
@@ -324,9 +325,11 @@ local function linter()
 
   local linters_by_ft = {}
 
-  local deno_jsonc_exists = stream.some(util.ancestor_dirs(vim.loop.cwd()), function(dir)
-    return util.file_exists(dir .. 'deno.jsonc')
-  end)
+  local cwd = vim.loop.cwd()
+  local deno_jsonc_exists = cwd
+    and stream.some(util.ancestor_dirs(cwd), function(dir)
+      return util.file_exists(dir .. 'deno.jsonc')
+    end)
   if not deno_jsonc_exists then
     linters_by_ft.typescript = { 'eslint' }
   end

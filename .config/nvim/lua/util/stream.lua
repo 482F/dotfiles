@@ -254,7 +254,8 @@ end
 local M = {}
 
 function M.start(t)
-  ---@type { func: fun(info: stream_info, ...: any[]): any, params: any[], elements: { key: any, value: any }[], is_init: boolean, is_consumed: boolean }
+  ---@alias fp fun(info: stream_info, ...: any[]): any
+  ---@type { func: { pre: fp, main: fp, post: fp }, params: any[], elements: { key: any, value: any }[], is_init: boolean, is_consumed: boolean }[]
   local operations = {}
   return setmetatable({}, {
     __index = function(self, name)

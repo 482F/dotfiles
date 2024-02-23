@@ -1,7 +1,7 @@
 local random = require('util/random')
 local stream = require('util/stream')
 
-math.randomseed(tonumber(os.date('%Y%m%d')))
+math.randomseed(tonumber(os.date('%Y%m%d')) or 0)
 
 local plugins = stream.map(
   random.shuffle({
@@ -24,8 +24,8 @@ local plugins = stream.map(
     'nord',
     'nightfox',
   }),
-  function(name, i)
-    local plugin = require('plugin/colorscheme/' .. name)
+  function(filename, i)
+    local plugin = require('plugin/colorscheme/' .. filename)
     if i ~= 1 then
       plugin.module = true
       plugin.lazy = true
@@ -38,10 +38,12 @@ local plugins = stream.map(
     plugin.config = function()
       original_config()
 
-      vim.tbl_map(
-        function(entry)
-          local name = entry[1]
-          local def = entry[2]
+      stream
+        .start(vim.api.nvim_get_hl(0, {}))
+        .filter(function(def)
+          return def.italic or def.cterm and def.cterm.italic
+        end)
+        .for_each(function(def, hlname)
           local cloned_def = vim.tbl_deep_extend('keep', {}, def)
           if cloned_def.italic then
             cloned_def.italic = false
@@ -49,13 +51,8 @@ local plugins = stream.map(
           if cloned_def.cterm and cloned_def.cterm.italic then
             cloned_def.cterm.italic = false
           end
-          vim.api.nvim_set_hl(0, name, cloned_def)
-        end,
-        vim.tbl_filter(function(entry)
-          local def = entry[2]
-          return def.italic or def.cterm and def.cterm.italic
-        end, stream.pairs(vim.api.nvim_get_hl(0, {})))
-      )
+          vim.api.nvim_set_hl(0, hlname, cloned_def)
+        end)
     end
 
     return plugin

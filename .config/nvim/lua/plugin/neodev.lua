@@ -10,7 +10,7 @@ return {
         plugins = true,
       },
       setup_jsonls = true,
-      override = function(root_dir, options) end,
+      override = function() end,
       lspconfig = true,
       pathStrict = true,
     })

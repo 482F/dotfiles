@@ -90,10 +90,10 @@ for _, entry in pairs({
   end, { desc = entry.desc })
 end
 
-table.foreach({
+stream.for_each({
   { key = 'fp', str = '%:p', desc = 'ファイルパスをヤンク' },
   { key = 'fn', str = '%:t', desc = 'ファイル名をヤンク' },
-}, function(_, entry)
+}, function(entry)
   vim.keymap.set('n', '<leader>y' .. entry.key, function()
     vim.fn.setreg('*', vim.fn.expand(entry.str))
   end, { desc = entry.desc })
@@ -127,7 +127,7 @@ for _, entry in pairs({
     func = function()
       local qflist = vim.fn.getqflist()
       local qf = {
-        bufnr = vim.fn.bufnr('%'),
+        bufnr = vim.fn.bufnr(),
         lnum = vim.fn.line('.'),
         col = vim.fn.col('.'),
         text = vim.fn.getline('.'),
@@ -147,7 +147,7 @@ for _, entry in pairs({
   {
     key = 'd',
     func = function()
-      util.remove_quickfix_by_bufnr_and_lnum(vim.fn.bufnr('%'), vim.fn.line('.'))
+      util.remove_quickfix_by_bufnr_and_lnum(vim.fn.bufnr(), vim.fn.line('.'))
     end,
     desc = '現在行を qflist から削除する',
   },

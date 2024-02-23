@@ -2,6 +2,7 @@ local util = require('util')
 local stream = require('util/stream')
 
 local main_winnr = nil
+---@type integer | nil
 local console_winid = nil
 
 local keys = {
@@ -113,6 +114,8 @@ local keys = {
   {
     '<leader>pur',
     function()
+      -- 不要なパラメータまで必須になっているので黙らせる
+      ---@diagnostic disable-next-line missing-fields
       require('dapui').float_element('repl', { enter = true })
     end,
     desc = 'REPL 起動',
@@ -120,6 +123,8 @@ local keys = {
   {
     '<leader>pue',
     function()
+      -- 不要なパラメータまで必須になっているので黙らせる
+      ---@diagnostic disable-next-line missing-fields
       require('dapui').eval(nil, { enter = true })
     end,
     desc = 'カーソル下のテキスト評価',
@@ -177,7 +182,7 @@ local keys = {
           local console_bufnr = stream.find(vim.api.nvim_list_bufs(), function(bufnr)
             return vim.api.nvim_buf_get_name(bufnr):find(session.config.name, 1, true) ~= nil
           end)
-          if not console_bufnr then
+          if not console_bufnr or not console_winid then
             return
           end
 
@@ -200,6 +205,8 @@ return {
   config = function()
     local dapui = require('dapui')
     local dap = require('dap')
+    -- 不要なパラメータまで必須になっているので黙らせる
+    ---@diagnostic disable-next-line missing-fields
     require('dapui').setup({
       force_buffers = false,
       layouts = {
@@ -253,6 +260,9 @@ return {
 
       original_run(...)
 
+      if not console_winid then
+        return
+      end
       -- コンソールのウィンドウのバッファを新しく生成したものに切り替える
       vim.api.nvim_win_set_buf(console_winid, require('dapui/elements/console')().buffer())
       vim.api.nvim_win_call(console_winid, function()

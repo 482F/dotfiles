@@ -133,8 +133,9 @@ end
 
 ---@param filename string
 function M.file_exists(filename)
+  local fu = require('util/func')
   local stat = vim.loop.fs_stat(filename)
-  return stat and stat.type or false
+  return fu.is_truthy(stat and stat.type) or false
 end
 
 ---@param mode string | table

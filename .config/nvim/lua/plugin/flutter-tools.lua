@@ -25,11 +25,10 @@ return {
       function()
         require('flutter-tools/devices').list_devices()
 
-        local autogroup_id = nil
-        autogroup_id = vim.api.nvim_create_autocmd({ 'TextChanged' }, {
+        vim.api.nvim_create_autocmd({ 'TextChanged' }, {
           pattern = { '*__FLUTTER_DEV_LOG__' },
+          once = true,
           callback = function(event)
-            vim.api.nvim_del_autocmd(autogroup_id)
             local console_bufnr = event.buf
 
             vim.cmd.wincmd('p')
@@ -90,7 +89,7 @@ return {
     })
 
     vim.keymap.set('n', '<leader>lfm', function()
-      vim.lsp.buf.format(nil, 10000000)
+      vim.lsp.buf.format({ timeout_ms = 10000000 })
     end, { desc = 'フォーマット' })
   end,
 }
