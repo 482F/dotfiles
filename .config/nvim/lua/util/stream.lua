@@ -1,7 +1,7 @@
 --PASTE create_M_annotation RESULT
 --
----@alias _stream { map: (fun(func: (fun(v: any, k: any): any)): _stream), flat_map: (fun(func: (fun(v: any, k: any): any)): _stream), filter: (fun(func: (fun(v: any, k: any): boolean)): _stream), from_pairs: (fun(): _stream), pairs: (fun(): _stream), keys: (fun(): _stream), values: (fun(): _stream), slice: (fun(s?: (integer),e?: (integer)): _stream), inserted_all: (fun(t2: (table<any, any>)): _stream), flatten: (fun(): _stream), for_each: (fun(func: (fun(v: any, k: any): any)): nil), reduce: (fun(func: (fun(prev: any, v: any, k: any): any),initial: (any)): any), includes: (fun(search_element: (any)): any), find: (fun(func: (fun(v: any, k: any): boolean)): any), some: (fun(func: (fun(v: any, k: any): boolean)): boolean), every: (fun(func: (fun(v: any, k: any): boolean)): boolean), count: (fun(): integer), join: (fun(sep: (string)): string), terminate: (fun(): table<any, any>) }
----@alias _m { map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), flat_map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), filter: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): table<any, any>), from_pairs: (fun(t: table<any, any>): table<any, any>), pairs: (fun(t: table<any, any>): table<any, any>), keys: (fun(t: table<any, any>): table<any, any>), values: (fun(t: table<any, any>): table<any, any>), slice: (fun(t: table<any, any>, s?: (integer),e?: (integer)): table<any, any>), inserted_all: (fun(t: table<any, any>, t2: (table<any, any>)): table<any, any>), flatten: (fun(t: table<any, any>): table<any, any>), for_each: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): nil), reduce: (fun(t: table<any, any>, func: (fun(prev: any, v: any, k: any): any),initial: (any)): any), includes: (fun(t: table<any, any>, search_element: (any)): any), find: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): any), some: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), every: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), count: (fun(t: table<any, any>): integer), join: (fun(t: table<any, any>, sep: (string)): string), start: (fun(t: table<any, any>): _stream) }
+---@alias _stream { map: (fun(func: (fun(v: any, k: any): any)): _stream), flat_map: (fun(func: (fun(v: any, k: any): any)): _stream), filter: (fun(func: (fun(v: any, k: any): boolean)): _stream), from_pairs: (fun(): _stream), pairs: (fun(): _stream), keys: (fun(): _stream), values: (fun(): _stream), slice: (fun(s?: (integer),e?: (integer)): _stream), inserted_all: (fun(t2: (table<any, any>)): _stream), flatten: (fun(): _stream), for_each: (fun(func: (fun(v: any, k: any): any)): nil), reduce: (fun(func: (fun(prev: any, v: any, k: any): any),initial: (any)): any), includes: (fun(search_element: (any)): any), find: (fun(func: (fun(v: any, k: any): boolean)): any), some: (fun(func: (fun(v: any, k: any): boolean)): boolean), every: (fun(func: (fun(v: any, k: any): boolean)): boolean), count: (fun(): integer), join: (fun(sep: (string)): string), is_empty: (fun(): string), terminate: (fun(): table<any, any>) }
+---@alias _m { map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), flat_map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), filter: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): table<any, any>), from_pairs: (fun(t: table<any, any>): table<any, any>), pairs: (fun(t: table<any, any>): table<any, any>), keys: (fun(t: table<any, any>): table<any, any>), values: (fun(t: table<any, any>): table<any, any>), slice: (fun(t: table<any, any>, s?: (integer),e?: (integer)): table<any, any>), inserted_all: (fun(t: table<any, any>, t2: (table<any, any>)): table<any, any>), flatten: (fun(t: table<any, any>): table<any, any>), for_each: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): nil), reduce: (fun(t: table<any, any>, func: (fun(prev: any, v: any, k: any): any),initial: (any)): any), includes: (fun(t: table<any, any>, search_element: (any)): any), find: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): any), some: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), every: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), count: (fun(t: table<any, any>): integer), join: (fun(t: table<any, any>, sep: (string)): string), is_empty: (fun(t: table<any, any>): string), start: (fun(t: table<any, any>): _stream) }
 --
 --END
 
@@ -254,6 +254,22 @@ function terminals.join.post(info, sep)
   return {
     done = false,
     value = info.result.value:sub(sep:len() + 1),
+  }
+end
+
+terminals.is_empty = {}
+---@return { done: boolean, value: string }
+function terminals.is_empty.pre()
+  return {
+    done = false,
+    value = true,
+  }
+end
+---@return { done: boolean, value: string }
+function terminals.is_empty.main()
+  return {
+    done = true,
+    value = false,
   }
 end
 
