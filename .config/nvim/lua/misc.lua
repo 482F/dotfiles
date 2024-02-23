@@ -1,8 +1,10 @@
+local util = require('util')
+
 vim.cmd.colorscheme('quiet')
 
 -- クリップボード共有設定
 vim.opt.clipboard = 'unnamedplus'
-if vim.fn.has('wsl') then
+if util.is_wsl then
   vim.g.clipboard = {
     name = 'win32yank-wsl',
     copy = {
