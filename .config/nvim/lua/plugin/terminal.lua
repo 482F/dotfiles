@@ -1,4 +1,4 @@
-local util = require('util/init')
+local util = require('util')
 
 local id = 'terminal-' .. math.random(0, 10000000)
 local last_i = 0

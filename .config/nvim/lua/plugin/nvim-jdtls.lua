@@ -104,7 +104,7 @@ return {
       original_execute_command(opt, callback, ...)
     end
 
-    local util = require('util/init')
+    local util = require('util')
     util.reg_commands(require('jdtls'), 'jdtls')
   end,
 }

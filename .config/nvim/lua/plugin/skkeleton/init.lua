@@ -1,4 +1,4 @@
-local util = require('util/init')
+local util = require('util')
 
 return {
   'vim-skk/denops-skkeleton.vim',
