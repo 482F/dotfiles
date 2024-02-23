@@ -15,7 +15,7 @@ end
 ---@return T, integer
 function M.pick(t)
   local stream = require('util/stream')
-  local r = M.randint(1, stream.length(t) - 1)
+  local r = M.randint(1, stream.count(t) - 1)
   return t[r], r
 end
 
