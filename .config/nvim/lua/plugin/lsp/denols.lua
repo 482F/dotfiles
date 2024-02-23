@@ -1,4 +1,5 @@
 return function(server, lspconfig)
+  local fu = require('util/func')
   local stream = require('util/stream')
 
   local root_dirs = stream.map({ 'deno.jsonc', 'deno.json' }, function(name)
@@ -11,9 +12,7 @@ return function(server, lspconfig)
       .map(function(rd)
         return rd(unpack(args))
       end)
-      .find(function(v)
-        return v
-      end)
+      .find(fu.is_truthy)
   end
   server.setup({
     root_dir = root_dir,

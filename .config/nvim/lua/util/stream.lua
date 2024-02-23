@@ -422,6 +422,8 @@ M.start({
   end)
 
 local function create_M_annotation()
+  local fu = require('util/func')
+
   ---@type string[]
   local self = vim.fn.readfile(debug.getinfo(1, 'S').source:sub(2))
 
@@ -463,15 +465,11 @@ local function create_M_annotation()
               return { category = annotation_category, type = a1 .. ' ' .. a2 }
             end
           end)
-          .filter(function(v)
-            return v
-          end)
+          .filter(fu.is_truthy)
           .terminate(),
       }
     end)
-    .filter(function(v)
-      return v
-    end)
+    .filter(fu.is_truthy)
     .map(function(datum)
       local params = M.start(datum.annotations)
         .filter(function(annotation)
@@ -491,9 +489,7 @@ local function create_M_annotation()
         return { name = datum.name, params = params, return_type = return_type }
       end
     end)
-    .filter(function(v)
-      return v
-    end)
+    .filter(fu.is_truthy)
     .terminate()
   local start_annotation = M.join({
     '---@alias _stream { ' .. M.start(function_infos)
