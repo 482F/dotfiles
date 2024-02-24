@@ -10,6 +10,7 @@ mini_comment.setup({
       return ({
         json5 = '// %s',
         sql = '-- %s',
+        autohotkey = '; %s',
       })[ft]
     end,
   },
