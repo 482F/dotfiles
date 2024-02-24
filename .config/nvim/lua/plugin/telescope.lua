@@ -1,3 +1,5 @@
+local stream = require('util/stream')
+
 local function delete_tele_buffer(prompt_bufnr)
   local action_state = require('telescope/actions/state')
   local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -7,14 +9,7 @@ local function delete_tele_buffer(prompt_bufnr)
   end)
 end
 
-local keys = vim.tbl_map(function(def)
-  return vim.tbl_extend('keep', {
-    '<leader>t' .. def.suffix,
-    def.func or function()
-      require('telescope/builtin')[def.func_name](def.arg)
-    end,
-  }, def.opt)
-end, {
+local keys = stream.map({
   {
     suffix = 'k',
     func_name = 'keymaps',
@@ -121,21 +116,21 @@ end, {
       local pickers = require('telescope.pickers')
       local opts = {}
 
-      local bufnrs = vim.tbl_filter(function(bufnr)
+      local bufnrs = stream.filter(vim.api.nvim_list_bufs(), function(bufnr)
         return vim.api.nvim_buf_get_option(bufnr, 'buftype') == 'terminal'
-      end, vim.api.nvim_list_bufs())
+      end)
 
       if not next(bufnrs) then
         return
       end
 
-      local buffers = vim.tbl_map(function(bufnr)
+      local buffers = stream.map(bufnrs, function(bufnr)
         return {
           bufnr = bufnr,
           flag = ' ',
           info = vim.fn.getbufinfo(bufnr)[1],
         }
-      end, bufnrs)
+      end)
       local default_selection_idx = 1
 
       local max_bufnr = math.max(unpack(bufnrs))
@@ -264,7 +259,14 @@ end, {
     end,
     opt = { desc = 'git-スタッシュ' },
   },
-})
+}, function(def)
+  return stream.inserted_all(def.opt, {
+    '<leader>t' .. def.suffix,
+    def.func or function()
+      require('telescope/builtin')[def.func_name](def.arg)
+    end,
+  })
+end)
 
 return {
   'nvim-telescope/telescope.nvim',

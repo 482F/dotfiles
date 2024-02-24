@@ -61,7 +61,7 @@ local function create_kanatable()
 
   local kanatable = {}
   local function add(table)
-    kanatable = vim.tbl_extend('force', kanatable, table)
+    kanatable = stream.inserted_all(kanatable, table)
   end
 
   add(stream

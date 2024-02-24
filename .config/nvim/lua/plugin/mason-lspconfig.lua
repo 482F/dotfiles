@@ -1,4 +1,5 @@
 local hover_handler = vim.lsp.with(vim.lsp.handlers.hover, {})
+local stream = require('util/stream')
 
 local function on_list(result)
   vim.fn.setloclist(0, {}, ' ', result)
@@ -9,17 +10,7 @@ local function on_list(result)
   end
 end
 
-local keys = vim.tbl_map(function(def)
-  local desc = def.opt.desc
-  if desc ~= nil then
-    desc = 'lsp-' .. desc
-  end
-  return vim.tbl_extend('keep', {
-    '<leader>l' .. def.suffix,
-    def.func,
-    desc = desc,
-  }, def.opt)
-end, {
+local keys = stream.map({
   {
     suffix = 'c',
     func = function()
@@ -90,10 +81,19 @@ end, {
   },
   { suffix = 'R', func = vim.lsp.buf.rename, opt = { desc = 'リネーム' } },
   { suffix = 'a', func = vim.lsp.buf.code_action, opt = { desc = 'コードアクション' } },
-})
+}, function(def)
+  local desc = def.opt.desc
+  if desc ~= nil then
+    desc = 'lsp-' .. desc
+  end
+  return stream.inserted_all(def.opt, {
+    '<leader>l' .. def.suffix,
+    def.func,
+    desc = desc,
+  })
+end)
 
 local function install()
-  local stream = require('util/stream')
   local tools = {
     {
       name = 'deno',
@@ -147,13 +147,13 @@ local function install()
       local filtered_need_to_install_tools = stream
         .start(need_to_install_tools)
         .filter(function(tool)
-          return vim.tbl_contains(tool.filetypes, e.match)
+          return stream.includes(tool.filetypes, e.match)
         end)
         .map(function(tool)
           return tool.name
         end)
         .terminate()
-      if not vim.tbl_isempty(filtered_need_to_install_tools) then
+      if not stream.is_empty(filtered_need_to_install_tools) then
         require('mason/api/command').MasonInstall(filtered_need_to_install_tools)
       end
     end,
@@ -161,7 +161,6 @@ local function install()
 end
 
 local function config()
-  local stream = require('util/stream')
   local lspconfig = require('lspconfig')
   local lsps = {
     'denols',
