@@ -325,6 +325,15 @@ end
 local M = {}
 
 function M.start(t)
+  local function create_operation(func, params)
+    return {
+      func = func,
+      params = params,
+      elements = {},
+      is_init = true,
+      is_consumed = false,
+    }
+  end
   ---@alias fp fun(info: stream_info, ...: any[]): any
   ---@type { func: { pre: fp, main: fp, post: fp }, params: any[], elements: { key: any, value: any }[], is_init: boolean, is_consumed: boolean }[]
   local operations = {}
@@ -333,13 +342,7 @@ function M.start(t)
       local intermediate = intermediates[name]
       if intermediate then
         return function(...)
-          table.insert(operations, {
-            func = intermediate,
-            params = { ... },
-            elements = {},
-            is_init = true,
-            is_consumed = false,
-          })
+          table.insert(operations, create_operation(intermediate, { ... }))
           return self
         end
       end
@@ -376,13 +379,7 @@ function M.start(t)
       end
 
       return function(...)
-        table.insert(operations, {
-          func = terminal,
-          params = { ... },
-          elements = {},
-          is_init = true,
-          is_consumed = false,
-        })
+        table.insert(operations, create_operation(terminal, { ... }))
 
         operations[1].elements = {}
         for key, value in pairs(t) do
