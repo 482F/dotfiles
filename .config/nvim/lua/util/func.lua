@@ -25,4 +25,14 @@ function M.negate(f)
   end
 end
 
+---@param f (fun(self: (fun(...: any): any), ...: any): any)
+---@return (fun(...: any): any)
+function M.recursivize(f)
+  local rf
+  rf = function(...)
+    return f(rf, ...)
+  end
+  return rf
+end
+
 return M

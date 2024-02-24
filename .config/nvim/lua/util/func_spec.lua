@@ -28,4 +28,30 @@ describe('func', function()
       assert.are.equal(true, fu.negate(fu.is_truthy)(false))
     end)
   end)
+
+  describe('recursivize', function()
+    it('normal', function()
+      local rf = fu.recursivize(
+        ---@param v any
+        ---@param max_depth integer
+        ---@param depth integer
+        ---@return integer
+        function(self, v, max_depth, depth)
+          if type(v) == 'number' then
+            return v
+          end
+          if max_depth <= depth then
+            return 0
+          end
+
+          local sum = 0
+          for _, item in pairs(v) do
+            sum = sum + self(item, max_depth, depth + 1)
+          end
+          return sum
+        end
+      )
+      assert.are.equal(3, rf({ 1, 1, { 1, { 1 } } }, 2, 0))
+    end)
+  end)
 end)
