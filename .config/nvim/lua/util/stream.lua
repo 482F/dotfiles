@@ -5,7 +5,7 @@
 --
 --END
 
----@alias stream_info { value: any, key: any, result: { done: boolean, value: any } }
+---@alias stream_info { value: any, key: any, result: { done: boolean, value: any }, consumed_elements: { value: any, key: any }[] }
 local intermediates = {}
 local terminals = {}
 
@@ -332,10 +332,11 @@ function M.start(t)
       elements = {},
       is_init = true,
       is_consumed = false,
+      consumed_elements = {},
     }
   end
   ---@alias fp fun(info: stream_info, ...: any[]): any
-  ---@type { func: { pre: fp, main: fp, post: fp }, params: any[], elements: { key: any, value: any }[], is_init: boolean, is_consumed: boolean }[]
+  ---@type { func: { pre: fp, main: fp, post: fp }, params: any[], elements: { key: any, value: any }[], is_init: boolean, is_consumed: boolean, consumed_elements: { key: any, value: any }[] }[]
   local operations = {}
   return setmetatable({}, {
     __index = function(self, name)
@@ -431,10 +432,15 @@ function M.start(t)
             end
           end
 
+          if element.key ~= nil then
+            table.insert(operation.consumed_elements, element)
+          end
+
           local info = {
             value = element.value,
             key = element.key,
             result = result,
+            consumed_elements = operation.consumed_elements,
           }
           local func
           if operation.is_init then
