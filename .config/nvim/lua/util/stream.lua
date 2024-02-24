@@ -631,6 +631,13 @@ local function create_M_annotation()
 
   return start_annotation .. '\n' .. unit_annotation
 end
--- vim.fn.setreg('*', create_M_annotation())
+
+-- vim.api.nvim_create_autocmd({ 'User' }, {
+--   pattern = { 'VeryLazy' },
+--   once = true,
+--   callback = function()
+--     vim.fn.setreg('*', create_M_annotation())
+--   end,
+-- })
 
 return M
