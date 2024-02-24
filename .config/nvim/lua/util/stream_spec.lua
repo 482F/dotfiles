@@ -141,6 +141,39 @@ describe('stream', function()
     end)
   end)
 
+  describe('group_by', function()
+    it('empty', function()
+      assert.are.same(
+        {},
+        stream.group_by({}, function()
+          return 'key'
+        end)
+      )
+    end)
+    it('normal', function()
+      assert.are.same(
+        {
+          a = { { k = 'a', v = 1 }, { k = 'a', v = 2 } },
+          b = { { k = 'b', v = 3 } },
+        },
+        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, function(datum)
+          return datum.k
+        end)
+      )
+      assert.are.same(
+        {
+          a = { 1, 2 },
+          b = { 3 },
+        },
+        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, function(datum)
+          return datum.k
+        end, function(datum)
+          return datum.v
+        end)
+      )
+    end)
+  end)
+
   describe('for_each', function()
     it('empty', function()
       local i = 0
