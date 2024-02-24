@@ -59,38 +59,30 @@ local function create_kanatable()
     .from_pairs()
     .terminate()
 
-  local kanatable = {}
-  local function add(table)
-    kanatable = stream.inserted_all(kanatable, table)
-  end
-
-  add(stream
+  local regulars = stream
     .start({ matrixes.normal, matrixes.y, matrixes.g })
-    .flat_map(function(matrix)
-      return stream.flat_map(matrix, function(results, constant)
-        local by_vowels = stream.flat_map(stream.keys(vowel_i), function(vowel)
-          local i = vowel_i[vowel]
-          local default = { constant .. vowel, { results[i], '' } }
-          local plus_n = { constant .. ({ 'z', 'k', 'j', 'd', 'l' })[i], { results[i] .. 'ん' } }
-          return { default, plus_n }
-        end)
-        local extras = {
-          { constant .. 'q', { results[vowel_i.a] .. 'い', '' } },
-          { constant .. 'w', { results[vowel_i.e] .. 'い', '' } },
-          { constant .. 'h', { results[vowel_i.u] .. 'う', '' } },
-          { constant .. 'p', { results[vowel_i.o] .. 'う', '' } },
-        }
-        return stream.flat_map({ by_vowels, extras }, function(pair)
-          return pair
-        end)
+    .flatten()
+    .flat_map(function(results, constant)
+      local by_vowels = stream.flat_map(stream.keys(vowel_i), function(vowel)
+        local i = vowel_i[vowel]
+        local default = { constant .. vowel, { results[i], '' } }
+        local plus_n = { constant .. ({ 'z', 'k', 'j', 'd', 'l' })[i], { results[i] .. 'ん' } }
+        return { default, plus_n }
       end)
+      local extras = {
+        { constant .. 'q', { results[vowel_i.a] .. 'い', '' } },
+        { constant .. 'w', { results[vowel_i.e] .. 'い', '' } },
+        { constant .. 'h', { results[vowel_i.u] .. 'う', '' } },
+        { constant .. 'p', { results[vowel_i.o] .. 'う', '' } },
+      }
+      return stream.flatten({ by_vowels, extras })
     end)
     .from_pairs()
-    .terminate())
+    .terminate()
 
   vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
   vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
-  add({
+  local specials = {
     ['@'] = 'henkanFirst',
     ['`'] = 'katakana',
     ['/'] = 'abbrev',
@@ -168,8 +160,8 @@ local function create_kanatable()
     ['z.'] = { '・・・', '' },
     ['z/'] = { '・', '' },
     ['z '] = { '　', '' },
-  })
-  return kanatable
+  }
+  return stream.flatten({ regulars, specials })
 end
 
 function M.register_kanatable()
