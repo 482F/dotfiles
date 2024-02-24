@@ -685,6 +685,13 @@ local function create_M_annotation()
       end
     end)
     .filter(fu.is_truthy)
+    .sorted(function(e1, e2)
+      if e1.value.name < e2.value.name then
+        return -1
+      else
+        return 1
+      end
+    end)
     .terminate()
   local start_annotation = M.join({
     '---@alias _stream { ' .. M.start(function_infos)
