@@ -17,6 +17,18 @@ function M.is_truthy(v)
   end
 end
 
+---@param ... any
+---@return fun(t: table<any, any>): any
+function M.picker(...)
+  local stream = require('util/stream')
+  local keys = { ... }
+  return function(t)
+    return stream.reduce(keys, function(val, key)
+      return val[key]
+    end, t)
+  end
+end
+
 ---@param f fun(...: any): any
 ---@return fun(...: any): boolean
 function M.negate(f)
