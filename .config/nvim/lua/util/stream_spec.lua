@@ -112,6 +112,15 @@ describe('stream', function()
       local arr = { a = 1, 3, [5] = f }
       assert.are.same({ a = 1, 3, f, 4 }, stream.inserted_all(arr, { 4 }))
       assert.are.same({ a = 2, 3, f }, stream.inserted_all(arr, { a = 2 }))
+      assert.are.same({ a = 1, b = 5, 3, f }, stream.inserted_all(arr, { b = 5 }))
+    end)
+    it('nested', function()
+      local arr = { a = { b = 42, c = { d = 43 } } }
+      assert.are.same({ a = { e = 44 } }, stream.inserted_all(arr, { a = { e = 44 } }))
+      assert.are.same({ a = { e = 44 } }, stream.inserted_all(arr, { a = { e = 44 } }, 1))
+      assert.are.same({ a = { b = 42, c = { d = 43 }, e = 44 } }, stream.inserted_all(arr, { a = { e = 44 } }, 2))
+      assert.are.same({ a = { b = 42, c = { d = 43 }, e = 44 } }, stream.inserted_all(arr, { a = { e = 44 } }, 0))
+      assert.are.same({ a = { b = 42, c = 45, e = 44 } }, stream.inserted_all(arr, { a = { e = 44, c = 45 } }, 0))
     end)
   end)
 
