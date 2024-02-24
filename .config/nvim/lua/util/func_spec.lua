@@ -54,4 +54,20 @@ describe('func', function()
       assert.are.equal(3, rf({ 1, 1, { 1, { 1 } } }, 2, 0))
     end)
   end)
+
+  describe('override', function()
+    it('normal', function()
+      local m = {
+        f = function(a, b)
+          return a + b
+        end,
+      }
+
+      fu.override(m, 'f', function(original, ...)
+        return original(...) + 42
+      end)
+
+      assert.are.equal(45, m.f(1, 2))
+    end)
+  end)
 end)

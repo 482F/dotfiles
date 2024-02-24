@@ -35,4 +35,15 @@ function M.recursivize(f)
   return rf
 end
 
+---@generic K: any
+---@param m table<K, any>
+---@param key K
+---@param newfunc fun(original: (fun(...: any): any), ...: any): any
+function M.override(m, key, newfunc)
+  local original = m[key]
+  m[key] = function(...)
+    return newfunc(original, ...)
+  end
+end
+
 return M
