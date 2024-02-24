@@ -174,6 +174,21 @@ describe('stream', function()
       )
     end)
   end)
+  describe('for_each', function()
+    it('empty', function()
+      assert.are.same({}, stream.sorted({}))
+    end)
+    it('normal', function()
+      assert.are.same({ 1, 2, 3 }, stream.sorted({ 2, 3, 1 }))
+      assert.are.same({ 'a', 'b', 'c' }, stream.sorted({ 'c', 'b', 'a' }))
+      assert.are.same(
+        { 3, 2, 1 },
+        stream.sorted({ 2, 3, 1 }, function(e1, e2)
+          return e2.value - e1.value
+        end)
+      )
+    end)
+  end)
 
   describe('for_each', function()
     it('empty', function()
