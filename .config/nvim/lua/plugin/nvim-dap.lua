@@ -164,14 +164,10 @@ local keys = {
     function()
       local dap = require('dap')
       vim.ui.select(
-        stream.filter(dap.sessions(), function(s)
-          return s
-        end),
+        stream.filter(dap.sessions(), fu.is_truthy),
         {
           prompt = 'select session',
-          format_item = function(item)
-            return item.config.name
-          end,
+          format_item = fu.picker('config', 'name'),
         },
         function(session)
           if not session then
