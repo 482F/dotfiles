@@ -39,7 +39,7 @@ return {
             )
 
             local console_winnr = util.get_winnr_by_bufnr(console_bufnr)
-            vim.fn.win_splitmove(console_winnr, require('dapui').get_main_winnr(), {
+            vim.fn.win_splitmove(console_winnr, require('plugin/nvim-dap').get_main_winnr(), {
               rightbelow = true,
             })
 

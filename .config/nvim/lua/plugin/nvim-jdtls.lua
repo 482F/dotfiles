@@ -85,9 +85,8 @@ return {
         require('jdtls').start_or_attach(config)
       end,
     })
-    local jdtls_util = require('jdtls.util')
-    local original_execute_command = jdtls_util.execute_command
-    jdtls_util.execute_command = function(opt, callback, ...)
+
+    fu.override(require('jdtls/util'), 'execute_command', function(original, opt, callback, ...)
       if opt ~= nil and opt.command == 'vscode.java.resolveMainClass' then
         local project_name_map = stream
           .start(vim.g.jdtls_project_names or {})
@@ -107,8 +106,8 @@ return {
         end
       end
 
-      original_execute_command(opt, callback, ...)
-    end
+      original(opt, callback, ...)
+    end)
 
     local util = require('util')
     util.reg_commands(require('jdtls'), 'jdtls')
