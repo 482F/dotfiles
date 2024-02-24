@@ -75,4 +75,17 @@ describe('func', function()
       assert.are.equal(45, m.f(1, 2))
     end)
   end)
+
+  describe('once', function()
+    it('normal', function()
+      local i = 0
+      local f = fu.once(function()
+        i = i + 1
+      end)
+
+      f()
+      f()
+      assert.are.equal(1, i)
+    end)
+  end)
 end)
