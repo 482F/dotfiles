@@ -87,34 +87,6 @@ function intermediates.slice.main(info, s, e)
   return { info.value }
 end
 
----@param v1 any
----@param v2 any
----@max_depth? integer
----@depth integer
-local function inserted_all(v1, v2, max_depth, depth)
-  max_depth = max_depth or 1
-
-  if (0 < max_depth and max_depth <= depth) or type(v1) ~= 'table' or type(v2) ~= 'table' then
-    if v2 == nil then
-      return v1
-    else
-      return v2
-    end
-  end
-
-  local i = 1
-  local result = {}
-  for key in pairs(vim.tbl_extend('force', v1, v2)) do
-    if require('util').is_integer(key) then
-      result[i] = v1
-      result[i + 1] = v2
-      i = i + 2
-    else
-      result[key] = inserted_all(v1[key], v2[key], max_depth, depth + 1)
-    end
-  end
-  return result
-end
 intermediates.inserted_all = {}
 ---@param _ stream_info
 ---@param t2 table<any, any>
@@ -133,9 +105,35 @@ end
 function intermediates.inserted_all.main(info, t2, max_depth)
   if require('util').is_integer(info.key) then
     return { info.value }
-  else
-    return { [info.key] = inserted_all(info.value, t2[info.key], max_depth, 1) }
   end
+
+  local fu = require('util/func')
+
+  max_depth = max_depth or 1
+  local value = fu.recursivize(function(self, v1, v2, depth)
+    if (0 < max_depth and max_depth <= depth) or type(v1) ~= 'table' or type(v2) ~= 'table' then
+      if v2 == nil then
+        return v1
+      else
+        return v2
+      end
+    end
+
+    local result = {}
+    for key in pairs(vim.tbl_extend('force', v1, v2)) do
+      if require('util').is_integer(key) then
+        table.insert(result, v1)
+        table.insert(result, v2)
+      else
+        result[key] = self(v1[key], v2[key], depth + 1)
+      end
+    end
+    return result
+  end)(info.value, t2[info.key], 1)
+
+  return {
+    [info.key] = value,
+  }
 end
 ---@param _ stream_info
 ---@param t2 table<any, any>
