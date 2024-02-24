@@ -101,6 +101,13 @@ describe('stream', function()
       assert.are.same({ f }, stream.slice(arr, 2))
       assert.are.same({ 3, f }, stream.slice(arr))
     end)
+    it('negative', function()
+      local f = function() end
+      local arr = { a = 1, 3, 8, 9, [5] = f }
+      assert.are.same({ 3, 8, 9 }, stream.slice(arr, 1, -1))
+      assert.are.same({ 9 }, stream.slice(arr, -3, -1))
+      assert.are.same({ 3, 8 }, stream.slice(arr, -5, 3))
+    end)
   end)
 
   describe('inserted_all', function()
