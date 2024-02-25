@@ -37,6 +37,7 @@ local plugins = {
   'translate', -- 翻訳
   'git-conflict', -- git コンフリクト関連
   'skkeleton', -- SKK
+  'plenary', -- 汎用関数詰めあわせ
 
   -- 複数用途
   -- - ステータスライン
