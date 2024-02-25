@@ -1,4 +1,4 @@
-local util = require('util/init')
+local util = require('util')
 local stream = require('util/stream')
 
 local main_winnr = nil

@@ -11,7 +11,7 @@ return {
       return cwdName
     end
 
-    local commands = require('util/init').reg_commands({
+    local commands = require('util').reg_commands({
       saveCwd = function(noConfirm)
         if noConfirm == nil then
           noConfirm = true

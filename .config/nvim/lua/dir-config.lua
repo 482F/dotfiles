@@ -9,7 +9,7 @@ local function luafile(path)
   end
 end
 
-local util = require('util/init')
+local util = require('util')
 
 for _, dir in pairs(util.ancestor_dirs(vim.loop.cwd())) do
   local config_path = dir .. 'nvim-config.lua'

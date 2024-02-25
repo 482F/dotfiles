@@ -213,7 +213,7 @@ end
 local function formatter()
   local lspconfig = require('lspconfig')
   local stream = require('util/stream')
-  local util = require('util/init')
+  local util = require('util')
 
   local prettierrc_path = vim.fn.stdpath('data') .. util.path_delimiter .. '.prettierrc.js'
   local prettierrc_env = ''
@@ -320,7 +320,7 @@ end
 
 local function linter()
   local stream = require('util/stream')
-  local util = require('util/init')
+  local util = require('util')
 
   local linters_by_ft = {}
 

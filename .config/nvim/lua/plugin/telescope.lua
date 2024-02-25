@@ -3,7 +3,7 @@ local function delete_tele_buffer(prompt_bufnr)
   local current_picker = action_state.get_current_picker(prompt_bufnr)
   current_picker:delete_selection(function(selection)
     local force = vim.api.nvim_buf_get_option(selection.bufnr, 'buftype') == 'terminal'
-    return pcall(require('util/init').bd, false, force, false, selection.bufnr)
+    return pcall(require('util').bd, false, force, false, selection.bufnr)
   end)
 end
 
@@ -270,7 +270,7 @@ return {
   'nvim-telescope/telescope.nvim',
   dependencies = { 'nvim-lua/plenary.nvim' },
   config = function()
-    local util = require('util/init')
+    local util = require('util')
     util.reg_commands(require('telescope/builtin'), 'telescope')
 
     local actions = require('telescope/actions')
