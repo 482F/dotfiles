@@ -88,12 +88,16 @@ local function create_kanatable()
     .from_pairs()
     .terminate())
 
+  vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
+  vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
   add({
-    [' '] = 'henkanFirst',
+    ['@'] = 'henkanFirst',
+    ['`'] = 'katakana',
     ['/'] = 'abbrev',
     [';'] = 'henkanPoint',
-    ['<s-q>'] = 'katakana',
+    ['\\'] = 'purgeCandidate',
 
+    [' '] = { ' ', '' },
     [':'] = { 'ー', '' },
     ['l'] = { 'っ', '' },
     ['q'] = { 'ん', '' },
