@@ -15,7 +15,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-local plugins = {
+local plugin_names = {
   -- 'possession', -- セッション管理
   'telescope', -- fzf
   'telescope-file-browser', -- ファイラ
@@ -54,8 +54,8 @@ local plugins = {
   'terminal', -- ターミナル
 }
 
-require('lazy').setup(stream.flat_map(plugins, function(plugin)
-  local plugin = require('plugin/' .. plugin)
+require('lazy').setup(stream.flat_map(plugin_names, function(plugin_name)
+  local plugin = require('plugin/' .. plugin_name)
   if
     type(plugin[1]) == 'string'
     or not stream.every(stream.keys(plugin), function(key)

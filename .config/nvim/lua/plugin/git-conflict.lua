@@ -25,7 +25,7 @@ end, {
   },
 })
 
-function set_bg(name, default_bg)
+local function set_bg(name, default_bg)
   if not name then
     return
   end
@@ -54,6 +54,8 @@ return {
   event = 'VeryLazy',
   keys = keys,
   config = function()
+    -- 不要なパラメータまで必須になっているので黙らせる
+    ---@diagnostic disable-next-line missing-fields
     require('git-conflict').setup({
       default_mappings = false, -- disable buffer local mapping created by this plugin
       default_commands = true, -- disable commands created by this plugin

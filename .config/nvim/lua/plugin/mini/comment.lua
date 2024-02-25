@@ -6,7 +6,7 @@ mini_comment.setup({
     pad_comment_parts = true,
     start_of_line = false,
     custom_commentstring = function()
-      local ft = vim.opt.filetype._value
+      local ft = vim.bo.filetype
       return ({
         json5 = '// %s',
         sql = '-- %s',

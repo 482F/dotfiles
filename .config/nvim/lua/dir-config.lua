@@ -11,7 +11,10 @@ end
 
 local util = require('util')
 
-for _, dir in pairs(util.ancestor_dirs(vim.loop.cwd())) do
-  local config_path = dir .. 'nvim-config.lua'
-  luafile(config_path)
+local cwd = vim.loop.cwd()
+if cwd then
+  for _, dir in pairs(util.ancestor_dirs(cwd)) do
+    local config_path = dir .. 'nvim-config.lua'
+    luafile(config_path)
+  end
 end

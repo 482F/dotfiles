@@ -18,6 +18,7 @@ return {
         ['<C-o><C-m>'] = cmp.mapping.confirm({ select = true }),
       }),
       confirmation = {
+        default_behavior = 'replace',
         get_commit_characters = function()
           return {}
         end,

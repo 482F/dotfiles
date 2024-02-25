@@ -154,9 +154,9 @@ end, {
           attach_mappings = function(_, map)
             map({ 'i', 'n' }, '<M-d>', delete_tele_buffer)
 
-            local actions = require('telescope.actions')
-            local action_state = require('telescope.actions.state')
-            local action_set = require('telescope.actions.set')
+            local actions = require('telescope/actions')
+            local action_state = require('telescope/actions/state')
+            local action_set = require('telescope/actions/set')
             actions.select_default:replace(function(bufnr)
               local result = action_set.select(bufnr, 'default')
               local entry = action_state.get_selected_entry()
@@ -296,7 +296,7 @@ return {
           mappings = {
             i = {
               ['<M-d>'] = function(prompt_bufnr)
-                local state = require('telescope/actions.state')
+                local state = require('telescope/actions/state')
                 local current_picker = state.get_current_picker(prompt_bufnr)
                 current_picker:delete_selection(function(entry)
                   util.remove_quickfix_by_bufnr_and_lnum(entry.bufnr, entry.lnum)
