@@ -115,6 +115,23 @@ describe('stream', function()
     end)
   end)
 
+  describe('flatten', function()
+    it('empty', function()
+      assert.are.same({}, stream.flatten({}))
+    end)
+    it('normal', function()
+      local f = function() end
+      local expected = { a = 43, 11, [f] = 15 }
+      assert.are.same(expected, stream.flatten(expected))
+    end)
+    it('nested', function()
+      assert.are.same(
+        { 1, 2, 3, 4, { 5, 6 }, a = 42, b = { c = 43 } },
+        stream.flatten({ { 1 }, { 2, 3 }, { 4, { 5, 6 } }, a = 42, { b = 43 }, { b = { c = 43 } } })
+      )
+    end)
+  end)
+
   describe('for_each', function()
     it('empty', function()
       local i = 0
