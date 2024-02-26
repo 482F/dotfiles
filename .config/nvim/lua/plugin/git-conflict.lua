@@ -1,12 +1,6 @@
-local keys = vim.tbl_map(function(t)
-  return {
-    '<leader>gc' .. t.key,
-    t.func or function()
-      vim.cmd[t.cmd]()
-    end,
-    desc = t.desc,
-  }
-end, {
+local stream = require('util/stream')
+
+local keys = stream.map({
   -- git ディレクトリ全てのコンフリクトの検出、ファイル感の移動ができなさそうなので、それらは qflist ですることにする
   -- { key = 'n', cmd = 'GitConflictNextConflict', desc = '次のコンフリクトへ移動' },
   -- { key = 'p', cmd = 'GitConflictPrevConflict', desc = '前のコンフリクトへ移動' },
@@ -23,7 +17,15 @@ end, {
     end,
     desc = 'qflist に追加',
   },
-})
+}, function(t)
+  return {
+    '<leader>gc' .. t.key,
+    t.func or function()
+      vim.cmd[t.cmd]()
+    end,
+    desc = t.desc,
+  }
+end)
 
 local function set_bg(name, default_bg)
   if not name then

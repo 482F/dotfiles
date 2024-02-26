@@ -35,8 +35,8 @@ vim.keymap.set('x', '<Leader>q', function()
   local s = vim.fn.getpos("'<")
   local e = vim.fn.getpos("'>")
   local text = vim.api.nvim_buf_get_lines(s[1], s[2] - 1, e[2], false)
-  local script = vim.fn.join(
-    vim.tbl_flatten({
+  local script = stream
+    .start({
       '(function()',
       '  local raw_result = (function()',
       text,
@@ -47,9 +47,9 @@ vim.keymap.set('x', '<Leader>q', function()
       '    vim.fn.setreg("*", result)',
       '  end',
       'end)()',
-    }),
-    '\n'
-  )
+    })
+    .flatten()
+    .join('\n')
   vim.fn.luaeval(script)
 end, { desc = 'lua スクリプト実行' })
 

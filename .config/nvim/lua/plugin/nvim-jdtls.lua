@@ -21,6 +21,7 @@ return {
     },
   },
   config = function()
+    local fu = require('util/func')
     local stream = require('util/stream')
 
     local cmd = {
@@ -88,16 +89,20 @@ return {
     local original_execute_command = jdtls_util.execute_command
     jdtls_util.execute_command = function(opt, callback, ...)
       if opt ~= nil and opt.command == 'vscode.java.resolveMainClass' then
-        local project_name_map = stream.from_pairs(stream.map(vim.g.jdtls_project_names or {}, function(name)
-          return { name, true }
-        end))
+        local project_name_map = stream
+          .start(vim.g.jdtls_project_names or {})
+          .map(function(name)
+            return { name, true }
+          end)
+          .from_pairs()
+          .terminate()
         local original_callback = callback
         callback = function(err, mainclasses)
           original_callback(
             err,
-            vim.tbl_filter(function(mc)
-              return project_name_map[mc.projectName]
-            end, mainclasses)
+            stream.filter(mainclasses, function(mc)
+              return fu.is_truthy(project_name_map[mc.projectName])
+            end)
           )
         end
       end

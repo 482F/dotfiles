@@ -1,12 +1,13 @@
+local stream = require('util/stream')
 local util = require('util')
 
 local id = 'terminal-' .. math.random(0, 10000000)
 local last_i = 0
 
 local function get_terminal_buffers()
-  return vim.tbl_filter(function(v)
+  return stream.filter(vim.fn.getbufinfo(), function(v)
     return string.find(v.name, id, 1, true) ~= nil
-  end, vim.fn.getbufinfo())
+  end)
 end
 
 local function open(index, force_new)
@@ -49,13 +50,7 @@ local function move(delta)
   open((current_index + delta - 1) % #buffers + 1)
 end
 
-local keys = vim.tbl_map(function(v)
-  return {
-    '<leader>@' .. v.suffix,
-    v.func,
-    desc = v.desc,
-  }
-end, {
+local keys = stream.map({
   {
     suffix = '@',
     func = open,
@@ -109,9 +104,15 @@ end, {
     end,
     desc = '次のターミナルを開く',
   },
-})
+}, function(v)
+  return {
+    '<leader>@' .. v.suffix,
+    v.func,
+    desc = v.desc,
+  }
+end)
 
-keys = require('util/stream').inserted_all(keys, {
+keys = stream.inserted_all(keys, {
   {
     '<C-[><C-[>',
     '<C-\\><C-n>',
