@@ -67,7 +67,7 @@ intermediates.slice = {}
 ---@param s? integer
 ---@param e? integer
 function intermediates.slice.main(info, s, e)
-  if not require('util').is_integer(info.key) then
+  if not require('util').is_integer(info.key) or (s or 0) < 0 or (e or 0) < 0 then
     return {}
   end
 
@@ -75,16 +75,40 @@ function intermediates.slice.main(info, s, e)
     return {}
   end
 
-  if e ~= nil then
-    if 0 <= e and e <= info.key then
-      return {}
-    elseif e < 0 then
-      -- 要素を一つずつ処理する都合上、今の要素が配列の終わりから何番目かを取得する方法がない
-      error('minus e is not allowed!')
-    end
+  if e ~= nil and e <= info.key then
+    return {}
   end
 
   return { info.value }
+end
+---@param info stream_info
+---@param s? integer
+---@param e? integer
+function intermediates.slice.post(info, s, e)
+  if 0 <= (s or 0) and 0 <= (e or 0) then
+    return {}
+  end
+
+  local result = {}
+  local count = #info.consumed_elements
+  local function positivize(n)
+    if n == nil then
+      return n
+    elseif n < 0 then
+      return count + n + 1
+    else
+      return n
+    end
+  end
+  local ps = positivize(s)
+  local pe = positivize(e)
+  for _, element in pairs(info.consumed_elements) do
+    local value = intermediates.slice.main({ key = element.key, value = element.value }, ps, pe)[1]
+    if value then
+      table.insert(result, value)
+    end
+  end
+  return result
 end
 
 intermediates.inserted_all = {}
