@@ -58,4 +58,17 @@ function M.override(m, key, newfunc)
   end
 end
 
+---@param func fun(...: any): any
+---@return fun(...: any): any
+function M.once(func)
+  local _func
+  _func = function(...)
+    _func = function() end
+    func(...)
+  end
+  return function(...)
+    _func(...)
+  end
+end
+
 return M
