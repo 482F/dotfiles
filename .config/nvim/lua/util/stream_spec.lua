@@ -156,20 +156,14 @@ describe('stream', function()
           a = { { k = 'a', v = 1 }, { k = 'a', v = 2 } },
           b = { { k = 'b', v = 3 } },
         },
-        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, function(datum)
-          return datum.k
-        end)
+        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, fu.picker('k'))
       )
       assert.are.same(
         {
           a = { 1, 2 },
           b = { 3 },
         },
-        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, function(datum)
-          return datum.k
-        end, function(datum)
-          return datum.v
-        end)
+        stream.group_by({ { k = 'a', v = 1 }, { k = 'a', v = 2 }, { k = 'b', v = 3 } }, fu.picker('k'), fu.picker('v'))
       )
     end)
   end)

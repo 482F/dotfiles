@@ -571,11 +571,7 @@ local function create_M_annotation()
             return { i = i, annotation = annotation }
           end)
         end)
-        .group_by(function(datum)
-          return datum.i
-        end, function(datum)
-          return datum.annotation
-        end)
+        .group_by(fu.picker('i'), fu.picker('annotation'))
         .map(function(annotations)
           return M.find(annotations, function(annotation)
             return annotation.category == 'return' or annotation.name ~= '_'

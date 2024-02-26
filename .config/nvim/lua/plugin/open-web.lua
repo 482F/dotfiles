@@ -14,12 +14,12 @@ return {
     },
   },
   config = function()
+    local fu = require('util/func')
     local stream = require('util/stream')
+
     local plugins = stream
       .start(require('lazy').plugins())
-      .map(function(plugin)
-        return plugin[1]
-      end)
+      .map(fu.picker(1))
       .filter(function(name)
         return name ~= nil
       end)

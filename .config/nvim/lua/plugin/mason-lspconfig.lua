@@ -94,6 +94,8 @@ local keys = stream.map({
 end)
 
 local function install()
+  local fu = require('util/func')
+
   local tools = {
     {
       name = 'deno',
@@ -149,9 +151,7 @@ local function install()
         .filter(function(tool)
           return stream.includes(tool.filetypes, e.match)
         end)
-        .map(function(tool)
-          return tool.name
-        end)
+        .map(fu.picker('name'))
         .terminate()
       if not stream.is_empty(filtered_need_to_install_tools) then
         require('mason/api/command').MasonInstall(filtered_need_to_install_tools)
