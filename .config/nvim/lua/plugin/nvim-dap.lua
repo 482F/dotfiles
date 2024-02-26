@@ -1,4 +1,5 @@
 local util = require('util')
+local fu = require('util/func')
 local stream = require('util/stream')
 
 local main_winnr = nil
@@ -239,26 +240,21 @@ return {
     util.reg_commands(require('dap'), 'dap')
     util.reg_commands(require('dapui'), 'dapui')
 
-    local original_open = require('dapui').open
-    dapui.get_main_winnr = function()
-      return main_winnr
-    end
-    dapui.open = function(...)
-      original_open(...)
+    fu.override(dapui, 'open', function(original, ...)
+      original(...)
       main_winnr = vim.fn.winnr()
       console_winid = vim.fn.win_getid(util.get_winnr_by_bufnr(require('dapui').elements.console.buffer()))
-    end
+    end)
 
-    local original_run = dap.run
     local i = 1
-    dap.run = function(...)
+    fu.override(dap, 'run', function(original, ...)
       -- dapui がコンソールのバッファを使い回すのを抑制する
       -- 既存のバッファの判定にバッファ名を使用しているので、バッファ名を変更することで新規バッファを作らせることができる
       local bufnr = require('dapui/elements/console')().buffer()
       vim.api.nvim_buf_set_name(bufnr, 'DAP Console' .. tostring(i))
       i = i + 1
 
-      original_run(...)
+      original(...)
 
       if not console_winid then
         return
@@ -268,6 +264,9 @@ return {
       vim.api.nvim_win_call(console_winid, function()
         vim.cmd.normal({ args = { 'G' }, bang = true })
       end)
-    end
+    end)
+  end,
+  get_main_winnr = function()
+    return main_winnr
   end,
 }
