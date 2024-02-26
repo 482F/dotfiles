@@ -193,9 +193,8 @@ function terminals.reduce.pre(_, _, initial)
 end
 ---@param info stream_info
 ---@param func fun(prev: any, v: any, k: any): any
----@param initial any
 ---@return { done: boolean, value: any }
-function terminals.reduce.main(info, func, initial)
+function terminals.reduce.main(info, func)
   return {
     done = false,
     value = func(info.result.value, info.value, info.key),
@@ -529,8 +528,8 @@ local function create_M_annotation()
       end)
     end)
     .map(function(datum)
-      local category, name, phase = datum.line:match('function ([^%.]+)%.([^%.]+)%.([^%(]+)')
-      if not category or phase ~= 'main' then
+      local category, name = datum.line:match('function ([^%.]+)%.([^%.]+)%.([^%(]+)')
+      if not category then
         return nil
       end
 
@@ -559,6 +558,34 @@ local function create_M_annotation()
           end)
           .filter(fu.is_truthy)
           .terminate(),
+      }
+    end)
+    .group_by(function(datum)
+      return datum.category .. '.' .. datum.name
+    end)
+    .map(function(group)
+      local first = group[1]
+      local annotations = M.start(group)
+        .flat_map(function(datum)
+          return M.map(datum.annotations, function(annotation, i)
+            return { i = i, annotation = annotation }
+          end)
+        end)
+        .group_by(function(datum)
+          return datum.i
+        end, function(datum)
+          return datum.annotation
+        end)
+        .map(function(annotations)
+          return M.find(annotations, function(annotation)
+            return annotation.category == 'return' or annotation.name ~= '_'
+          end)
+        end)
+        .terminate()
+      return {
+        category = first.category,
+        name = first.name,
+        annotations = annotations,
       }
     end)
     .filter(fu.is_truthy)
