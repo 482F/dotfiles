@@ -31,6 +31,37 @@ return {
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
 
         vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
+
+        vim.keymap.set({ 'n' }, '<C-l><C-f>', function()
+          vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+            pattern = { '*' },
+            once = true,
+            callback = function()
+              vim.fn['skkeleton#handle']('enable', {})
+            end,
+          })
+          local succeeded, char = pcall(vim.fn.input, 'input target char: ') -- TODO: 一文字目だけ取り出したい
+          if not succeeded then
+            return
+          end
+          vim.fn.feedkeys('f' .. char)
+        end)
+
+        vim.keymap.set({ 'n' }, '<C-l><C-t>', function()
+          vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
+            pattern = { '*' },
+            once = true,
+            callback = function()
+              vim.fn['skkeleton#handle']('enable', {})
+            end,
+          })
+          local succeeded, pattern = pcall(vim.fn.input, 'input target pattern: ')
+          if not succeeded then
+            return
+          end
+
+          require('pounce').pounce({ input = pattern })
+        end)
       end,
     })
   end,
