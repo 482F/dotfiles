@@ -23,6 +23,11 @@ describe('func', function()
     end)
   end)
 
+  describe('picker', function()
+    assert.are.equal(42, fu.picker('val')({ val = 42 }))
+    assert.are.equal(42, fu.picker('key1', 'key2', 1)({ key1 = { key2 = { 42 } } }))
+  end)
+
   describe('negate', function()
     it('normal', function()
       assert.are.equal(true, fu.negate(fu.is_truthy)(false))
