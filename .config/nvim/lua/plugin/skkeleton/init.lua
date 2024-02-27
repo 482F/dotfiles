@@ -25,7 +25,7 @@ return {
           immediatelyOkuriConvert = true,
           kanaTable = tablename,
           immediatelyDictionaryRW = true,
-          userDictionary = os.getenv('HOME') .. '/.skkeleton',
+          userDictionary = vim.fn.stdpath('data') .. '/.skkeleton',
         })
 
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
