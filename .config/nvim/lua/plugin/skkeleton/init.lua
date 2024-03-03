@@ -62,6 +62,8 @@ return {
 
           require('pounce').pounce({ input = pattern })
         end)
+
+        vim.notify('skkeleton loaded')
       end,
     })
   end,
