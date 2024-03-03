@@ -14,6 +14,8 @@
     coali    = commit --allow-empty -m \"initial commit\"
     coam     = commit --amend -v
     coamn    = commit --amend --no-edit
+    cof      = !"git commit --fixup HEAD~${1}; exit;"
+    cofi     = !"git commit --fixup HEAD~${1}; GIT_SEQUENCE_EDITOR=: git rebase -i HEAD~$((${1}+2)); exit;"
     cp       = cherry-pick
     cpa      = cherry-pick --abort
     cpc      = cherry-pick --continue
