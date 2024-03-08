@@ -53,6 +53,13 @@ local plugins = stream.map(
           end
           vim.api.nvim_set_hl(0, hlname, cloned_def)
         end)
+
+      local hl_name = stream.start({ 'MiniStatuslineModeNormal', 'Cursor' }).find(function(n)
+        return vim.fn.hlID(n) ~= 0
+      end)
+      vim.api.nvim_set_hl(0, 'TabLine', { link = hl_name })
+      vim.api.nvim_set_hl(0, 'TabLineFill', { link = hl_name })
+      vim.api.nvim_set_hl(0, 'TabLineSel', { link = 'Normal' })
     end
 
     return plugin
