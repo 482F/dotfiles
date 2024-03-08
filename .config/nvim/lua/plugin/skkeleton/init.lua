@@ -29,10 +29,12 @@ return {
         })
 
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
+        vim.fn['skkeleton#register_keymap']('henkan', ' ', false)
         vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
         vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
 
         vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
+        vim.keymap.set({ 't', 'i', 'c' }, '<M-l>', '<Plug>(skkeleton-toggle)')
 
         vim.keymap.set({ 'n' }, '<C-l><C-f>', function()
           vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
