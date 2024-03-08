@@ -158,11 +158,8 @@ for _, entry in pairs({
 end
 
 vim.keymap.set({ 'n', 'i' }, '<M-o>', function()
-  -- TOOD: インデントをいい感じにするために色々やっているので重い。軽くしたい
   vim.cmd.normal('i\n\n')
-  vim.cmd.normal('kia')
-  vim.cmd.normal('==$"_x')
-  vim.cmd.startinsert({ bang = true })
+  vim.fn.feedkeys('k"_cc', '')
 end, { desc = '現在のカーソル位置に改行を入れてインサートモードに遷移' })
 
 for _, entry in pairs({
