@@ -69,8 +69,8 @@ local plugins = stream.map(
 local i = 1
 
 vim.keymap.set('n', '<leader><leader>cs', function()
-  i = i + 1
-  local plugin = plugins[(i % #plugins) + 1]
+  i = (i % #plugins) + 1
+  local plugin = plugins[i]
   plugin.config()
   require('plugin/mini/statusline').colorscheme = plugin.name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', '')
 end, { desc = 'カラースキーム変更' })
