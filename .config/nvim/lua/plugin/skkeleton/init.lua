@@ -29,6 +29,8 @@ return {
         })
 
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
+        vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
+        vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
 
         vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
 

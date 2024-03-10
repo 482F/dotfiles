@@ -80,8 +80,6 @@ local function create_kanatable()
     .from_pairs()
     .terminate()
 
-  vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
-  vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
   local specials = {
     ['@'] = 'henkanFirst',
     ['`'] = 'katakana',
