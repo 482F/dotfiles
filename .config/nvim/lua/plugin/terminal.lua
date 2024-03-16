@@ -23,7 +23,7 @@ local function open(index, force_new)
     last_i = last_i + 1
     index = #buffers + 1
     if vim.fn.has('windows') and not util.is_wsl then
-      vim.cmd.terminal('wsl.exe')
+      vim.cmd.terminal('set WSLENV=FROM_WIN/u&set FROM_WIN=true&wsl.exe')
     else
       vim.cmd.terminal()
     end
