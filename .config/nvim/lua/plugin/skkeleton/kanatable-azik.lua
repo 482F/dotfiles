@@ -81,11 +81,14 @@ local function create_kanatable()
     .terminate()
 
   local specials = {
-    ['@'] = 'henkanFirst',
-    ['`'] = 'katakana',
     ['/'] = 'abbrev',
     [';'] = 'henkanPoint',
     ['\\'] = 'purgeCandidate',
+
+    -- ['-'] = '',
+    -- ['='] = '',
+    -- ['^'] = '',
+    -- ['|'] = '',
 
     [' '] = { ' ', '' },
     [':'] = { 'ー', '' },

@@ -1,11 +1,12 @@
-local util = require('util')
-
 return {
   'vim-skk/denops-skkeleton.vim',
   dependencies = {
     'vim-denops/denops.vim',
   },
   config = function()
+    local util = require('util')
+    local stream = require('util/stream')
+
     vim.api.nvim_create_autocmd({ 'User' }, {
       pattern = { 'DenopsPluginPost:skkeleton' },
       callback = function()
@@ -27,14 +28,28 @@ return {
           immediatelyDictionaryRW = true,
           userDictionary = vim.fn.stdpath('data') .. '/.skkeleton',
         })
-
         vim.fn['skkeleton#register_keymap']('henkan', 'X', false)
         vim.fn['skkeleton#register_keymap']('henkan', ' ', false)
-        vim.fn['skkeleton#register_keymap']('henkan', '@', 'henkanForward')
-        vim.fn['skkeleton#register_keymap']('henkan', '`', 'henkanBackward')
 
-        vim.keymap.set({ 't', 'i', 'c' }, '<C-l>', '<Plug>(skkeleton-toggle)')
-        vim.keymap.set({ 't', 'i', 'c' }, '<M-l>', '<Plug>(skkeleton-toggle)')
+        -- nIME.ahk によるリマップ
+        vim.g['skkeleton#mapped_keys'] = stream.inserted_all(
+          vim.g['skkeleton#mapped_keys'],
+          { '<F1>', '<F2>', '<F3>', '<F4>', '<F5>', '<F6>', '<F7>', '<F8>' }
+        )
+        vim.fn['skkeleton#register_keymap']('henkan', '<F1>', 'disable') -- CapsLock
+        vim.fn['skkeleton#register_keymap']('input', '<F1>', 'disable') -- CapsLock
+        vim.fn['skkeleton#register_keymap']('input', '<F3>', 'henkanFirst') -- 変換
+        vim.fn['skkeleton#register_keymap']('henkan', '<F3>', 'henkanForward') -- 変換
+        vim.fn['skkeleton#register_keymap']('henkan', '<F7>', 'henkanBackward') -- Shift + 変換
+        vim.fn['skkeleton#register_keymap']('input', '<F7>', 'katakana') -- Shift + 変換
+        vim.fn['skkeleton#register_keymap']('input', '<F4>', 'cancel') -- かな
+        vim.fn['skkeleton#register_keymap']('henkan', '<F4>', 'cancel') -- かな
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F2>', '') -- 無変換
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F5>', '') -- Shift + CapsLock
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F6>', '') -- Shift + 無変換
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F8>', '') -- Shift + かな
+
+        vim.keymap.set({ 't', 'i', 'c' }, '<F1>', '<Plug>(skkeleton-toggle)') -- CapsLock
 
         vim.keymap.set({ 'n' }, '<C-l><C-f>', function()
           vim.api.nvim_create_autocmd({ 'CmdlineEnter' }, {
