@@ -68,16 +68,3 @@ require('lazy').setup(stream.flat_map(plugin_names, function(plugin_name)
   end
 end))
 
--- 引数無しで起動したときのみ表示したい
--- vim.api.nvim_create_autocmd({ 'User' }, {
---   pattern = { 'VeryLazy' },
---   callback = function()
---     local lazy_view = require('lazy.view')
---     lazy_view.show('profile')
---     local view = lazy_view.view
---     vim.print('press any key to continue...')
---     vim.fn.getchar()
---     view:hide()
---     vim.print('')
---   end,
--- })
