@@ -196,6 +196,7 @@ local keys = {
 return {
   'mfussenegger/nvim-dap',
   dependencies = {
+    'nvim-neotest/nvim-nio',
     'rcarriga/nvim-dap-ui',
   },
   keys = keys,
