@@ -279,7 +279,7 @@ return {
     require('telescope').setup({
       defaults = {
         wrap_results = true,
-        file_ignore_patterns = { '^%.git/[^ch].+$' }, -- .git/config と .git/hooks は見れるようにしたいが、先読みとかがないので頭文字だけで判定する
+        file_ignore_patterns = { '%.git' .. util.path_delimiter }, -- .git は無視する
         layout_strategy = 'vertical',
         layout_config = { height = 0.95, width = 0.95 },
         mappings = {
