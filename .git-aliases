@@ -21,20 +21,20 @@
     cpc      = cherry-pick --continue
     d        = diff --histogram -b
     dc       = !"mkdir diffs; git dn $1 | while IFS= read f; do mkdir -p "diffs/$(dirname "${f}")"; cp "${f}" "diffs/${f}"; done; exit;"
-    dn       = diff --name-only
+    dn       = d --name-only
     dt       = difftool
-    dd       = diff --color-words --histogram -b --word-diff-regex='\\w+|[^[:space:]]'
+    dd       = d --color-words --word-diff-regex='\\w+|[^[:space:]]'
     f        = !"git ls-files | grep"
     fv       = !"fs=\"$(git ls-files | grep $1)\"; echo \"${fs}\" | nl | grep --color=auto "$1"; read -p \"input target file line number: \" number; vim "$(echo \"${fs}\" | sed -n "${number}p")"; exit;"
-    l        = log
+    l        = log --date=iso-local --abbrev-commit
     lf       = l --pretty=fuller
-    lo       = log --oneline
-    lp       = log -p
-    lop      = log --oneline -p
+    lo       = l --oneline
+    lp       = l -p
+    lop      = l --oneline -p
     lopco    = !"git log --oneline -p \"${1}\" | grep -P \"^[a-z0-9]{7}\"; exit;"
     m        = merge
     ms       = merge --squash
-    pushu    = !"git push -u origin $(git branch --contains | grep -Po \"(?<=..).+\" )"
+    pushu    = !"git push -u origin \"$(git rev-parse --abbrev-ref HEAD)\""
     push-fwl = push --force-with-lease
     rb       = rebase
     rba      = rebase --abort
