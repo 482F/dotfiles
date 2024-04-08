@@ -255,16 +255,6 @@ local function formatter()
     },
     {
       filetypes = {
-        'json',
-        'jsonc',
-        'json5',
-      },
-      data = {
-        require('formatter/defaults').prettierd,
-      },
-    },
-    {
-      filetypes = {
         'javascript',
         'typescript',
         'vue',
@@ -273,11 +263,15 @@ local function formatter()
         'css',
         'scss',
         'html',
+        'json',
+        'jsonc',
+        'json5',
       },
       data = {
         function(...)
           local is_deno = lspconfig.util.root_pattern('deno.jsonc', 'deno.json')(vim.api.nvim_buf_get_name(0)) ~= nil
-          if is_deno then
+          local is_json = vim.bo.filetype:find('json', 0, true) ~= nil
+          if is_deno and not is_json then
             -- 引数が追加されるかもしれないので受け取ったものをそのまま渡す
             ---@diagnostic disable-next-line: redundant-parameter
             return require('formatter/defaults/denofmt')(...)
