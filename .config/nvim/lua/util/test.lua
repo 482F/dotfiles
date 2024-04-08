@@ -16,4 +16,34 @@ assert:register('assertion', 'has_values', function(_, args)
   end)
 end, 'assertion.has_values.positive', 'assertion.has_values.negative')
 
+local launchers = {}
+vim.keymap.set('n', '<leader>rt', function()
+  local launcher = stream.find(launchers, function(launcher)
+    return launcher.condition()
+  end)
+  if launcher == nil then
+    return
+  end
+
+  local command = launcher.command()
+  if command == nil then
+    return
+  end
+
+  local name = 'nvim-test-rt'
+  vim.cmd.edit(name)
+  if vim.fn.bufname() == name then
+    require('util').bd(false, false, false)
+  end
+  vim.cmd.terminal(command)
+  vim.cmd.file(name)
+end)
+
+function assert.register_launcher(name, condition, command)
+  launchers[name] = {
+    condition = condition,
+    command = command,
+  }
+end
+
 return assert
