@@ -91,5 +91,11 @@ return {
     vim.keymap.set('n', '<leader>lfm', function()
       vim.lsp.buf.format({ timeout_ms = 10000000 })
     end, { desc = 'フォーマット' })
+
+    require('util/test').register_launcher('flutter', function()
+      return vim.bo.filetype == 'dart'
+    end, function()
+      return 'powershell.exe flutter test'
+    end)
   end,
 }
