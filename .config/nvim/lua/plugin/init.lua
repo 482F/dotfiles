@@ -39,6 +39,7 @@ local plugin_names = {
   'skkeleton', -- SKK
   'plenary', -- 汎用関数詰めあわせ
   'oil', -- ファイラ
+  'lsp-signature', -- 関数シグネチャ表示
 
   -- 複数用途
   -- - ステータスライン
