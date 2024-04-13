@@ -38,6 +38,7 @@ local plugin_names = {
   'git-conflict', -- git コンフリクト関連
   'skkeleton', -- SKK
   'plenary', -- 汎用関数詰めあわせ
+  'oil', -- ファイラ
 
   -- 複数用途
   -- - ステータスライン
