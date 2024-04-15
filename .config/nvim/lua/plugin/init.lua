@@ -21,7 +21,7 @@ local plugin_names = {
   'telescope-file-browser', -- ファイラ
   'telescope-ui-select', -- 選択 UI telescope 化
   'telescope-emoji', -- 絵文字 FF
-  'pounce', -- easymotion
+  'flash', -- easymotion
   'mason', -- LSP 管理
   'neodev', -- neovim lua api 等の型情報
   'mason-lspconfig', -- LSP 設定
