@@ -11,6 +11,13 @@ return {
         disable = {},
       },
       ensure_installed = { 'diff', 'git_rebase', 'gitcommit' },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          node_incremental = '<Tab>',
+          node_decremental = '<S-Tab>',
+        },
+      },
     })
     -- treesitter の diff ハイライトに対応していないカラースキームが多いのでそれの対応
     vim.cmd.highlight('def', 'link', '@text.diff.add', 'DiffAdded')
