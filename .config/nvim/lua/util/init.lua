@@ -164,4 +164,14 @@ function M.set_repeat_keymap(mode, lhs, rhs, opts)
   vim.keymap.set(mode, '<Plug>' .. lhs, repeat_rhs, opts)
 end
 
+---@param title string
+function M.exec_code_action(title)
+  vim.lsp.buf.code_action({
+    filter = function(action)
+      return action.title == title
+    end,
+    apply = true,
+  })
+end
+
 return M
