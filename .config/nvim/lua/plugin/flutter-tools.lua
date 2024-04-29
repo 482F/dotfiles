@@ -59,6 +59,7 @@ return {
   config = function()
     require('flutter-tools').setup({
       debugger = {
+        exception_breakpoints = {},
         enabled = true,
         run_via_dap = true,
         register_configurations = function(_)
