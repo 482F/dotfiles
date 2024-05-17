@@ -49,7 +49,7 @@ return {
       '-data',
       '/home/normal/.local/share/nvim-jdtls/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t'),
     }
-    stream.for_each({ 'http', 'https' }, function(_, protocol)
+    stream.for_each({ 'http', 'https' }, function(protocol)
       local proxy = vim.env[protocol .. '_proxy']
       if proxy == nil then
         return
