@@ -2,14 +2,20 @@ local util = require('util')
 
 vim.cmd.colorscheme('quiet')
 
+local function clip(lines, regtype)
+  local body = vim.fn.join(lines, '\n')
+  vim.fn.chansend(vim.v.stderr, vim.fn.printf('\x1b]52;;%s\x1b\\', vim.fn.system('base64', body))) -- osc52 によるコピー
+  vim.fn.system('win32yank.exe -i --crlf', body) -- win32yank によるコピー
+end
+
 -- クリップボード共有設定
 vim.opt.clipboard = 'unnamedplus'
 if util.is_wsl then
   vim.g.clipboard = {
     name = 'win32yank-wsl',
     copy = {
-      ['+'] = 'win32yank.exe -i --crlf',
-      ['*'] = 'win32yank.exe -i --crlf',
+      ['+'] = clip,
+      ['*'] = clip,
     },
     paste = {
       ['+'] = 'win32yank.exe -o --lf',
