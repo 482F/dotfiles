@@ -1,15 +1,19 @@
 -- プラグインの設定などを lazy に読み込まれる前に上書きしたいため lazy で管理しない
+local util = require('util')
+
 ---@param path string
 local function luafile(path)
+  if not util.file_exists(path) then
+    return
+  end
   local success, result = pcall(function()
     vim.cmd.luafile(path)
   end)
-  if not success and not (result or ''):find('cannot open ' .. path, 1, true) then
+
+  if not success then
     error(result)
   end
 end
-
-local util = require('util')
 
 local cwd = vim.loop.cwd()
 if cwd then
