@@ -49,7 +49,7 @@
     sa       = stash apply
     sd       = stash drop
     sp       = stash pop
-    ss       = stash save
+    ss       = stash save --include-untracked
     ssp      = stash save -p
     sl       = stash list
     st       = status -sb
