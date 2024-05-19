@@ -62,7 +62,7 @@ end
 M.is_windows = vim.fn.exists('+shellslash') ~= 0
 
 ---@type boolean
-M.is_wsl = not M.is_windows and vim.fn.readfile('/proc/version')[1]:find('Microsoft')
+M.is_wsl = not M.is_windows and vim.fn.readfile('/proc/version')[1]:find('[mM]icrosoft')
 
 M.open_url = (function()
   if vim.fn.has('windows') then
