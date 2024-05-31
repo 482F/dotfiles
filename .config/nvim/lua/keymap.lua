@@ -217,3 +217,18 @@ vim.keymap.set('n', '<leader>br', function()
   vim.cmd.edit(filepath)
   vim.api.nvim_win_set_cursor(0, cursor)
 end, { desc = 'バッファを開き直す' })
+
+vim.keymap.set('i', '<C-x><C-a>', function()
+  local prev = vim.api.nvim_get_current_line():sub(1, vim.api.nvim_win_get_cursor(0)[2])
+  local y, m, d = prev:match('(%d%d%d%d)[-/](%d%d)[-/](%d%d)$')
+  if y == nil then
+    return
+  end
+
+  local weekday = ({ '日', '月', '火', '水', '木', '金', '土' })[os.date(
+    '*t',
+    os.time({ year = y, month = m, day = d })
+  ).wday]
+
+  vim.api.nvim_input(' (' .. weekday .. ')')
+end, { desc = '曜日を挿入' })
