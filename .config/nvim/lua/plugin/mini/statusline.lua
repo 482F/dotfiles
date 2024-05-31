@@ -24,7 +24,7 @@ mini_statusline.setup({
     end,
   },
   use_icons = false,
-  set_vim_settings = true,
+  set_vim_settings = false,
 })
 
 vim.wo.statusline = '%!v:lua.MiniStatusline.active()'
