@@ -4,6 +4,7 @@
   pager = less
   preloadindex = true
   fscache = true
+  fsmonitor = true
 [difftool]
   prompt = input
 [merge]
