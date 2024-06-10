@@ -56,17 +56,25 @@ local plugin_names = {
   'terminal', -- ターミナル
 }
 
-require('lazy').setup(stream.flat_map(plugin_names, function(plugin_name)
-  local plugin = require('plugin/' .. plugin_name)
-  if
-    type(plugin[1]) == 'string'
-    or not stream.every(stream.keys(plugin), function(key)
-      return type(key) == 'number'
-    end)
-  then
-    return { plugin }
-  else
-    return plugin
-  end
-end))
-
+require('lazy').setup(
+  stream.flat_map(plugin_names, function(plugin_name)
+    local plugin = require('plugin/' .. plugin_name)
+    if
+      type(plugin[1]) == 'string'
+      or not stream.every(stream.keys(plugin), function(key)
+        return type(key) == 'number'
+      end)
+    then
+      return { plugin }
+    else
+      return plugin
+    end
+  end),
+  {
+    performance = {
+      rtp = {
+        reset = false,
+      },
+    },
+  }
+)
