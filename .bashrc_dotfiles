@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function ll() {
   type exa > /dev/null 2>&1 \
     && exa -hlF --color auto --group-directories-first --git "${@}" \
