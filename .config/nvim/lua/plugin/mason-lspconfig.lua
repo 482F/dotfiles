@@ -226,6 +226,10 @@ local function formatter()
   local filetypes = {}
   filetypes = stream.from_pairs(stream.flat_map({
     {
+      filetypes = { 'nix' },
+      data = { require('formatter/filetypes/nix').alejandra },
+    },
+    {
       filetypes = { 'lua' },
       data = { require('formatter/filetypes/lua').stylua },
     },
