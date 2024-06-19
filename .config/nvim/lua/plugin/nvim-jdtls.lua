@@ -71,7 +71,7 @@ return {
         java = {
           format = {
             settings = {
-              url = '/home/normal/.local/share/jdtls/format-settings.xml',
+              url = jdtls_dir .. '/format-settings.xml',
             },
           },
         },
