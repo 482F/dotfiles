@@ -158,8 +158,8 @@ for _, entry in pairs({
 end
 
 vim.keymap.set({ 'n', 'i' }, '<M-o>', function()
-  vim.cmd.normal('i\n\n')
-  vim.fn.feedkeys('k"_cc', '')
+  vim.cmd.normal('i\nz\n')
+  vim.fn.feedkeys('k=="_cc', '')
 end, { desc = '現在のカーソル位置に改行を入れてインサートモードに遷移' })
 
 for _, entry in pairs({
