@@ -141,7 +141,7 @@ local function install()
   }
 
   local need_to_install_tools = stream.filter(tools, function(tool)
-    return not require('mason-registry').is_installed(tool.name)
+    return not require('mason-registry').is_installed(tool.name) and not vim.fn.executable(tool.name)
   end)
 
   vim.api.nvim_create_autocmd({ 'FileType' }, {
@@ -170,20 +170,15 @@ local function config()
     'pylsp',
   }
 
-  require('mason-lspconfig').setup({
-    handlers = stream
-      .start(lsps)
-      .map(function(name)
-        return { name, require('plugin/lsp/' .. name) }
-      end)
-      .from_pairs()
-      .map(function(func, key)
-        return function()
-          return func(lspconfig[key], lspconfig)
-        end
-      end)
-      .terminate(),
-  })
+  stream
+    .start(lsps)
+    .map(function(name)
+      return { name, require('plugin/lsp/' .. name) }
+    end)
+    .from_pairs()
+    .for_each(function(func, key)
+      func(lspconfig[key], lspconfig)
+    end)
   vim.cmd.LspStart()
 end
 
