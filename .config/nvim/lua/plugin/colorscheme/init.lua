@@ -13,7 +13,7 @@ local plugins = stream.map(
     'tokyonight',
     'solarized',
     'aquarium',
-    'gruvbox-flat',
+    'gruvbox',
     'space-vim-theme',
     'toast',
     'cake16',
