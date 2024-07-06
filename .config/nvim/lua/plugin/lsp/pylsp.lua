@@ -9,18 +9,17 @@ return function(server)
   end
 
   server.setup({
-    -- on_attach = custom_attach,
     settings = {
       pylsp = {
         plugins = {
           -- formatter options
-          black = { enabled = true },
+          black = { enabled = false },
           autopep8 = { enabled = false },
           yapf = { enabled = false },
           -- linter options
           pylint = { enabled = true, executable = 'pylint' },
           ruff = { enabled = false },
-          pyflakes = { enabled = true },
+          pyflakes = { enabled = false },
           pycodestyle = { enabled = false },
           -- type checker
           pylsp_mypy = {
