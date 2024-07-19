@@ -64,11 +64,21 @@ return {
         table.insert(cmd, '-D' .. protocol .. '.proxyPort=' .. port)
       end
     end)
+    local jdks = vim.env['XDG_DATA_HOME'] .. '/jdks'
+    local runtimes = stream.map(vim.fn.readdir(jdks), function(name)
+      return {
+        name = name,
+        path = jdks .. '/' .. name,
+      }
+    end)
     local config = {
       cmd = cmd,
       root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
       settings = {
         java = {
+          configuration = {
+            runtimes = runtimes,
+          },
           format = {
             settings = {
               url = jdtls_dir .. '/format-settings.xml',
