@@ -18,3 +18,5 @@
 [rebase]
   autostash = true
   autosquash = true
+[includeIf "hasconfig:remote.*.url:git@github.com:482F/*.git"]
+  path = ./.gitconfig.d/private
