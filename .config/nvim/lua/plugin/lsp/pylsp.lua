@@ -27,6 +27,7 @@ return function(server)
             overrides = { '--python-executable', py_path, true },
             report_progress = true,
             live_mode = true,
+            strict = true,
           },
           -- auto-completion options
           jedi_completion = { fuzzy = true },
