@@ -138,6 +138,10 @@ local function install()
       name = 'python-lsp-server',
       filetypes = { 'python' },
     },
+    {
+      name = 'rust-analyzer',
+      filetypes = { 'rust' },
+    },
   }
 
   local need_to_install_tools = stream.filter(tools, function(tool)
@@ -168,6 +172,7 @@ local function config()
     'tsserver',
     'volar',
     'pylsp',
+    'rust_analyzer',
   }
 
   stream
@@ -227,6 +232,10 @@ local function formatter()
     {
       filetypes = { 'lua' },
       data = { require('formatter/filetypes/lua').stylua },
+    },
+    {
+      filetypes = { 'rust' },
+      data = { require('formatter/filetypes/rust').rustfmt },
     },
     {
       filetypes = { 'sql' },
