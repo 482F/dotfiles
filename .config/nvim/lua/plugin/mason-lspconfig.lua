@@ -120,6 +120,7 @@ local function install()
         'css',
         'scss',
         'html',
+        'yaml',
       },
     },
     {
@@ -274,6 +275,7 @@ local function formatter()
         'json',
         'jsonc',
         'json5',
+        'yaml',
       },
       data = {
         function(...)
