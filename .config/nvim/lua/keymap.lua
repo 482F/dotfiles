@@ -220,8 +220,14 @@ end, { desc = 'バッファを開き直す' })
 
 vim.keymap.set('i', '<C-x><C-a>', function()
   local prev = vim.api.nvim_get_current_line():sub(1, vim.api.nvim_win_get_cursor(0)[2])
-  local y, m, d = prev:match('(%d%d%d%d)[-/](%d%d)[-/](%d%d)$')
+  local md_pattern = '(%d%d)[-/](%d%d)$'
+  local y, m, d = prev:match('(%d%d%d%d)[-/]' .. md_pattern)
   if y == nil then
+    y = os.date("%Y")
+    m, d = prev:match(md_pattern)
+  end
+
+  if m == nil then
     return
   end
 
