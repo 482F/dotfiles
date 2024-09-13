@@ -43,7 +43,7 @@ return {
     vim.api.nvim_set_hl(
       0,
       'FlashLabel',
-      stream.inserted_all(vim.api.nvim_get_hl(0, { name = 'Search' }), { underline = true })
+      stream.inserted_all(vim.api.nvim_get_hl(0, { name = 'Search' }), { bg = '#ffffff', fg = '#000000' })
     )
     require('flash').setup({
       modes = {
