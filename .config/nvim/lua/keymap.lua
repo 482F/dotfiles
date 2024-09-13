@@ -223,7 +223,7 @@ vim.keymap.set('i', '<C-x><C-a>', function()
   local md_pattern = '(%d%d)[-/](%d%d)$'
   local y, m, d = prev:match('(%d%d%d%d)[-/]' .. md_pattern)
   if y == nil then
-    y = os.date("%Y")
+    y = os.date('%Y')
     m, d = prev:match(md_pattern)
   end
 
