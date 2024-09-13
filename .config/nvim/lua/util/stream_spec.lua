@@ -171,6 +171,25 @@ describe('stream', function()
       )
     end)
   end)
+  describe('product', function()
+    it('empty', function()
+      assert.are.same({}, stream.product({}, {}))
+      assert.are.same({}, stream.product({ 1, 2, 3 }, {}))
+      assert.are.same({}, stream.product({}, { 1, 2, 3 }))
+    end)
+    it('normal', function()
+      assert.are.same({
+        { 1, 3, 5 },
+        { 1, 3, 6 },
+        { 1, 4, 5 },
+        { 1, 4, 6 },
+        { 2, 3, 5 },
+        { 2, 3, 6 },
+        { 2, 4, 5 },
+        { 2, 4, 6 },
+      }, stream.product({ 1, 2 }, { 3, 4 }, { 5, 6 }))
+    end)
+  end)
   describe('for_each', function()
     it('empty', function()
       assert.are.same({}, stream.sorted({}))

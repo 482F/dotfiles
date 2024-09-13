@@ -1,7 +1,7 @@
 --PASTE create_M_annotation RESULT
 --
----@alias _stream { count: (fun(): integer), every: (fun(func: (fun(v: any, k: any): boolean)): boolean), filter: (fun(func: (fun(v: any, k: any): boolean)): _stream), find: (fun(func: (fun(v: any, k: any): boolean)): any), flat_map: (fun(func: (fun(v: any, k: any): any)): _stream), flatten: (fun(): _stream), for_each: (fun(func: (fun(v: any, k: any): any)): nil), from_pairs: (fun(): _stream), group_by: (fun(key_creator: (fun(v: any, k: any): any), value_creator?: (fun(v: any, k: any): any)): _stream), includes: (fun(search_element: (any)): any), inserted_all: (fun(t2: (table<any, any>), max_depth?: (integer)): _stream), is_empty: (fun(): string), join: (fun(sep: (string)): string), keys: (fun(): _stream), map: (fun(func: (fun(v: any, k: any): any)): _stream), pairs: (fun(): _stream), reduce: (fun(func: (fun(prev: any, v: any, k: any): any), initial: (any)): any), slice: (fun(s?: (integer), e?: (integer)): _stream), some: (fun(func: (fun(v: any, k: any): boolean)): boolean), sorted: (fun(sorter: (fun(e1: { key: any, value: any }, e2: { key: any, value: any }): any)): _stream), values: (fun(): _stream), terminate: (fun(): table<any, any>) }
----@alias _m { count: (fun(t: table<any, any>): integer), every: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), filter: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): table<any, any>), find: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): any), flat_map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), flatten: (fun(t: table<any, any>): table<any, any>), for_each: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): nil), from_pairs: (fun(t: table<any, any>): table<any, any>), group_by: (fun(t: table<any, any>, key_creator: (fun(v: any, k: any): any), value_creator?: (fun(v: any, k: any): any)): table<any, any>), includes: (fun(t: table<any, any>, search_element: (any)): any), inserted_all: (fun(t: table<any, any>, t2: (table<any, any>), max_depth?: (integer)): table<any, any>), is_empty: (fun(t: table<any, any>): string), join: (fun(t: table<any, any>, sep: (string)): string), keys: (fun(t: table<any, any>): table<any, any>), map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), pairs: (fun(t: table<any, any>): table<any, any>), reduce: (fun(t: table<any, any>, func: (fun(prev: any, v: any, k: any): any), initial: (any)): any), slice: (fun(t: table<any, any>, s?: (integer), e?: (integer)): table<any, any>), some: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), sorted: (fun(t: table<any, any>, sorter: (fun(e1: { key: any, value: any }, e2: { key: any, value: any }): any)): table<any, any>), values: (fun(t: table<any, any>): table<any, any>), start: (fun(t: table<any, any>): _stream) }
+---@alias _stream { count: (fun(): integer), every: (fun(func: (fun(v: any, k: any): boolean)): boolean), filter: (fun(func: (fun(v: any, k: any): boolean)): _stream), find: (fun(func: (fun(v: any, k: any): boolean)): any), flat_map: (fun(func: (fun(v: any, k: any): any)): _stream), flatten: (fun(): _stream), for_each: (fun(func: (fun(v: any, k: any): any)): nil), from_pairs: (fun(): _stream), group_by: (fun(key_creator: (fun(v: any, k: any): any), value_creator?: (fun(v: any, k: any): any)): _stream), includes: (fun(search_element: (any)): any), inserted_all: (fun(t2: (table<any, any>), max_depth?: (integer)): _stream), is_empty: (fun(): string), join: (fun(sep: (string)): string), keys: (fun(): _stream), map: (fun(func: (fun(v: any, k: any): any)): _stream), pairs: (fun(): _stream), product: (fun(...: (table<any, any>)): _stream), reduce: (fun(func: (fun(prev: any, v: any, k: any): any), initial: (any)): any), slice: (fun(s?: (integer), e?: (integer)): _stream), some: (fun(func: (fun(v: any, k: any): boolean)): boolean), sorted: (fun(sorter: (fun(e1: { key: any, value: any }, e2: { key: any, value: any }): any)): _stream), values: (fun(): _stream), terminate: (fun(): table<any, any>) }
+---@alias _m { count: (fun(t: table<any, any>): integer), every: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), filter: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): table<any, any>), find: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): any), flat_map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), flatten: (fun(t: table<any, any>): table<any, any>), for_each: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): nil), from_pairs: (fun(t: table<any, any>): table<any, any>), group_by: (fun(t: table<any, any>, key_creator: (fun(v: any, k: any): any), value_creator?: (fun(v: any, k: any): any)): table<any, any>), includes: (fun(t: table<any, any>, search_element: (any)): any), inserted_all: (fun(t: table<any, any>, t2: (table<any, any>), max_depth?: (integer)): table<any, any>), is_empty: (fun(t: table<any, any>): string), join: (fun(t: table<any, any>, sep: (string)): string), keys: (fun(t: table<any, any>): table<any, any>), map: (fun(t: table<any, any>, func: (fun(v: any, k: any): any)): table<any, any>), pairs: (fun(t: table<any, any>): table<any, any>), product: (fun(t: table<any, any>, ...: (table<any, any>)): table<any, any>), reduce: (fun(t: table<any, any>, func: (fun(prev: any, v: any, k: any): any), initial: (any)): any), slice: (fun(t: table<any, any>, s?: (integer), e?: (integer)): table<any, any>), some: (fun(t: table<any, any>, func: (fun(v: any, k: any): boolean)): boolean), sorted: (fun(t: table<any, any>, sorter: (fun(e1: { key: any, value: any }, e2: { key: any, value: any }): any)): table<any, any>), values: (fun(t: table<any, any>): table<any, any>), start: (fun(t: table<any, any>): _stream) }
 --
 --END
 
@@ -249,6 +249,28 @@ function intermediates.sorted.post(info, sorter)
     table.insert(sorted_values, element.value)
   end
   return sorted_values
+end
+
+intermediates.product = {}
+---@param info stream_info
+---@param ... table<any, any>
+function intermediates.product.main(info, ...)
+  local function product(accum, list)
+    local result = {}
+    for _, elements in pairs(accum) do
+      for _, element in pairs(list) do
+        local new = { unpack(elements) }
+        table.insert(new, element)
+        table.insert(result, new)
+      end
+    end
+    return result
+  end
+  local accum = { { info.value } }
+  for _, list in pairs({ ... }) do
+    accum = product(accum, list)
+  end
+  return accum
 end
 
 terminals.for_each = {}
