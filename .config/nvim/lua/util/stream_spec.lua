@@ -171,6 +171,26 @@ describe('stream', function()
       )
     end)
   end)
+  describe('sorted', function()
+    it('empty', function()
+      assert.are.same(
+        {},
+        stream.sorted({}, function()
+          return 0
+        end)
+      )
+    end)
+    it('normal', function()
+      assert.are.same({ 1, 2, 3 }, stream.sorted({ 2, 1, 3 }))
+      assert.are.same({ 'a', 'b', 'c' }, stream.sorted({ 'c', 'a', 'b' }))
+      assert.are.same(
+        { { 'a', 1 }, { 'c', 2 }, { 'b', 3 } },
+        stream.sorted({ { 'c', 2 }, { 'b', 3 }, { 'a', 1 } }, function(e1, e2)
+          return e1.value[2] - e2.value[2]
+        end)
+      )
+    end)
+  end)
   describe('product', function()
     it('empty', function()
       assert.are.same({}, stream.product({}, {}))
