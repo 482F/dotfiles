@@ -26,6 +26,30 @@ vim.keymap.set('n', '<C-H>', ':%s///gc<LEFT><LEFT><LEFT>', { desc = '置換' })
 -- 行末までヤンク
 vim.keymap.set('n', 'Y', 'y$', { desc = '行末までヤンク' })
 
+-- レジスタに入れずに削除
+vim.keymap.set('n', 'x', '"_d')
+vim.keymap.set('n', 'X', '"_D')
+vim.keymap.set('x', 'x', '"_d')
+
+-- WORD 選択
+vim.keymap.set('o', 'i<space>', 'iW')
+vim.keymap.set('x', 'i<space>', 'iW')
+
+-- visual ヤンク時にカーソル維持
+vim.keymap.set('x', 'y', function()
+  -- 'mzy`z'
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  vim.fn.feedkeys('y', 'nx')
+  vim.api.nvim_win_set_cursor(0, cursor)
+end)
+
+-- ペースト時のカーソル位置を末尾に
+stream.start({ 'n', 'x' }).product({ 'p', 'P' }).for_each(function(pair)
+  local mode = pair[1]
+  local key = pair[2]
+  vim.keymap.set(mode, key, key .. '`]')
+end)
+
 -- バッファ移動
 vim.keymap.set('n', '<C-j>', ':bnext<CR>', { desc = '前のバッファへ移動', silent = true })
 vim.keymap.set('n', '<C-k>', ':bprev<CR>', { desc = '次のバッファへ移動', silent = true })
