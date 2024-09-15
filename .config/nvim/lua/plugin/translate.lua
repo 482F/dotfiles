@@ -4,7 +4,8 @@ return {
     {
       '<leader><leader>tr',
       function()
-        vim.cmd.Translate({ args = { 'ja' } })
+        vim.fn.feedkeys('gv', 'nx') -- 一つ前の選択範囲が翻訳されるので、同じ範囲を選択しなおす
+        require('translate').translate('V', { 'ja' })
       end,
       mode = 'x',
       desc = '選択範囲を翻訳',
