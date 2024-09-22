@@ -55,6 +55,7 @@ return {
         },
         search = { enabled = false },
         char = {
+          enabled = false,
           char_actions = function()
             return {
               [';'] = 'next',
