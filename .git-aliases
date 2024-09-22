@@ -54,6 +54,9 @@
     sl       = stash list
     st       = status -sb
     v        = !"vim $1; exit;"
+    wa       = worktree add
+    wl       = worktree list
+    wr       = worktree remove
     zcoal    = zco --allow-empty
     zcoali   = zco --allow-empty -m "initial\\ commit"
     zcoam    = zco --amend
