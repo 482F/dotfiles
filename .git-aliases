@@ -55,7 +55,7 @@
     st       = status -sb
     v        = !"vim $1; exit;"
     wa       = !"git worktree add \"./.git/worktree-dir/$1\" \"$1\"; exit;"
-    wc       = !"dir=\"./.git/worktree-dir/$1\"; if [[ ! -d \"$dir\" ]]; then git wa \"$1\" || exit 1; fi; cd \"$dir\"; PS1=\"\\e[32m(gwc)\\e[m $(bash -i -c 'echo "$PS1"')\" $SHELL; exit;"
+    wc       = !"dir=\"./.git/worktree-dir/$1\"; if [[ ! -d \"$dir\" ]]; then git wa \"$1\" || exit 1; fi; cd \"$dir\"; prepend-ps1 '(gwc)' $SHELL; exit;"
     wl       = worktree list
     wr       = !"git worktree remove \"./.git/worktree-dir/$1\"; exit;"
     zcoal    = zco --allow-empty
