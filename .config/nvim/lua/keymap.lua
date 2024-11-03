@@ -113,14 +113,25 @@ for _, entry in pairs({
   end, { desc = entry.desc })
 end
 
-stream.for_each({
-  { key = 'fp', str = '%:p', desc = 'ファイルパスをヤンク' },
-  { key = 'fn', str = '%:t', desc = 'ファイル名をヤンク' },
-}, function(entry)
-  vim.keymap.set('n', '<leader>y' .. entry.key, function()
-    vim.fn.setreg('*', vim.fn.expand(entry.str))
-  end, { desc = entry.desc })
-end)
+stream
+  .start({})
+  .inserted_all(stream.map({
+    { suffix = 'p', str = '%:p', desc = 'ファイルパスをヤンク' },
+    { suffix = 'n', str = '%:t', desc = 'ファイル名をヤンク' },
+    { suffix = 'd', str = '%:p:h', desc = 'ディレクトリパスをヤンク' },
+  }, function(entry)
+    return stream.inserted_all(entry, {
+      key = 'f' .. entry.suffix,
+      func = function()
+        return vim.fn.expand(entry.str)
+      end,
+    })
+  end))
+  .for_each(function(entry)
+    vim.keymap.set('n', '<leader>y' .. entry.key, function()
+      vim.fn.setreg('*', entry.func())
+    end, { desc = entry.desc })
+  end)
 
 for _, entry in pairs({
   {
