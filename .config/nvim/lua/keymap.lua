@@ -129,7 +129,7 @@ stream
   end))
   .for_each(function(entry)
     vim.keymap.set('n', '<leader>y' .. entry.key, function()
-      vim.fn.setreg('*', entry.func())
+      vim.fn.setreg(vim.v.register, entry.func())
     end, { desc = entry.desc })
   end)
 
