@@ -37,9 +37,8 @@ vim.keymap.set('x', 'i<space>', 'iW')
 
 -- visual ヤンク時にカーソル維持
 vim.keymap.set('x', 'y', function()
-  -- 'mzy`z'
   local cursor = vim.api.nvim_win_get_cursor(0)
-  vim.fn.feedkeys('y', 'nx')
+  vim.fn.feedkeys('"' .. vim.v.register .. 'y', 'nx')
   vim.api.nvim_win_set_cursor(0, cursor)
 end)
 
