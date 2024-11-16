@@ -54,6 +54,7 @@ local plugin_names = {
 
   -- 自作プラグイン
   'terminal', -- ターミナル
+  'auto-executable', -- shebang の有無によって u+x, u-x
 }
 
 require('lazy').setup(
