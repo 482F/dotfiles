@@ -127,6 +127,39 @@ stream
       end,
     })
   end))
+  .inserted_all(stream
+    .start({
+      {
+        command = 'git',
+        prefix = 'g',
+        children = {
+          {
+            key = 'b',
+            args = "symbolic-ref HEAD | sed -e 's/^refs\\/heads\\///'",
+            desc = 'git ブランチ名をヤンク',
+          },
+          {
+            key = 'r',
+            args = "config remote.origin.url | grep -Po '[^/]+$' | sed -e 's/\\.git$//'",
+            desc = 'git リポジトリ名をヤンク',
+          },
+          { key = 'u', args = 'config remote.origin.url', desc = 'git remote.origin.url をヤンク' },
+        },
+      },
+    })
+    .flat_map(function(category)
+      return stream.map(category.children, function(child)
+        return stream.inserted_all(child, {
+          key = category.prefix .. child.key,
+          func = function()
+            return vim.fn
+              .system('cd ' .. vim.fn.expand('%:p:h:S') .. '; ' .. category.command .. ' ' .. child.args)
+              :gsub('\n$', '')
+          end,
+        })
+      end)
+    end)
+    .terminate())
   .for_each(function(entry)
     vim.keymap.set('n', '<leader>y' .. entry.key, function()
       vim.fn.setreg(vim.v.register, entry.func())
