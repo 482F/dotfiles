@@ -210,6 +210,18 @@ describe('stream', function()
       }, stream.product({ 1, 2 }, { 3, 4 }, { 5, 6 }))
     end)
   end)
+
+  describe('uniquify', function()
+    it('empty', function()
+      assert.are.same({}, stream.uniquify({}))
+    end)
+    it('normal', function()
+      assert.are.same({ 1, 2, 3 }, stream.uniquify({ 1, 1, 2, 3, 1, 2 }))
+      local objs = { { 1 }, { 1 } }
+      assert.are.same({ objs[1], objs[2] }, stream.uniquify({ objs[1], objs[2], objs[1], objs[2] }))
+    end)
+  end)
+
   describe('for_each', function()
     it('empty', function()
       assert.are.same({}, stream.sorted({}))
