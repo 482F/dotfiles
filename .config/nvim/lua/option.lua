@@ -22,6 +22,7 @@ local configs = {
   virtualedit = { 'block', 'onemore' }, -- 矩形選択時に行末を超えて選択できるように
   startofline = false, -- バッファ切替などした時にカーソル位置が変わらないように
   laststatus = 3, -- statusline を常に表示
+  backupcopy = "yes", -- バックアップファイルは基のファイルを再利用せず新しく作るようにする。これにより nvim で編集したファイルの inode が変化しない
 }
 
 for key, value in pairs(configs) do
