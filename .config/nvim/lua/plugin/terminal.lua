@@ -10,7 +10,7 @@ local function get_terminal_buffers()
   end)
 end
 
-local function open(index, force_new)
+local function open(index, force_new, dir)
   force_new = force_new or false
 
   local buffers = get_terminal_buffers()
@@ -22,11 +22,16 @@ local function open(index, force_new)
   if force_new or (#buffers <= 0) then
     last_i = last_i + 1
     index = #buffers + 1
+
+    local original_dir = vim.fn.getcwd()
+    vim.api.nvim_set_current_dir(dir or original_dir)
     if vim.fn.has('windows') and not util.is_wsl then
       vim.cmd.terminal('set WSLENV=FROM_WIN/u&set FROM_WIN=true&wsl.exe')
     else
       vim.cmd.terminal()
     end
+    vim.api.nvim_set_current_dir(original_dir)
+
     vim.cmd.file(id .. '-' .. last_i)
     buffers = get_terminal_buffers()
   else
@@ -57,6 +62,13 @@ local keys = stream.map({
     desc = 'ターミナルを開く',
   },
   {
+    suffix = 'b@',
+    func = function()
+      open(nil, false, vim.fn.expand('%:p:h'))
+    end,
+    desc = 'ターミナルを開く',
+  },
+  {
     suffix = '`',
     func = function()
       open(nil, true)
@@ -64,11 +76,27 @@ local keys = stream.map({
     desc = '新しいターミナルを開く',
   },
   {
+    suffix = 'b`',
+    func = function()
+      open(nil, true, vim.fn.expand('%:p:h'))
+    end,
+    desc = 'バッファディレクトリで新しいターミナルを開く',
+  },
+  {
     suffix = 't',
     func = function()
       vim.cmd.tabnew()
       util.bd(false, false, false)
       open()
+    end,
+    desc = 'ターミナルを新しいタブで開く',
+  },
+  {
+    suffix = 'bt',
+    func = function()
+      vim.cmd.tabnew()
+      util.bd(false, false, false)
+      open(nil, false, vim.fn.expand('%:p:h'))
     end,
     desc = 'ターミナルを新しいタブで開く',
   },
@@ -103,6 +131,18 @@ local keys = stream.map({
       move(1)
     end,
     desc = '次のターミナルを開く',
+  },
+  {
+    suffix = 'p',
+    func = function()
+      if vim.bo.buftype ~= 'terminal' then
+        return
+      end
+
+      local body = vim.fn.getreg('*')
+      vim.api.nvim_chan_send(vim.bo.channel, body:gsub('[\n\r]$', '') .. '\n')
+    end,
+    desc = 'コマンドを貼り付けて実行',
   },
 }, function(v)
   return {
