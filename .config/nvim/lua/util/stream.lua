@@ -146,8 +146,8 @@ function intermediates.inserted_all.main(info, t2, max_depth)
     local result = {}
     for key in pairs(vim.tbl_extend('force', v1, v2)) do
       if require('util').is_integer(key) then
-        table.insert(result, v1)
-        table.insert(result, v2)
+        table.insert(result, v1[key])
+        table.insert(result, v2[key])
       else
         result[key] = self(v1[key], v2[key], depth + 1)
       end
