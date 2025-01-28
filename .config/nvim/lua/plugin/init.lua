@@ -25,7 +25,7 @@ local plugin_names = {
   'mason', -- LSP 管理
   'neodev', -- neovim lua api 等の型情報
   'mason-lspconfig', -- LSP 設定
-  'nvim-cmp', -- 補完
+  'ddc', -- 補完
   'treesitter', -- treesitter (構文解析)
   'nvim-highlight-colors', -- カラーコードの色表示
   'colorscheme', -- カラースキーマ
