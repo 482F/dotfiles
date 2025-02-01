@@ -170,7 +170,6 @@ local function config()
   local lsps = {
     'denols',
     'lua_ls',
-    'ts_ls',
     'volar',
     'pylsp',
     'rust_analyzer',
