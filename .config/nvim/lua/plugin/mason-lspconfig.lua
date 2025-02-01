@@ -323,7 +323,14 @@ end
 local function linter()
   local util = require('util')
 
-  local linters_by_ft = {}
+  local linters_by_ft = {
+    java = { 'checkstyle' },
+  }
+  require('lint.linters.checkstyle').config_file = vim.env['XDG_DATA_HOME'] .. '/checkstyle.xml'
+  require('lint.linters.checkstyle').cmd = 'checkstyle-stdin'
+  require('lint.linters.checkstyle').stdin = true
+  table.insert(require('lint.linters.checkstyle').args, function() return vim.api.nvim_buf_get_name(0) end)
+  require('lint.linters.checkstyle').append_fname = true
 
   local cwd = vim.loop.cwd()
   local deno_jsonc_exists = cwd
@@ -335,7 +342,7 @@ local function linter()
   end
 
   require('lint').linters_by_ft = linters_by_ft
-  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
+  vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost', 'BufReadPost' }, {
     callback = function()
       require('lint').try_lint()
     end,
