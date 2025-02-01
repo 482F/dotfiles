@@ -5,6 +5,7 @@
   preloadindex = true
   fscache = true
   fsmonitor = true
+  longpaths = true
 [difftool]
   prompt = input
 [merge]
