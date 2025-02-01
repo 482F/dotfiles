@@ -9,6 +9,7 @@ local function parse_url(url)
     return ip, port
   end
 end
+
 return {
   'mfussenegger/nvim-jdtls',
   ft = 'java',
@@ -19,6 +20,13 @@ return {
         require('jdtls').organize_import()
       end,
       desc = 'インポート整理',
+    },
+    {
+      '<leader>pc',
+      function()
+        require('jdtls').update_projects_config({})
+      end,
+      desc = 'config 更新',
     },
   },
   config = function()
