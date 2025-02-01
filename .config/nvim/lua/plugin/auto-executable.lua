@@ -1,5 +1,5 @@
 return {
-  dir = '',
+  dir = '.',
   name = 'auto-executable',
   event = 'BufWritePre',
   config = function()

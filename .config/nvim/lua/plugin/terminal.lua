@@ -176,7 +176,7 @@ keys = stream.inserted_all(keys, {
 })
 
 return {
-  dir = '',
+  dir = '.',
   name = 'terminal',
   keys = keys,
 }
