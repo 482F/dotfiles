@@ -145,6 +145,7 @@ end
 function M.set_repeat_keymap(mode, lhs, rhs, opts)
   local without_last_keys = lhs:sub(1, -2)
   local repeat_keys = '<Plug>' .. without_last_keys
+
   vim.keymap.set(mode, repeat_keys, '<Nop>', opts)
 
   ---@type string | function

@@ -267,8 +267,8 @@ vim.keymap.set('n', '<leader><leader>uo', function()
 end, { desc = 'URL をブラウザで開く' })
 
 -- gt の t 連打でタブ移動
-util.set_repeat_keymap('n', 'gt', 'gt')
-util.set_repeat_keymap('n', 'gT', 'gT')
+-- util.set_repeat_keymap('n', 'gt', 'gt')
+-- util.set_repeat_keymap('n', 'gT', 'gT')
 
 vim.keymap.set('n', '<leader>br', function()
   local filepath = vim.fn.expand('%:p')
