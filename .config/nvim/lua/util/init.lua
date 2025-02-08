@@ -146,23 +146,37 @@ function M.set_repeat_keymap(mode, lhs, rhs, opts)
   local without_last_keys = lhs:sub(1, -2)
   local repeat_keys = '<Plug>' .. without_last_keys
 
-  vim.keymap.set(mode, repeat_keys, '<Nop>', opts)
-
   ---@type string | function
   local repeat_rhs
+  local expr = opts ~= nil and opts.expr
   if type(rhs) == 'string' then
     repeat_rhs = rhs .. repeat_keys
   elseif type(rhs) == 'function' then
+    if not expr then
+      local _rhs = rhs
+      rhs = function()
+        _rhs()
+      end
+    end
+
+    expr = true
     repeat_rhs = function()
-      rhs()
-      vim.api.nvim_input(repeat_keys)
+      local result = rhs()
+      if type(result) ~= 'string' then
+        result = ''
+      end
+      return result .. repeat_keys
     end
   else
     error('rhs is not string or function')
   end
 
-  vim.keymap.set(mode, lhs, repeat_rhs, opts)
-  vim.keymap.set(mode, '<Plug>' .. lhs, repeat_rhs, opts)
+  local new_opts = require('util/stream').inserted_all(opts or {}, { expr = expr })
+
+  vim.keymap.set(mode, lhs, repeat_rhs, new_opts)
+  vim.keymap.set(mode, '<Plug>' .. lhs, repeat_rhs, new_opts)
+
+  vim.keymap.set(mode, repeat_keys, '<Nop>')
 end
 
 ---@param title string

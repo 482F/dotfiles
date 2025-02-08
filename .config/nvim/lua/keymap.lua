@@ -267,8 +267,10 @@ vim.keymap.set('n', '<leader><leader>uo', function()
 end, { desc = 'URL をブラウザで開く' })
 
 -- gt の t 連打でタブ移動
--- util.set_repeat_keymap('n', 'gt', 'gt')
+-- util.set_repeat_keymap('n', 'gt', 'gt') -- 何故か gt/gT にマップすると、タブ移動直後に <leader> がスペースとして動作してしまう
 -- util.set_repeat_keymap('n', 'gT', 'gT')
+util.set_repeat_keymap('n', 'gt', ':tabn<CR>')
+util.set_repeat_keymap('n', 'gT', ':tabp<CR>')
 
 vim.keymap.set('n', '<leader>br', function()
   local filepath = vim.fn.expand('%:p')
