@@ -273,18 +273,18 @@ util.set_repeat_keymap('n', 'gt', ':tabn<CR>')
 util.set_repeat_keymap('n', 'gT', ':tabp<CR>')
 
 vim.keymap.set('n', '<leader>br', function()
-  local filepath = vim.fn.expand('%:p')
+  local filepath = vim.fn.expand('%')
   if vim.fn.filereadable(filepath) == 0 then
     return
   end
-  local cursor = vim.api.nvim_win_get_cursor(0)
+  local view = vim.fn.winsaveview()
   local bufnr = vim.fn.bufnr()
   vim.cmd.bnext()
   pcall(function()
     vim.cmd.bwipeout(bufnr)
   end)
   vim.cmd.edit(filepath)
-  vim.api.nvim_win_set_cursor(0, cursor)
+  vim.fn.winrestview(view)
 end, { desc = 'バッファを開き直す' })
 
 vim.keymap.set('i', '<C-x><C-a>', function()
