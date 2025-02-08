@@ -92,10 +92,16 @@ return {
     vim.keymap.set('i', '<Tab>', function()
       if vim.fn['ddc#visible']() then
         vim.fn['pum#map#select_relative'](1)
-      else
-        vim.fn['ddc#map#manual_complete']()
+        return
       end
-    end)
+
+      local prev = vim.api.nvim_get_current_line():sub(1, vim.api.nvim_win_get_cursor(0)[2])
+      if prev:match('^%s*$') then
+        return '<Tab>'
+      end
+
+      vim.fn['ddc#map#manual_complete']()
+    end, { expr = true })
     vim.keymap.set('i', '<S-Tab>', function()
       if vim.fn['ddc#visible']() then
         vim.fn['pum#map#select_relative'](-1)
