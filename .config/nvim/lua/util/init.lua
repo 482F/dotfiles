@@ -189,4 +189,14 @@ function M.exec_code_action(title)
   })
 end
 
+---@param name string
+---@param command string | function
+---@param opts any
+function M.create_command_and_abbrev(name, command, opts)
+  local uppered = name:sub(1, 1):upper() .. name:sub(2)
+
+  vim.api.nvim_create_user_command(uppered, command, opts or {})
+  vim.cmd.cabbrev(name, uppered)
+end
+
 return M

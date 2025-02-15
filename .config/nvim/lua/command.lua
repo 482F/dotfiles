@@ -1,7 +1,8 @@
+local util = require('util')
 local stream = require('util/stream')
 
 local commands = {
-  Rsib = {
+  rsib = {
     func = function()
       local name = table.concat(vim.api.nvim_buf_get_lines(0, 0, -1, false), '\n'):match('@name%s+([^%s]+)')
       if name == nil then
@@ -15,7 +16,7 @@ local commands = {
         :sync(1000 * 30)
     end,
   },
-  Totp = {
+  totp = {
     func = function(opts)
       local target = opts.fargs[1]
       local password = vim.fn.inputsecret('password: ')
@@ -29,5 +30,5 @@ local commands = {
 }
 
 stream.for_each(commands, function(def, name)
-  vim.api.nvim_create_user_command(name, def.func, def.opts or {})
+  util.create_command_and_abbrev(name, def.func, def.opts)
 end)
