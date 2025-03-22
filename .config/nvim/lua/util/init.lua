@@ -199,4 +199,36 @@ function M.create_command_and_abbrev(name, command, opts)
   vim.cmd.cabbrev(name, uppered)
 end
 
+local color_map = {
+  black = 0,
+  red = 1,
+  green = 2,
+  yellow = 3,
+  blue = 4,
+  purple = 5,
+  cyan = 6,
+  white = 7,
+  brightBlack = 8,
+  brightRed = 9,
+  brightGreen = 10,
+  brightYellow = 11,
+  brightBlue = 12,
+  brightPurple = 13,
+  brightCyan = 14,
+  brightWhite = 15,
+}
+---@return { [string]: string }
+function M.get_term_colors()
+  local stream = require('util/stream')
+  return stream.map(color_map, function(n)
+    return vim.g['terminal_color_' .. n]
+  end)
+end
+
+---@param name string
+---@param color string
+function M.set_term_color(name, color)
+  vim.g['terminal_color_' .. color_map[name]] = color
+end
+
 return M
