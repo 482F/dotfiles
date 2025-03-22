@@ -30,7 +30,6 @@ local plugin_names = {
   'nvim-highlight-colors', -- カラーコードの色表示
   'colorscheme', -- カラースキーマ
   'nvim-dap', -- デバッグ
-  'chowcho', -- ウィンドウ移動
   'open-web', -- ブラウザで開く
   'nvim-dbee', -- DB クライアント
   'which-key', -- キーマップ表示

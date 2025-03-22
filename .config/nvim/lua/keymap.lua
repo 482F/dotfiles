@@ -266,11 +266,15 @@ vim.keymap.set('n', '<leader><leader>uo', function()
   util.open_url(vim.fn.getline('.'):match('https?:[^ <>&"\':]+'))
 end, { desc = 'URL をブラウザで開く' })
 
+-- 何故か gt/gT, <C-w>w/<C-w>W にマップすると、移動直後に <leader> がスペースとして動作してしまう
+
 -- gt の t 連打でタブ移動
--- util.set_repeat_keymap('n', 'gt', 'gt') -- 何故か gt/gT にマップすると、タブ移動直後に <leader> がスペースとして動作してしまう
--- util.set_repeat_keymap('n', 'gT', 'gT')
-util.set_repeat_keymap('n', 'gt', ':tabn<CR>')
-util.set_repeat_keymap('n', 'gT', ':tabp<CR>')
+util.set_repeat_keymap('n', 'gt', ':tabn<CR>', { silent = true })
+util.set_repeat_keymap('n', 'gT', ':tabp<CR>', { silent = true })
+
+-- <C-w>w の w 連打でウィンドウ移動
+util.set_repeat_keymap('n', '<C-w>w', ':winc w<CR>', { silent = true })
+util.set_repeat_keymap('n', '<C-w>W', ':winc W<CR>', { silent = true })
 
 vim.keymap.set('n', '<leader>br', function()
   local filepath = vim.fn.expand('%')
