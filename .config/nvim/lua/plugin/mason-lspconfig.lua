@@ -211,17 +211,6 @@ end
 
 local function formatter()
   local lspconfig = require('lspconfig')
-  local util = require('util')
-
-  local prettierrc_path = vim.fn.stdpath('data') .. util.path_delimiter .. '.prettierrc.js'
-  local prettierrc_env = ''
-  if vim.fn.filereadable(prettierrc_path) == 1 then
-    if util.is_windows then
-      prettierrc_env = 'set PRETTIERD_DEFAULT_CONFIG=' .. prettierrc_path .. '&'
-    else
-      prettierrc_env = 'PRETTIERD_DEFAULT_CONFIG=' .. prettierrc_path .. ' '
-    end
-  end
 
   local filetypes = {}
   filetypes = stream.from_pairs(stream.flat_map({
@@ -285,11 +274,7 @@ local function formatter()
             ---@diagnostic disable-next-line: redundant-parameter
             return require('formatter/defaults/denofmt')(...)
           else
-            return {
-              exe = prettierrc_env .. 'prettierd',
-              args = { require('formatter/util').escape_path(get_file_path()) },
-              stdin = true,
-            }
+            return stream.inserted_all(require('formatter/defaults/prettier')(...), { try_node_modules = false }, 0)
           end
         end,
       },
@@ -329,7 +314,9 @@ local function linter()
   require('lint.linters.checkstyle').config_file = vim.env['XDG_DATA_HOME'] .. '/checkstyle.xml'
   require('lint.linters.checkstyle').cmd = 'checkstyle-stdin'
   require('lint.linters.checkstyle').stdin = true
-  table.insert(require('lint.linters.checkstyle').args, function() return vim.api.nvim_buf_get_name(0) end)
+  table.insert(require('lint.linters.checkstyle').args, function()
+    return vim.api.nvim_buf_get_name(0)
+  end)
   require('lint.linters.checkstyle').append_fname = true
 
   local cwd = vim.loop.cwd()
@@ -337,8 +324,11 @@ local function linter()
     and stream.some(util.ancestor_dirs(cwd), function(dir)
       return util.file_exists(dir .. 'deno.jsonc')
     end)
+  require('lint.linters.eslint').cmd = 'eslint'
   if not deno_jsonc_exists then
     linters_by_ft.typescript = { 'eslint' }
+    linters_by_ft.javascript = { 'eslint' }
+    linters_by_ft.vue = { 'eslint' }
   end
 
   require('lint').linters_by_ft = linters_by_ft
