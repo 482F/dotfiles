@@ -35,6 +35,7 @@ return {
     .inserted_all({
       'vim-denops/denops.vim',
       'Shougo/ddc-ui-pum',
+      'Shougo/ddc-filter-sorter_rank',
       'Shougo/pum.vim',
       'tani/ddc-fuzzy',
     })
@@ -55,8 +56,12 @@ return {
           ui = 'pum',
           sourceOptions = {
             _ = {
+              minAutoCompleteLength = 1000,
+              minManualCompleteLength = 0,
+              timeout = 30000,
+              ignoreCase = true,
               matchers = { 'matcher_fuzzy' },
-              sorters = { 'sorter_fuzzy' },
+              sorters = { 'sorter_rank' },
               converters = { 'converter_fuzzy' },
             },
           },

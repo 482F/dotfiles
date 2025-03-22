@@ -10,7 +10,7 @@ return {
     sourceOptions = {
       lsp = {
         mark = 'lsp',
-        sorters = { 'sorter_lsp-kind' },
+        sorters = { 'sorter_rank' },
       },
     },
     sourceParams = {
