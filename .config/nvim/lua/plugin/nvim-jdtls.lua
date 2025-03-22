@@ -10,28 +10,45 @@ local function parse_url(url)
   end
 end
 
+local util = require('util')
+local stream = require('util/stream')
+
 return {
   'mfussenegger/nvim-jdtls',
   ft = 'java',
-  keys = {
-    {
-      '<leader>po',
-      function()
-        require('jdtls').organize_import()
-      end,
-      desc = 'インポート整理',
-    },
-    {
-      '<leader>pc',
-      function()
-        require('jdtls').update_projects_config({})
-      end,
-      desc = 'config 更新',
-    },
-  },
+  keys = stream
+    .start({
+      { key = 'oi', title = 'Organize imports' },
+      { key = 'ev', title = 'Extract to local variable (replace all occurrences)' },
+    })
+    .map(function(def)
+      return {
+        '<leader>ll' .. def.key,
+        function()
+          util.exec_code_action(def.title)
+        end,
+        desc = def.title,
+      }
+    end)
+    .inserted_all({
+      {
+        '<leader>po',
+        function()
+          require('jdtls').organize_import()
+        end,
+        desc = 'インポート整理',
+      },
+      {
+        '<leader>pc',
+        function()
+          require('jdtls').update_projects_config({})
+        end,
+        desc = 'config 更新',
+      },
+    })
+    .terminate(),
   config = function()
     local fu = require('util/func')
-    local stream = require('util/stream')
 
     local jdtls_dir = vim.env['XDG_DATA_HOME'] .. '/jdtls'
 
@@ -130,7 +147,6 @@ return {
       original(opt, callback, ...)
     end)
 
-    local util = require('util')
     util.reg_commands(require('jdtls'), 'jdtls')
   end,
 }
