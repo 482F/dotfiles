@@ -8,5 +8,9 @@ return {
     vim.cmd.highlight('StatusLine', 'guibg=#2e2f6b')
     vim.cmd.highlight('StatusLineNC', 'guifg=#2e2f6b')
     vim.cmd.highlight('Cursor', 'guifg=#2e2f6b')
+
+    local util = require('util')
+    util.set_term_color('brightGreen', '#c2d3c3')
+    util.set_term_color('brightRed', '#d1c0c0')
   end,
 }
