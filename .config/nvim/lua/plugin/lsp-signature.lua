@@ -1,12 +1,10 @@
 return {
-  'ray-x/lsp_signature.nvim',
+  'matsui54/denops-signature_help',
   event = 'VeryLazy',
   config = function()
-    require('lsp_signature').setup({
-      bind = true,
-      handler_opts = {
-        border = 'none',
-      },
-    })
+    vim.g.signature_help_config = {
+      viewStyle = 'ghost',
+    }
+    vim.fn['signature_help#enable']()
   end,
 }
