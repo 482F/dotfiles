@@ -104,6 +104,9 @@ return {
           configuration = {
             runtimes = runtimes,
           },
+          completion = {
+            maxResults = 5000,
+          },
           format = {
             settings = {
               url = jdtls_dir .. '/format-settings.xml',
