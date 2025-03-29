@@ -10,7 +10,6 @@ return {
     sourceOptions = {
       lsp = {
         mark = 'lsp',
-        sorters = { 'sorter_rank' },
       },
     },
     sourceParams = {
@@ -22,7 +21,7 @@ return {
     },
   },
   init = function()
-    require('ddc_source_lsp_setup').setup()
+    require('ddc_source_lsp_setup').setup({ respect_trigger = false })
     vim.fn['popup_preview#enable']()
     vim.keymap.set('i', '<C-d>', function()
       vim.fn['popup_preview#scroll'](6)

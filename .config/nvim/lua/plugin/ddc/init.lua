@@ -60,6 +60,7 @@ return {
               minManualCompleteLength = 0,
               timeout = 30000,
               ignoreCase = true,
+              dup = 'keep',
               matchers = { 'matcher_fuzzy' },
               sorters = { 'sorter_rank' },
               converters = { 'converter_fuzzy' },
@@ -94,6 +95,7 @@ return {
       end)
 
     vim.fn['ddc#enable']()
+
     vim.keymap.set('i', '<Tab>', function()
       if vim.fn['ddc#visible']() then
         vim.fn['pum#map#select_relative'](1)
