@@ -50,3 +50,5 @@ if vim.fn.executable('rg') then
 end
 
 vim.cmd.cabbrev('h', 'tab help')
+
+vim.diagnostic.config({ severity_sort = true })
