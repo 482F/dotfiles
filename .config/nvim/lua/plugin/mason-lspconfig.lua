@@ -10,6 +10,20 @@ local function on_list(result)
   end
 end
 
+local diagnostics_mode = 0
+local function toggle_diagnostics_mode()
+  local modes = { 'virtual_text', 'virtual_lines' }
+  diagnostics_mode = (diagnostics_mode % #modes) + 1
+  vim.diagnostic.config(stream
+    .start(modes)
+    .map(function(key, i)
+      return { key, diagnostics_mode == i }
+    end)
+    .from_pairs()
+    .terminate())
+end
+toggle_diagnostics_mode()
+
 local keys = stream.map({
   {
     suffix = 'c',
@@ -40,6 +54,11 @@ local keys = stream.map({
       vim.lsp.buf.hover()
     end,
     opt = { desc = '情報と診断を表示' },
+  },
+  {
+    suffix = 'C',
+    func = toggle_diagnostics_mode,
+    opt = { silent = true, desc = '診断の表示方を切り替え' },
   },
   { suffix = 'fm', func = vim.cmd.Format, opt = { silent = true, desc = 'フォーマット' } },
   { suffix = 'h', func = vim.lsp.buf.hover, opt = { desc = '情報を表示' } },
