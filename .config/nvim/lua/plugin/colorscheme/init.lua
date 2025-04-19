@@ -43,23 +43,21 @@ local plugins = stream.map(
         .filter(function(def)
           return def.italic or def.cterm and def.cterm.italic
         end)
+        .map(function(def)
+          return stream.inserted_all(def, { italic = false, cterm = { italic = false } }, 0)
+        end)
         .for_each(function(def, hlname)
-          local cloned_def = vim.tbl_deep_extend('keep', {}, def)
-          if cloned_def.italic then
-            cloned_def.italic = false
-          end
-          if cloned_def.cterm and cloned_def.cterm.italic then
-            cloned_def.cterm.italic = false
-          end
-          vim.api.nvim_set_hl(0, hlname, cloned_def)
+          vim.api.nvim_set_hl(0, hlname, def)
         end)
 
-      local hl_name = stream.start({ 'MiniStatuslineModeNormal', 'Cursor' }).find(function(n)
+      local tab_hl_name = stream.start({ 'MiniStatuslineModeNormal', 'Cursor' }).find(function(n)
         return vim.fn.hlID(n) ~= 0
       end)
-      vim.api.nvim_set_hl(0, 'TabLine', { link = hl_name })
-      vim.api.nvim_set_hl(0, 'TabLineFill', { link = hl_name })
+      vim.api.nvim_set_hl(0, 'TabLine', { link = tab_hl_name })
+      vim.api.nvim_set_hl(0, 'TabLineFill', { link = tab_hl_name })
       vim.api.nvim_set_hl(0, 'TabLineSel', { link = 'Normal' })
+
+      vim.api.nvim_set_hl(0, 'TelescopeSelection', { link = 'Visual' })
     end
 
     return plugin

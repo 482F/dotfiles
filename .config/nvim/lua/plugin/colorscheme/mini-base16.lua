@@ -39,12 +39,14 @@ return {
       use_cterm = true,
     })
 
-    -- 検索結果の色だけ変える
+    -- 検索結果の色が見辛いので変更
     vim.api.nvim_set_hl(0, 'Search', {
-      bg = 11330557,
-      ctermbg = 214,
-      ctermfg = 7,
-      fg = 0,
+      bg = '#ace3fd',
+      fg = '#000000',
     })
+
+    -- ウィンドウ区切り線の背景色を Normal と同じに
+    local normal = vim.api.nvim_get_hl(0, { name = 'Normal' })
+    vim.api.nvim_set_hl(0, 'WinSeparator', { bg = normal.bg })
   end,
 }
