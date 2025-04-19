@@ -41,6 +41,19 @@ return {
       {
         '<leader>pc',
         function()
+          local session = require('dap').session()
+          if not session then
+            return
+          end
+          session:request('redefineClasses', nil, function(err)
+            assert(not err, vim.inspect(err))
+          end)
+        end,
+        desc = 'コード反映',
+      },
+      {
+        '<leader>pC',
+        function()
           require('jdtls').update_projects_config({})
         end,
         desc = 'config 更新',
@@ -96,16 +109,22 @@ return {
         path = jdks .. '/' .. name,
       }
     end)
+
+    -- 参考: https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
     local config = {
       cmd = cmd,
       root_dir = vim.fs.dirname(vim.fs.find({ 'gradlew', '.git', 'mvnw' }, { upward = true })[1]),
       settings = {
         java = {
+          autobuild = { enabled = true },
           configuration = {
             runtimes = runtimes,
+            -- updateBuildConfiguration = 'automatic',
           },
           completion = {
+            enabled = true,
             maxResults = 5000,
+            matchCase = 'OFF',
           },
           format = {
             settings = {
