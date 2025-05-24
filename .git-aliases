@@ -16,6 +16,7 @@
     coamn    = commit --amend --no-edit
     cof      = !"git commit --fixup HEAD~${1}; exit;"
     cofi     = !"git commit --fixup HEAD~${1}; GIT_SEQUENCE_EDITOR=: git rebase -i HEAD~$((${1}+2)); exit;"
+    conp     = commit --no-verify -m '!!!no-push'
     cp       = cherry-pick
     cpa      = cherry-pick --abort
     cpc      = cherry-pick --continue
@@ -34,8 +35,9 @@
     lopco    = !"git log --oneline -p \"${1}\" | grep -P \"^[a-z0-9]{7}\"; exit;"
     m        = merge
     ms       = merge --squash
-    pushu    = !"git push -u origin \"$(git rev-parse --abbrev-ref HEAD)\""
-    push-fwl = push --force-with-lease
+    pushs    = push-skip
+    pushsu   = !"branch=\"$(git rev-parse --abbrev-ref HEAD)\"; git config branch."$branch".remote origin; git config branch."$branch".merge refs/heads/"$branch"; git pushs; exit"
+    pushs-fwl= pushs --force-with-lease
     rb       = rebase
     rba      = rebase --abort
     rbc      = rebase --continue
