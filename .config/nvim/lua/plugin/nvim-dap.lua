@@ -164,7 +164,13 @@ local keys = {
     function()
       local dap = require('dap')
       vim.ui.select(
-        stream.filter(dap.sessions(), fu.is_truthy),
+        stream
+          .start(dap.sessions())
+          .filter(fu.is_truthy)
+          .sorted(function(a, b)
+            return a.value.config.projectName < b.value.config.projectName and -1 or 1
+          end)
+          .terminate(),
         {
           prompt = 'select session',
           format_item = fu.picker('config', 'name'),
