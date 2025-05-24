@@ -100,21 +100,48 @@ function M.bd(write, bang, winclose, bufnr)
     return
   end
 
+  local stream = require('util/stream')
+
   local allwinids = vim.fn.win_findbuf(bufnr)
-  local runallwin = function(func)
+  ---@param func fun(winid: number): nil
+  local function runallwin(func)
     require('util/stream').for_each(allwinids, function(winid)
-      vim.api.nvim_win_call(winid, func)
+      vim.api.nvim_win_call(winid, function()
+        func(winid)
+      end)
     end)
   end
 
-  runallwin(function()
-    vim.cmd.bprev()
+  local views = {}
+
+  runallwin(function(winid)
+    views[winid] = vim.fn.winsaveview()
+
+    local winnr = vim.api.nvim_win_get_number(winid)
+    local all_jumps, last_jump = unpack(vim.fn.getjumplist(winnr))
+    local jumps = stream
+      .start(all_jumps)
+      .slice(1, last_jump + 1)
+      .filter(function(j)
+        return j.bufnr ~= bufnr and vim.fn.buflisted(j.bufnr) == 1
+      end)
+      .terminate()
+    local jump = jumps[#jumps]
+    if jump == nil then
+      vim.cmd.bprev()
+      return
+    end
+    vim.api.nvim_win_set_buf(winid, jump.bufnr)
+    vim.fn.winrestview(stream.inserted_all(jump, {
+      curswant = jump.col,
+    }))
   end)
 
   local closed, err = pcall(vim.cmd.bdelete, { args = { bufnr }, bang = bang })
   if not closed then
-    runallwin(function()
-      vim.cmd.bnext()
+    runallwin(function(winid)
+      vim.api.nvim_win_set_buf(winid, bufnr)
+      vim.fn.winrestview(views[winid])
     end)
     error(err, 0)
   end
