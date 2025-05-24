@@ -50,6 +50,7 @@ local plugin_names = {
   -- 各言語専用プラグイン
   'nvim-jdtls', -- java
   'flutter-tools', -- flutter
+  'typst', -- typst
 
   -- 自作プラグイン
   'terminal', -- ターミナル
