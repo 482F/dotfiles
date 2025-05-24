@@ -196,7 +196,16 @@ function M.create_command_and_abbrev(name, command, opts)
   local uppered = name:sub(1, 1):upper() .. name:sub(2)
 
   vim.api.nvim_create_user_command(uppered, command, opts or {})
-  vim.cmd.cabbrev(name, uppered)
+  -- TODO: function とか使えるなら使いたい。abbrev は lua function を使えなさそうなので、imap とかで代用する？
+  vim.cmd(
+    string.format(
+      'cabbrev <expr> %s (getcmdtype() ==# ":" && getcmdline() ==# "%s" ? "%s" : "%s")',
+      name,
+      name,
+      uppered,
+      name
+    )
+  )
 end
 
 local color_map = {
