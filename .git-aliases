@@ -28,7 +28,7 @@
     fv       = !"fs=\"$(git ls-files | grep $1)\"; echo \"${fs}\" | nl | grep --color=auto "$1"; read -p \"input target file line number: \" number; vim "$(echo \"${fs}\" | sed -n "${number}p")"; exit;"
     l        = log --date=iso-local --abbrev-commit
     lf       = l --pretty=fuller
-    lo       = !"git l --oneline --decorate=short --color=always \"${@}\" | nl --starting-line-number=0 | less --no-init --quit-if-one-screen; exit;"
+    lo       = !"git l --oneline --decorate=short --color=always \"${@}\" | nl --starting-line-number=0 | less --no-init; exit;"
     lp       = l -p
     lop      = l --oneline -p
     lopco    = !"git log --oneline -p \"${1}\" | grep -P \"^[a-z0-9]{7}\"; exit;"
