@@ -27,6 +27,20 @@ local commands = {
     end,
     opts = { nargs = 1 },
   },
+  ea = {
+    func = function()
+      stream
+        .start(vim.api.nvim_list_bufs())
+        .filter(function(bufnr)
+          return vim.fn.buflisted(bufnr) == 1
+        end)
+        .for_each(function(bufnr)
+          vim.api.nvim_buf_call(bufnr, function()
+            pcall(vim.cmd.e)
+          end)
+        end)
+    end,
+  },
 }
 
 stream.for_each(commands, function(def, name)
