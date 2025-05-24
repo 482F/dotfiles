@@ -23,7 +23,7 @@ local plugin_names = {
   'telescope-emoji', -- 絵文字 FF
   'flash', -- easymotion
   'mason', -- LSP 管理
-  'neodev', -- neovim lua api 等の型情報
+  'lazydev', -- neovim lua api 等の型情報
   'mason-lspconfig', -- LSP 設定
   'ddc', -- 補完
   'treesitter', -- treesitter (構文解析)
