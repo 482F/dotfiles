@@ -38,16 +38,16 @@ return {
         )
         vim.fn['skkeleton#register_keymap']('henkan', '<F1>', 'disable') -- CapsLock
         vim.fn['skkeleton#register_keymap']('input', '<F1>', 'disable') -- CapsLock
-        vim.fn['skkeleton#register_keymap']('input', '<F3>', 'henkanFirst') -- 変換
-        vim.fn['skkeleton#register_keymap']('henkan', '<F3>', 'henkanForward') -- 変換
-        vim.fn['skkeleton#register_keymap']('henkan', '<F7>', 'henkanBackward') -- Shift + 変換
-        vim.fn['skkeleton#register_keymap']('input', '<F7>', 'katakana') -- Shift + 変換
-        vim.fn['skkeleton#register_keymap']('input', '<F4>', 'cancel') -- かな
-        vim.fn['skkeleton#register_keymap']('henkan', '<F4>', 'cancel') -- かな
-        -- vim.fn['skkeleton#register_keymap']('henkan', '<F2>', '') -- 無変換
+        vim.fn['skkeleton#register_keymap']('input', '<F2>', 'cancel') -- 無変換
+        vim.fn['skkeleton#register_keymap']('henkan', '<F2>', 'cancel') -- 無変換
+        vim.fn['skkeleton#register_keymap']('input', '<F4>', 'henkanFirst') -- かな
+        vim.fn['skkeleton#register_keymap']('henkan', '<F4>', 'henkanForward') -- かな
+        vim.fn['skkeleton#register_keymap']('input', '<F8>', 'katakana') -- Shift + かな
+        vim.fn['skkeleton#register_keymap']('henkan', '<F8>', 'henkanBackward') -- Shift + かな
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F3>', '') -- 変換
+        -- vim.fn['skkeleton#register_keymap']('henkan', '<F7>', '') -- Shift + 変換
         -- vim.fn['skkeleton#register_keymap']('henkan', '<F5>', '') -- Shift + CapsLock
         -- vim.fn['skkeleton#register_keymap']('henkan', '<F6>', '') -- Shift + 無変換
-        -- vim.fn['skkeleton#register_keymap']('henkan', '<F8>', '') -- Shift + かな
 
         vim.keymap.set({ 't', 'i', 'c' }, '<F1>', '<Plug>(skkeleton-toggle)') -- CapsLock
 
