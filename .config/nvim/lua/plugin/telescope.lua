@@ -9,6 +9,15 @@ local function delete_tele_buffer(prompt_bufnr)
   end)
 end
 
+local function find_files(hide, ignore, relative)
+  require('telescope/builtin').find_files({
+    hidden = not hide,
+    no_ignore = not ignore,
+    no_ignore_parent = not ignore,
+    cwd = relative and vim.fn.expand('%:p:h') or nil,
+  })
+end
+
 local keys = stream.map({
   {
     suffix = 'k',
@@ -39,17 +48,33 @@ local keys = stream.map({
     suffix = 'o',
     func_name = 'find_files',
     opt = { desc = 'ファイル' },
-    arg = {
-      hidden = true,
-    },
+    func = function()
+      find_files(false, true, false)
+    end,
+  },
+  {
+    suffix = 'i',
+    func_name = 'find_files',
+    opt = { desc = 'ファイル (.gitignore 参照なし)' },
+    func = function()
+      find_files(false, false, false)
+    end,
   },
   {
     suffix = 'O',
     func_name = 'find_files',
-    opt = { desc = 'ファイル (.gitignore 参照なし)' },
-    arg = {
-      no_ignore = true,
-    },
+    opt = { desc = '相対ファイル' },
+    func = function()
+      find_files(false, true, true)
+    end,
+  },
+  {
+    suffix = 'I',
+    func_name = 'find_files',
+    opt = { desc = '相対ファイル (.gitignore 参照なし)' },
+    func = function()
+      find_files(false, false, true)
+    end,
   },
   {
     suffix = '/',
