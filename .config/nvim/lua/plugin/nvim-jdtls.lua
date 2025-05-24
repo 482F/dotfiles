@@ -11,6 +11,7 @@ local function parse_url(url)
 end
 
 local util = require('util')
+local ui = require('util/ui')
 local stream = require('util/stream')
 
 return {
@@ -169,6 +170,34 @@ return {
       original(opt, callback, ...)
     end)
 
+    fu.override(require('jdtls.ui'), 'pick_many', function(original, items, prompt, label_f, opts)
+      if not items or #items == 0 then
+        return {}
+      end
+      label_f = label_f or function(item)
+        return item
+      end
+      opts = opts or {}
+
+      local is_selected = opts.is_selected or function(_)
+        return false
+      end
+
+      return stream.map(
+        ui.multi_select(
+          prompt,
+          stream.map(items, function(value)
+            return {
+              value = value,
+              label = label_f(value),
+            }
+          end)
+        ),
+        function(entry)
+          return entry.value
+        end
+      )
+    end)
     util.reg_commands(require('jdtls'), 'jdtls')
   end,
 }
