@@ -117,7 +117,8 @@ end
 stream
   .start({})
   .inserted_all(stream.map({
-    { suffix = 'p', str = '%:p', desc = 'ファイルパスをヤンク' },
+    { suffix = 'p', str = '%:.', desc = '相対ファイルパスをヤンク' },
+    { suffix = 'P', str = '%:p', desc = 'ファイルパスをヤンク' },
     { suffix = 'n', str = '%:t', desc = 'ファイル名をヤンク' },
     { suffix = 'd', str = '%:p:h', desc = 'ディレクトリパスをヤンク' },
   }, function(entry)
