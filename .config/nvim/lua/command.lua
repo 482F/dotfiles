@@ -41,6 +41,17 @@ local commands = {
         end)
     end,
   },
+  open = {
+    func = function(opts)
+      local target = opts.fargs[1]
+      local cmd = { 'open' }
+      if target ~= nil then
+        table.insert(cmd, target)
+      end
+      vim.system(cmd)
+    end,
+    opts = { nargs = '?', complete = 'file' },
+  },
 }
 
 stream.for_each(commands, function(def, name)
