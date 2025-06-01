@@ -267,4 +267,18 @@ function M.set_term_color(name, color)
   vim.g['terminal_color_' .. color_map[name]] = color
 end
 
+---@generic T : unknown
+---@param obj T
+---@param regname? string default 's'
+---@return T
+function M.show(obj, regname)
+  regname = regname or 's'
+  local str = vim.inspect(obj)
+  vim.notify(str)
+  if regname ~= '' then
+    vim.fn.setreg(regname, str, 'V')
+  end
+  return obj
+end
+
 return M
