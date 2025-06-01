@@ -313,3 +313,5 @@ vim.keymap.set('i', '<C-x><C-a>', function()
 
   vim.api.nvim_input(' (' .. weekday .. ')')
 end, { desc = '曜日を挿入' })
+
+vim.keymap.set('n', '<F1>', '<Nop>')
