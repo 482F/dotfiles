@@ -28,6 +28,7 @@ vim.keymap.set('n', 'Y', 'y$', { desc = '行末までヤンク' })
 
 -- レジスタに入れずに削除
 vim.keymap.set('n', 'x', '"_d')
+vim.keymap.set('n', 'xx', '"_dd')
 vim.keymap.set('n', 'X', '"_D')
 vim.keymap.set('x', 'x', '"_d')
 
