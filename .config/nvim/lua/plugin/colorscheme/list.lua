@@ -1,3 +1,4 @@
+-- nix p shell gettext --command msgcat --color=test
 return {
   { repo = 'folke/tokyonight.nvim', name = 'tokyonight' },
   { repo = 'rose-pine/neovim', name = 'rose-pine' },
@@ -8,11 +9,122 @@ return {
   { repo = 'projekt0n/caret.nvim', name = 'caret' },
   { repo = 'jsit/toast.vim', name = 'toast' },
   { repo = 'shaunsingh/nord.nvim', name = 'nord' },
+  { repo = 'iibe/gruvbox-high-contrast', name = 'gruvbox-high-contrast' },
+  { repo = 'jascha030/nitepal.nvim', name = 'nitepal' },
+  { repo = 'elytraflyer/marsh.vim', name = 'marsh' },
+  { repo = 'razcoen/fleet.nvim', name = 'fleet' },
+  {
+    repo = 'BoHomola/vsassist.nvim',
+    name = 'vsassist',
+    config = function()
+      vim.api.nvim_set_hl(0, 'Cursor', {
+        bg = '#d6d6d6',
+      })
+    end,
+  },
+  {
+    repo = 'talha-akram/noctis.nvim',
+    names = { 'noctis_lilac', 'noctis_lux' },
+    config = function()
+      vim.api.nvim_set_hl(0, 'Search', {
+        bg = '#6972a8',
+        fg = '#ffffff',
+      })
+      vim.api.nvim_set_hl(0, 'CurSearch', {
+        bg = '#9972a8',
+        fg = '#ffffff',
+      })
+    end,
+  },
+  {
+    repo = 'Ureakim/nebulae.nvim',
+    name = 'nebulae',
+    config = function()
+      local util = require('util')
+      util.set_term_color('white', '#fcfcfc')
+    end,
+  },
+  { repo = 'HUAHUAI23/nvim-quietlight', name = 'quietlight' },
+  { repo = 'calind/selenized.nvim', name = 'selenized' },
+  { repo = 'mstcl/dmg', name = 'dmg' },
+  { repo = 'ribru17/bamboo.nvim', name = 'bamboo' },
+  { repo = 'perpetuatheme/nvim', name = 'perpetua-light' },
+  { repo = 'deparr/tairiki.nvim', name = 'tairiki' },
+  {
+    repo = 'itsterm1n4l/spice.nvim',
+    name = 'spice',
+    config = function()
+      vim.api.nvim_set_hl(0, 'MiniStatuslineFileName', {
+        bg = '#6972a8',
+        fg = '#ffffff',
+      })
+    end,
+  },
+  { repo = 'binhtran432k/dracula.nvim', name = 'dracula' },
+  { repo = 'zortax/three-firewatch', name = 'three-firewatch' },
+  {
+    repo = 'kordyte/collaterlie-nvim',
+    name = 'collaterlie',
+    config = function()
+      local util = require('util')
+      local stream = require('util/stream')
+      local colors = util.get_term_colors()
+
+      stream.for_each({ 'brightGreen', 'brightRed', 'yellow' }, function(name)
+        util.set_term_color(name, util.mult_color(colors[name], 0.85))
+      end)
+      vim.api.nvim_set_hl(0, '@markup.raw', {
+        fg = '#f19901',
+      })
+      vim.api.nvim_set_hl(0, '@markup.raw.block', {
+        link = '@markup.raw',
+      })
+      vim.api.nvim_set_hl(0, 'EndOfBuffer', {
+        link = 'Normal',
+      })
+    end,
+  },
+  { repo = 'habamax/vim-nod', name = 'nope-y' },
+  { repo = 'futsuuu/vim-robot', name = 'robot' },
+  { repo = 'clearaspect/onehalf', name = 'onehalflight' },
+  {
+    repo = 'fnune/standard',
+    name = 'standard',
+    config = function()
+      vim.api.nvim_set_hl(0, 'GitConflictIncoming', {
+        bg = '#c5d98b',
+      })
+      vim.api.nvim_set_hl(0, '@lsp.type.property', {
+        fg = '#616466',
+      })
+      vim.api.nvim_set_hl(0, '@lsp.typemod.property', {
+        link = '@lsp.type.property',
+      })
+      vim.api.nvim_set_hl(0, '@variable.member', {
+        link = '@lsp.type.property',
+      })
+    end,
+  },
+  { repo = 'isrothy/nordify.nvim', name = 'nordify-light' },
+  { repo = 'ricardoraposo/nightwolf.nvim', name = 'nightwolf' },
+  { repo = 'ferdinandrau/carbide.nvim', name = 'carbide' },
+  {
+    repo = 'oonamo/ef-themes.nvim',
+    names = { 'ef-duo-light', 'ef-reverie', 'ef-spring', 'ef-kassio', 'ef-cyprus', 'ef-eagle', 'ef-day' },
+    config = function()
+      local util = require('util')
+      util.set_term_color('green', '#217a3c')
+    end,
+  },
+  { repo = 'titembaatar/sarnai.nvim', name = 'sarnai-ovol' },
+  { repo = 'tiesen243/vercel.nvim', name = 'vercel' },
+  { repo = 'cpplain/flexoki.nvim', name = 'flexoki' },
+  { repo = 'webhooked/kanso.nvim', name = 'kanso' },
+  { repo = 'khoido2003/classic_monokai.nvim', name = 'classic-monokai' },
   {
     repo = 'liuchengxu/space-vim-theme',
-    name = 'space-vim-theme',
+    name = 'space_vim_theme',
     config = function()
-      vim.cmd.colorscheme('space_vim_theme')
       vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', { bg = '#E5DCCE' })
     end,
   },
@@ -73,7 +185,6 @@ return {
     repo = 'neanias/everforest-nvim',
     name = 'everforest',
     config = function()
-      vim.cmd.colorscheme('everforest')
       require('everforest').setup({
         background = 'hard',
       })
@@ -81,19 +192,12 @@ return {
   },
   {
     repo = 'catppuccin/nvim',
-    name = 'catppuccin',
-    config = function()
-      require('catppuccin').setup({
-        flavour = 'latte',
-      })
-      vim.cmd.colorscheme('catppuccin')
-    end,
+    name = 'catppuccin-latte',
   },
   {
     repo = 'FrenzyExists/aquarium-vim',
     name = 'aquarium',
     config = function()
-      vim.cmd.colorscheme('aquarium')
       vim.cmd.highlight('Comment', 'guifg=#9CA6B9')
       vim.cmd.highlight('DiagnosticHint', 'guifg=#2e2f6b')
       vim.cmd.highlight('Pmenu', 'guibg=#e6e6f1')
@@ -104,13 +208,21 @@ return {
       local util = require('util')
       util.set_term_color('brightGreen', '#c2d3c3')
       util.set_term_color('brightRed', '#d1c0c0')
+      vim.api.nvim_set_hl(0, 'GitConflictCurrent', {
+        bg = '#d1c0c0',
+      })
+      vim.api.nvim_set_hl(0, 'GitConflictAncestor', {
+        bg = '#c6c6d1',
+      })
+      vim.api.nvim_set_hl(0, 'GitConflictIncoming', {
+        bg = '#c2d3c3',
+      })
     end,
   },
   {
     repo = 'nickburlett/vim-colors-stylus',
-    name = 'vim-colors-stylus',
+    name = 'stylus',
     config = function()
-      vim.cmd.colorscheme('stylus')
       vim.cmd.highlight('Pmenu', 'guibg=#F1F1F1')
 
       local util = require('util')
@@ -122,8 +234,6 @@ return {
     repo = 'zefei/cake16',
     name = 'cake16',
     config = function()
-      vim.cmd.colorscheme('cake16')
-
       local util = require('util')
       util.set_term_color('brightGreen', '#a2d3a3')
       util.set_term_color('brightRed', '#d1a0a0')
@@ -131,9 +241,8 @@ return {
   },
   {
     repo = 'ajlende/atlas.vim',
-    name = 'atlas',
+    name = 'nms',
     config = function()
-      vim.cmd.colorscheme('nms')
       vim.cmd.highlight('Search', 'guibg=#c6c6bC')
     end,
   },
@@ -141,12 +250,25 @@ return {
     repo = 'daschw/leaf.nvim',
     name = 'leaf',
     config = function()
-      vim.cmd.colorscheme('leaf')
-
       local sl = vim.api.nvim_get_hl(0, { name = 'StatusLineNc' })
       sl.fg = '#000000'
       vim.api.nvim_set_hl(0, 'StatusLineNc', sl)
     end,
   },
+  {
+    repo = 'wesenseged/stone.nvim',
+    name = 'stone',
+    config = function()
+      require('stone').setup({
+        variant = 'light',
+      })
+    end,
+  },
+  {
+    repo = 'gambhirsharma/vesper.nvim',
+    name = 'vesper',
+    config = function()
+      vim.cmd.highlight('Visual', 'guibg=#c6c6c6')
+    end,
+  },
 }
-
