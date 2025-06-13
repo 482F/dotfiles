@@ -1,6 +1,9 @@
 local status = {
-  colorscheme = require('plugin/colorscheme')[1].name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', ''),
+  colorscheme = vim.g.colors_name,
 }
+local function update_colorscheme()
+  status.colorscheme = vim.g.colors_name
+end
 
 -- ステータスライン
 local mini_statusline = require('mini.statusline')
@@ -29,4 +32,6 @@ mini_statusline.setup({
 
 vim.wo.statusline = '%!v:lua.MiniStatusline.active()'
 
-return status
+return {
+  update_colorscheme = update_colorscheme,
+}

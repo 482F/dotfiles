@@ -1,42 +1,21 @@
 local random = require('util/random')
 local stream = require('util/stream')
 
+local colorschemes = require('plugin/colorscheme/list')
+
 math.randomseed(tonumber(os.date('%Y%m%d')) or 0)
 
-local plugins = stream.map(
-  random.shuffle({
-    'catppuccin',
-    'mini-base16',
-    'everforest',
-    'stylus',
-    'rose-pine',
-    'tokyonight',
-    'solarized',
-    'aquarium',
-    'gruvbox',
-    'space-vim-theme',
-    'toast',
-    'cake16',
-    'caret',
-    'leaf',
-    'melange',
-    'atlas',
-    'nord',
-    'nightfox',
-  }),
-  function(filename, i)
-    local plugin = require('plugin/colorscheme/' .. filename)
-    if i ~= 1 then
-      plugin.module = true
-      plugin.lazy = true
-    end
-    local name = plugin.name or string.gsub(plugin[1], '.*/', '')
-    plugin.name = 'colorscheme-' .. name
-
-    local original_config = plugin.config or function() end
-
-    plugin.config = function()
-      original_config()
+local colorscheme_fns = stream
+  .start(random.shuffle(colorschemes))
+  .map_1nf(function(colorscheme)
+    return colorscheme.names or { colorscheme.name }
+  end)
+  .map(function(e)
+    local colorscheme = e[1]
+    local name = e[2]
+    return function()
+      vim.cmd.colorscheme(name);
+      (colorscheme.config or function() end)()
 
       stream
         .start(vim.api.nvim_get_hl(0, {}))
@@ -58,20 +37,45 @@ local plugins = stream.map(
       vim.api.nvim_set_hl(0, 'TabLineSel', { link = 'Normal' })
 
       vim.api.nvim_set_hl(0, 'TelescopeSelection', { link = 'Visual' })
+      return name
     end
+  end)
+  .terminate()
 
-    return plugin
+local i = 0
+
+local function change_colorscheme()
+  i = (i % #colorscheme_fns) + 1
+  colorscheme_fns[i]()
+  if i ~= 1 then
+    require('plugin/mini/statusline').update_colorscheme()
   end
-)
+end
 
-local i = 1
+local plugins = stream.map(colorschemes, function(colorscheme, i)
+  return stream.inserted_all(colorscheme, {
+    [1] = colorscheme.repo,
+    name = 'colorscheme-' .. colorscheme.repo:gsub('^[^%/]+/', ''),
+    module = true,
+    lazy = i ~= 1,
+    config = i == 1 and function()
+      change_colorscheme()
+    end or function() end,
+  })
+end)
 
-vim.keymap.set('n', '<leader><leader>cs', function()
-  i = (i % #plugins) + 1
-  local plugin = plugins[i]
-  plugin.config()
-  require('plugin/mini/statusline').colorscheme = plugin.name:gsub('^colorscheme%-', ''):gsub('%.n?vim$', '')
-end, { desc = 'カラースキーム変更' })
+vim.keymap.set('n', '<leader><leader>cs', change_colorscheme, { desc = 'カラースキーム変更' })
+
+-- -- plugins[1].config ではなく、autocmd で最初の適用をしたいが、何故か `Cannot find color scheme` エラーになる
+-- -- 実行順的には plugin[1].config -> VeryLazy なので、何故前者でエラーにならないのか謎
+-- vim.api.nvim_create_autocmd({ 'User' }, {
+--   pattern = { 'VeryLazy' },
+--   once = true,
+--   callback = function()
+--     vim.notify('LAZYVIMSTARTED')
+--     change_colorscheme()
+--   end,
+-- })
 
 math.randomseed(os.time())
 
