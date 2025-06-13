@@ -30,6 +30,21 @@ describe('stream', function()
     end)
   end)
 
+  describe('map_1nf', function()
+    it('empty', function()
+      assert.are.same({}, stream.map_1nf({}, fu.identity))
+    end)
+    it('normal', function()
+      local f = function() end
+      assert.are.same(
+        { { 11, 1 }, { 11, 2 }, { 43, 1 }, { 43, 2 }, { 15, 1 }, { 15, 2 } },
+        stream.map_1nf({ a = 43, 11, [f] = 15 }, function()
+          return { 1, 2 }
+        end)
+      )
+    end)
+  end)
+
   describe('filter', function()
     it('empty', function()
       assert.are.same({}, stream.filter({}, fu.is_truthy))
