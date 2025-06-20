@@ -53,6 +53,7 @@ vim.api.nvim_create_autocmd('ColorScheme', {
 
 return {
   'akinsho/git-conflict.nvim',
+  tag = "v2.1.0",
   event = 'VeryLazy',
   keys = keys,
   config = function()
