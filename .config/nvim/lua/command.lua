@@ -52,6 +52,35 @@ local commands = {
     end,
     opts = { nargs = '?', complete = 'file' },
   },
+  man = (function()
+    -- $VIMRUNTIME/plugin/man.lua と比べて下記が異なる
+    -- - タブで開く
+    -- - 画面幅で改行されず、wrap に制御を任せる
+
+    -- $VIMRUNTIME/plugin/man.lua を無効化
+    vim.g.loaded_man = true
+    return {
+      func = function(opts)
+        local target = opts.fargs[1]
+        local body = vim
+          .system({ 'man', target }, {
+            text = true,
+            env = {
+              MANWIDTH = 99999,
+            },
+          })
+          :wait().stdout or ''
+        vim.cmd.tabnew()
+        vim.api.nvim_buf_set_lines(0, 0, -1, true, vim.fn.split(body, '\n', true))
+        vim.api.nvim_buf_set_name(0, target .. '.man')
+        vim.bo.filetype = 'man'
+        vim.bo.readonly = true
+        vim.bo.modifiable = false
+        vim.bo.modified = false
+      end,
+      opts = { nargs = 1, complete = 'command' },
+    }
+  end)(),
 }
 
 stream.for_each(commands, function(def, name)
