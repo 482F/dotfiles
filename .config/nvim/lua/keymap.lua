@@ -315,3 +315,26 @@ vim.keymap.set('i', '<C-x><C-a>', function()
 end, { desc = '曜日を挿入' })
 
 vim.keymap.set('n', '<F1>', '<Nop>')
+
+vim.keymap.set('n', '!', function()
+  local succ, command = pcall(function()
+    return vim.fn.input({
+      prompt = '!',
+      completion = 'shellcmd',
+    })
+  end)
+  if not succ then
+    return
+  end
+  vim.system(
+    { 'bash', '-c', command },
+    {},
+    vim.schedule_wrap(function(out)
+      local result = ((out.stderr or '') .. (out.stdout or '')):gsub('^%s', ''):gsub('%s$', '')
+      if result ~= '' then
+        vim.fn.setreg('*', result)
+      end
+      vim.notify(result)
+    end)
+  )
+end)
