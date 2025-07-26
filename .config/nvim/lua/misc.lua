@@ -52,3 +52,11 @@ end
 vim.cmd.cabbrev('h', 'tab help')
 
 vim.diagnostic.config({ severity_sort = true })
+
+---@generic T : unknown
+---@param obj T
+---@return T
+function log(obj)
+  vim.notify(vim.inspect(obj))
+  return obj
+end
