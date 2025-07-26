@@ -137,8 +137,6 @@ local function create_kanatable()
     ['dt'] = { 'だち', '' },
     ['wr'] = { 'われ', '' },
 
-    ['@@'] = { '゛', '' },
-    ['@['] = { '゜', '' },
     ['@h'] = { '←', '' },
     ['@j'] = { '↓', '' },
     ['@k'] = { '↑', '' },
@@ -158,6 +156,8 @@ local function create_kanatable()
     ['z.'] = { '・・・', '' },
     ['z/'] = { '・', '' },
     ['z '] = { '　', '' },
+    ['z@'] = { '゛', '' },
+    ['z['] = { '゜', '' },
   }
   return stream.flatten({ regulars, specials })
 end
