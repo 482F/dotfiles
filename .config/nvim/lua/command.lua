@@ -36,7 +36,9 @@ local commands = {
         end)
         .for_each(function(bufnr)
           vim.api.nvim_buf_call(bufnr, function()
+            local view = vim.fn.winsaveview()
             pcall(vim.cmd.e)
+            vim.fn.winrestview(view)
           end)
         end)
     end,
