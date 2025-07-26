@@ -338,3 +338,36 @@ vim.keymap.set('n', '!', function()
     end)
   )
 end)
+
+stream
+  .start({ '*', '#' })
+  .map_1nf(function(lhs)
+    local neovim_visual_search_default = stream.find(vim.api.nvim_get_keymap('x'), function(keymap)
+      return keymap.lhs == lhs
+    end)
+    return {
+      {
+        mode = 'n',
+        search = function()
+          vim.api.nvim_feedkeys(lhs, 'nx', false)
+        end,
+      },
+      {
+        mode = 'x',
+        search = function()
+          neovim_visual_search_default.callback()
+          vim.api.nvim_feedkeys(vim.keycode('<Esc>n'), 'nx', false)
+        end,
+      },
+    }
+  end)
+  .for_each(function(e)
+    local lhs = e[1]
+    local mode = e[2].mode
+    local search = e[2].search
+    vim.keymap.set(mode, lhs, function()
+      local view = vim.fn.winsaveview()
+      pcall(search)
+      vim.fn.winrestview(view)
+    end)
+  end)
