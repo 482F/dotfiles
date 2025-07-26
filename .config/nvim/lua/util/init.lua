@@ -267,6 +267,25 @@ function M.set_term_color(name, color)
   vim.g['terminal_color_' .. color_map[name]] = color
 end
 
+---@param hex_color string ##abcdef
+---@param multipliers number | { r: number, g: number, b: number }
+function M.mult_color(hex_color, multipliers)
+  if type(multipliers) == 'number' then
+    multipliers = { r = multipliers, g = multipliers, b = multipliers }
+  end
+  local stream = require('util/stream')
+
+  local mcols = stream.map({ r = 2, g = 4, b = 6 }, function(start, key)
+    local hex = hex_color:sub(start, start + 1)
+    local dec = tonumber(hex, 16)
+    local mdec = math.min(255, math.floor(0.5 + dec * (multipliers[key] == nil and 1 or multipliers[key])))
+    local mhex = ('0' .. string.format('%x', mdec)):sub(-2)
+    return mhex
+  end)
+
+  return '#' .. mcols.r .. mcols.g .. mcols.b
+end
+
 ---@generic T : unknown
 ---@param obj T
 ---@param regname? string default 's'
