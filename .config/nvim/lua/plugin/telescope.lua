@@ -28,6 +28,7 @@ local keys = stream.map({
     suffix = 'g',
     func_name = 'live_grep',
     opt = { desc = 'grep' },
+    arg = { additional_args = { '--hidden' } },
   },
   {
     suffix = 'h',
