@@ -339,6 +339,8 @@ vim.keymap.set('n', '!', function()
   )
 end)
 
+vim.keymap.set('', '<C-Space>', '<Space>', { remap = true })
+
 stream
   .start({ '*', '#' })
   .map_1nf(function(lhs)
