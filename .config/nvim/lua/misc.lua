@@ -55,8 +55,14 @@ vim.diagnostic.config({ severity_sort = true })
 
 ---@generic T : unknown
 ---@param obj T
+---@param regname? string default 's'
 ---@return T
-function log(obj)
-  vim.notify(vim.inspect(obj))
+function log(obj, regname)
+  regname = regname or 's'
+  local str = vim.inspect(obj)
+  vim.notify(str)
+  if regname ~= '' then
+    vim.fn.setreg(regname, str, 'V')
+  end
   return obj
 end
