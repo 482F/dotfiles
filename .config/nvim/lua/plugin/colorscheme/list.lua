@@ -42,11 +42,44 @@ return {
     config = function()
       local util = require('util')
       util.set_term_color('white', '#fcfcfc')
+      util.set_term_color('black', '#000000')
+
+      vim.api.nvim_set_hl(0, 'Search', {
+        bg = '#f6d692',
+        fg = '#ffffff',
+      })
     end,
   },
   { repo = 'HUAHUAI23/nvim-quietlight', name = 'quietlight' },
   { repo = 'calind/selenized.nvim', name = 'selenized' },
-  { repo = 'mstcl/dmg', name = 'dmg' },
+  {
+    repo = 'mstcl/dmg',
+    name = 'dmg',
+    config = function()
+      local util = require('util')
+      local stream = require('util/stream')
+      stream.for_each({
+        black = '#c8beb7',
+        blue = '#26126d',
+        brightBlack = '#bdb1a8',
+        brightBlue = '#483d8b',
+        brightCyan = '#88addb',
+        brightGreen = '#24752d',
+        brightPurple = '#72347c',
+        brightRed = '#752c5f',
+        brightWhite = '#2c2621',
+        brightYellow = '#e4d54d',
+        cyan = '#488d9b',
+        green = '#184e1e',
+        purple = '#793454',
+        red = '#630e49',
+        white = '#161e29',
+        yellow = '#c4b52d',
+      }, function(col, name)
+        util.set_term_color(name, col)
+      end)
+    end,
+  },
   { repo = 'ribru17/bamboo.nvim', name = 'bamboo' },
   { repo = 'perpetuatheme/nvim', name = 'perpetua-light' },
   { repo = 'deparr/tairiki.nvim', name = 'tairiki' },
@@ -84,7 +117,6 @@ return {
       })
     end,
   },
-  { repo = 'habamax/vim-nod', name = 'nope-y' },
   { repo = 'futsuuu/vim-robot', name = 'robot' },
   { repo = 'clearaspect/onehalf', name = 'onehalflight' },
   {
@@ -126,59 +158,15 @@ return {
     name = 'space_vim_theme',
     config = function()
       vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', { bg = '#E5DCCE' })
-    end,
-  },
-  {
-    repo = 'echasnovski/mini.base16',
-    name = 'mini-base16',
-    config = function()
-      require('mini.base16').setup({
-        palette = {
-          -- Default Background
-          base00 = '#edece8',
-          -- Lighter Background (Used for status bars, line number and folding marks)
-          base01 = '#e6e6e6',
-          -- Selection Background
-          base02 = '#babab6',
-          -- Comments, Invisible, Line Highlighting
-          base03 = '#848089',
-          -- Dark Foreground (Used for status bars)
-          base04 = '#000000',
-          -- Default Foreground, Caret, Delimiters, Operators
-          base05 = '#2b2b2b',
-          -- Light Foreground (Not often used)
-          base06 = '#40403e',
-          -- Light Background (Not often used)
-          base07 = '#ffffff',
-          -- Variables, XML Tags, Markup Link Text, Markup Lists, Diff Deleted
-          base08 = '#a72817',
-          -- Integers, Boolean, Constants, XML Attributes, Markup Link Url
-          base09 = '#476857',
-          -- Classes, Markup Bold, Search Text Background
-          base0A = '#575807',
-          -- Strings, Inherited Class, Markup Code, Diff Inserted
-          base0B = '#477817',
-          -- Support, Regular Expressions, Escape Characters, Markup Quotes
-          base0C = '#972867',
-          -- Functions, Methods, Attribute IDs, Headings
-          base0D = '#472877',
-          -- Keywords, Storage, Selector, Markup Italic, Diff Changed
-          base0E = '#773817',
-          -- Deprecated, Opening/Closing Embedded Language Tags, e.g. <?php ?>
-          base0F = '#000000',
-        },
-        use_cterm = true,
+      vim.api.nvim_set_hl(0, 'GitConflictCurrent', {
+        bg = '#fbe6e6',
       })
-
-      -- 検索結果の色が見辛いので変更
-      vim.api.nvim_set_hl(0, 'Search', {
-        bg = '#ace3fd',
-        fg = '#000000',
+      vim.api.nvim_set_hl(0, 'GitConflictAncestor', {
+        bg = '#eeeefb',
       })
-
-      -- ウィンドウ区切り線の背景色を Normal と同じに
-      local normal = vim.api.nvim_get_hl(0, { name = 'Normal' })
-      vim.api.nvim_set_hl(0, 'WinSeparator', { bg = normal.bg })
+      vim.api.nvim_set_hl(0, 'GitConflictIncoming', {
+        bg = '#e9fdea',
+      })
     end,
   },
   {
@@ -268,7 +256,8 @@ return {
     repo = 'gambhirsharma/vesper.nvim',
     name = 'vesper',
     config = function()
-      vim.cmd.highlight('Visual', 'guibg=#c6c6c6')
+      vim.api.nvim_set_hl(0, 'Visual', { bg = '#c6c6c6' })
+      vim.api.nvim_set_hl(0, 'MatchParen', { bg = '#c6c6c6' })
     end,
   },
 }
