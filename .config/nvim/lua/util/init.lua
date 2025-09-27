@@ -92,7 +92,9 @@ function M.bd(write, bang, winclose, bufnr)
   bufnr = bufnr or vim.fn.bufnr()
 
   if write then
-    vim.fn.win_execute(vim.fn.bufwinid(bufnr), 'write')
+    vim.api.nvim_buf_call(bufnr, function()
+      vim.cmd.write()
+    end)
   end
 
   if winclose then
