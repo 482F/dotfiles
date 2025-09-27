@@ -121,9 +121,6 @@ function M.bd(write, bang, winclose, bufnr)
 
     local winnr = vim.api.nvim_win_get_number(winid)
     local all_jumps, last_jump = unpack(vim.fn.getjumplist(winnr))
-    stream.for_each(all_jumps, function(v, i)
-      v.i = i
-    end)
 
     local jumps = stream
       .start(all_jumps)
