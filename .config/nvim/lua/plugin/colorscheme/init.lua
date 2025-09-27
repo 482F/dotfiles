@@ -55,7 +55,7 @@ end
 local plugins = stream.map(colorschemes, function(colorscheme, i)
   return stream.inserted_all(colorscheme, {
     [1] = colorscheme.repo,
-    name = 'colorscheme-' .. colorscheme.repo:gsub('^[^%/]+/', ''),
+    name = 'colorscheme-' .. colorscheme.repo:gsub('/', '-'),
     module = true,
     lazy = i ~= 1,
     config = i == 1 and function()
