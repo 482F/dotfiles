@@ -39,6 +39,7 @@ local plugin_names = {
   'plenary', -- 汎用関数詰めあわせ
   'oil', -- ファイラ
   'lsp-signature', -- 関数シグネチャ表示
+  'async-clip', -- 非同期コピー・ペースト
 
   -- 複数用途
   -- - ステータスライン
