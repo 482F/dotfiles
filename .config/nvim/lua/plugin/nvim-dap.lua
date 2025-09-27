@@ -249,13 +249,13 @@ return {
       console_winid = vim.fn.win_getid(util.get_winnr_by_bufnr(require('dapui').elements.console.buffer()))
     end)
 
-    local i = 1
+    local i = 0
     fu.override(dap, 'run', function(original, ...)
       -- dapui がコンソールのバッファを使い回すのを抑制する
       -- 既存のバッファの判定にバッファ名を使用しているので、バッファ名を変更することで新規バッファを作らせることができる
       local bufnr = require('dapui/elements/console')().buffer()
-      vim.api.nvim_buf_set_name(bufnr, 'DAP Console' .. tostring(i))
       i = i + 1
+      vim.api.nvim_buf_set_name(bufnr, 'DAP Console' .. tostring(i))
 
       original(...)
 
