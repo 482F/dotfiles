@@ -1,4 +1,4 @@
-return function(server)
+return function()
   local venv_path = os.getenv('VIRTUAL_ENV')
   local py_path = nil
   -- decide which python executable to use for mypy
@@ -8,7 +8,7 @@ return function(server)
     py_path = vim.g.python3_host_prog
   end
 
-  server.setup({
+  return {
     settings = {
       pylsp = {
         plugins = {
@@ -40,5 +40,5 @@ return function(server)
       debounce_text_changes = 200,
     },
     -- capabilities = capabilities,
-  })
+  }
 end

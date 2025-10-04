@@ -170,6 +170,23 @@ function M.ancestor_dirs(base)
   return dirs
 end
 
+---@param targets string[]
+---@param base? string
+function M.find_ancestors(targets, base)
+  base = base or '.'
+  local stream = require('util/stream')
+  local dirs = stream.map(
+    vim.fs.find(targets, {
+      upward = true,
+      path = base,
+    }),
+    function(path)
+      return vim.fs.dirname(path)
+    end
+  )
+  return dirs
+end
+
 ---@param filename string
 function M.file_exists(filename)
   local fu = require('util/func')

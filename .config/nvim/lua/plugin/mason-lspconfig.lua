@@ -185,11 +185,11 @@ local function install()
 end
 
 local function config()
-  local lspconfig = require('lspconfig')
   local lsps = {
     'denols',
     'lua_ls',
-    'volar',
+    'vtsls',
+    'vue_ls',
     'pylsp',
     'rust_analyzer',
   }
@@ -201,9 +201,9 @@ local function config()
     end)
     .from_pairs()
     .for_each(function(func, key)
-      func(lspconfig[key], lspconfig)
+      vim.lsp.config(key, func())
     end)
-  vim.cmd.LspStart()
+  vim.lsp.enable(lsps)
 end
 
 local ft2ext_map = {
@@ -229,8 +229,6 @@ local get_file_path = function()
 end
 
 local function formatter()
-  local lspconfig = require('lspconfig')
-
   local filetypes = {}
   filetypes = stream.from_pairs(stream.flat_map({
     {
@@ -286,7 +284,11 @@ local function formatter()
       },
       data = {
         function(...)
-          local is_deno = lspconfig.util.root_pattern('deno.jsonc', 'deno.json')(vim.api.nvim_buf_get_name(0)) ~= nil
+          local util = require('util')
+          local is_deno = util.find_ancestors(
+            { 'deno.jsonc', 'deno.json' },
+            vim.fs.dirname(vim.fs.normalize(vim.api.nvim_buf_get_name(0)))
+          )[0] ~= nil
           local is_json = vim.bo.filetype:find('json', 0, true) ~= nil
           if is_deno and not is_json then
             -- 引数が追加されるかもしれないので受け取ったものをそのまま渡す

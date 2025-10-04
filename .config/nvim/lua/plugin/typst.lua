@@ -7,7 +7,7 @@ return {
       { '<leader>lo', ':TypstPreview<CR>' },
     },
     config = function()
-      require('lspconfig').tinymist.setup({
+      vim.lsp.config('tinymist', {
         settings = {
           formatterMode = 'typstyle',
           -- exportPdf = 'onType',

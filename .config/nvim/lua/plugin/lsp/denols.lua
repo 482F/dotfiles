@@ -1,21 +1,15 @@
-return function(server, lspconfig)
-  local fu = require('util/func')
-  local stream = require('util/stream')
+return function()
+  return {
+    root_dir = function(bufnr, callback)
+      local util = require('util')
+      local base = vim.fs.dirname(vim.fs.normalize(vim.api.nvim_buf_get_name(bufnr)))
 
-  local root_dirs = stream.map({ 'deno.jsonc', 'deno.json' }, function(name)
-    return lspconfig.util.root_pattern(name)
-  end)
-  local root_dir = function(...)
-    local args = { ... }
-    return stream
-      .start(root_dirs)
-      .map(function(rd)
-        return rd(unpack(args))
-      end)
-      .find(fu.is_truthy)
-  end
-  server.setup({
-    root_dir = root_dir,
+      local deno_dir = util.find_ancestors({ 'deno.json', 'deno.jsonc' }, base)[1]
+      if deno_dir == nil then
+        return
+      end
+      return callback(deno_dir)
+    end,
     init_options = {
       lint = true,
       enable = true,
@@ -30,5 +24,5 @@ return function(server, lspconfig)
         },
       },
     },
-  })
+  }
 end
