@@ -296,9 +296,13 @@ function M.set_term_color(name, color)
   vim.g['terminal_color_' .. color_map[name]] = color
 end
 
----@param hex_color string ##abcdef
+---@param color string | number ##abcdef | 11259375
 ---@param multipliers number | { r: number, g: number, b: number }
-function M.mult_color(hex_color, multipliers)
+function M.mult_color(color, multipliers)
+  local hex_color = color
+  if type(color) == 'number' then
+    hex_color = '#' .. ('000000' .. string.format('%x', color)):sub(-6)
+  end
   if type(multipliers) == 'number' then
     multipliers = { r = multipliers, g = multipliers, b = multipliers }
   end
