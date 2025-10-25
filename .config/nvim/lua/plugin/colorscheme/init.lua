@@ -14,7 +14,7 @@ local colorscheme_fns = stream
     local colorscheme = e[1]
     local name = e[2]
     return function()
-      vim.cmd.colorscheme(name);
+      pcall(vim.cmd.colorscheme, name);
       (colorscheme.config or function() end)()
 
       stream
