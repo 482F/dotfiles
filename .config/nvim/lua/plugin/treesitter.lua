@@ -1,24 +1,72 @@
 return {
   'nvim-treesitter/nvim-treesitter',
+  branch = 'main',
   event = 'VeryLazy',
   config = function()
-    -- 不要なパラメータまで必須になっているので黙らせる
-    ---@diagnostic disable-next-line missing-fields
-    require('nvim-treesitter.configs').setup({
-      auto_install = true,
-      highlight = {
-        enable = true, -- syntax highlightを有効にする
-        disable = {},
-      },
-      ensure_installed = { 'diff', 'git_rebase', 'gitcommit' },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          node_incremental = '<Tab>',
-          node_decremental = '<S-Tab>',
-        },
-      },
+    local stream = require('util/stream')
+    local ts = require('nvim-treesitter')
+
+    local installed_map = stream
+      .start(ts.get_installed())
+      .map(function(lang)
+        return { lang, true }
+      end)
+      .from_pairs()
+      .terminate()
+    local function install(langs)
+      langs = stream.filter(langs, function(lang)
+        return not installed_map[lang]
+      end)
+      if #langs <= 0 then
+        return
+      end
+      ts.install(langs, { force = false, summary = true }):wait(300000)
+      stream.for_each(langs, function(lang)
+        installed_map[lang] = true
+      end)
+      return langs
+    end
+    install({
+      'javascript',
+      'typescript',
+      'vue',
+      'lua',
+      'diff',
+      'git_rebase',
+      'gitcommit',
+      'nix',
     })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('vim-treesitter-start', {}),
+      callback = function()
+        local succ, parser = pcall(vim.treesitter.get_parser, 0)
+        if not succ then
+          return
+        end
+        local query = parser._injection_query
+        local langs = stream
+          .start(query and query.info.patterns or {})
+          .flatten()
+          .map(function(pattern)
+            if pattern[2] == 'injection.language' then
+              return pattern[3]
+            end
+            return nil
+          end)
+          .filter(function(lang)
+            return lang ~= nil
+          end)
+          .inserted_all({ parser:lang() })
+          .uniquify()
+          .terminate()
+
+        local installed = install(langs)
+        pcall(vim.treesitter.start)
+        vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+      end,
+    })
+
     -- treesitter の diff ハイライトに対応していないカラースキームが多いのでそれの対応
     vim.cmd.highlight('def', 'link', '@text.diff.add', 'DiffAdded')
     vim.cmd.highlight('def', 'link', '@text.diff.delete', 'DiffRemoved')
