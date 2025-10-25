@@ -3,7 +3,7 @@ local mini_comment = require('mini.comment')
 mini_comment.setup({
   options = {
     ignore_blank_line = true,
-    pad_comment_parts = true,
+    pad_comment_parts = false,
     start_of_line = false,
     custom_commentstring = function()
       local ft = vim.bo.filetype
@@ -18,6 +18,17 @@ mini_comment.setup({
     comment = 'gc',
     comment_line = 'gcc',
     textobject = 'gc',
+  },
+})
+
+require('ts_context_commentstring').setup({
+  enable_autocmd = false,
+  languages = {
+    vue = {
+      __default = '<!-- %s -->',
+      attribute = 'v-comment:%s',
+      directive_attribute = 'v-comment:%s',
+    },
   },
 })
 
@@ -49,5 +60,9 @@ local keys = {
 }
 
 for _, key in pairs(keys) do
-  vim.keymap.set(unpack(key))
+  local mode, lhs, rhs, opts = unpack(key)
+  vim.keymap.set(mode, lhs, function()
+    require('ts_context_commentstring').update_commentstring()
+    return rhs
+  end, vim.tbl_extend('force', opts, { expr = true }))
 end
