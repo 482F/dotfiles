@@ -10,7 +10,34 @@ return {
   { repo = 'jsit/toast.vim', name = 'toast' },
   { repo = 'shaunsingh/nord.nvim', name = 'nord' },
   { repo = 'iibe/gruvbox-high-contrast', name = 'gruvbox-high-contrast' },
-  { repo = 'jascha030/nitepal.nvim', name = 'nitepal' },
+  {
+    repo = 'jascha030/nitepal.nvim',
+    name = 'nitepal',
+    config = function()
+      local stream = require('util/stream')
+
+      return stream.for_each({
+        DiagnosticVirtualTextError = {
+          bg = '#f2b5dd',
+          fg = '#870743',
+        },
+        DiagnosticVirtualTextWarn = {
+          bg = '#ffdfb9',
+          fg = '#b17500',
+        },
+        DiagnosticVirtualTextInfo = {
+          bg = '#b0ddf5',
+          fg = '#054d5b',
+        },
+        DiagnosticVirtualTextHint = {
+          bg = '#beffdc',
+          fg = '#0e816a',
+        },
+      }, function(color, name)
+        vim.api.nvim_set_hl(0, name, color)
+      end)
+    end,
+  },
   { repo = 'elytraflyer/marsh.vim', name = 'marsh' },
   { repo = 'razcoen/fleet.nvim', name = 'fleet' },
   {
@@ -50,7 +77,20 @@ return {
       })
     end,
   },
-  { repo = 'HUAHUAI23/nvim-quietlight', name = 'quietlight' },
+  {
+    repo = 'HUAHUAI23/nvim-quietlight',
+    name = 'quietlight',
+    config = function()
+      vim.api.nvim_set_hl(0, 'MiniStatuslineModeNormal', {
+        fg = '#f5f5f5',
+        bg = '#705697',
+      })
+
+      local util = require('util')
+      util.set_term_color('brightGreen', '#c4d7d7')
+      util.set_term_color('brightRed', '#f4b7d7')
+    end,
+  },
   { repo = 'calind/selenized.nvim', name = 'selenized' },
   {
     repo = 'mstcl/dmg',
@@ -89,6 +129,10 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, 'MiniStatuslineFileName', {
         bg = '#6972a8',
+        fg = '#ffffff',
+      })
+      vim.api.nvim_set_hl(0, 'Search', {
+        bg = '#2e7de9',
         fg = '#ffffff',
       })
     end,
@@ -139,7 +183,14 @@ return {
   },
   { repo = 'isrothy/nordify.nvim', name = 'nordify-light' },
   { repo = 'ricardoraposo/nightwolf.nvim', name = 'nightwolf' },
-  { repo = 'ferdinandrau/carbide.nvim', name = 'carbide' },
+  {
+    repo = 'ferdinandrau/carbide.nvim',
+    name = 'carbide',
+    config = function()
+      local util = require('util')
+      util.set_term_color('black', '#000000')
+    end,
+  },
   {
     repo = 'oonamo/ef-themes.nvim',
     names = { 'ef-duo-light', 'ef-reverie', 'ef-spring', 'ef-kassio', 'ef-cyprus', 'ef-eagle', 'ef-day' },
@@ -151,7 +202,7 @@ return {
   { repo = 'titembaatar/sarnai.nvim', name = 'sarnai-ovol' },
   { repo = 'tiesen243/vercel.nvim', name = 'vercel' },
   { repo = 'cpplain/flexoki.nvim', name = 'flexoki' },
-  { repo = 'webhooked/kanso.nvim', name = 'kanso' },
+  { repo = 'webhooked/kanso.nvim', name = 'kanso-pearl' },
   { repo = 'khoido2003/classic_monokai.nvim', name = 'classic-monokai' },
   {
     repo = 'liuchengxu/space-vim-theme',
@@ -258,6 +309,15 @@ return {
     config = function()
       vim.api.nvim_set_hl(0, 'Visual', { bg = '#c6c6c6' })
       vim.api.nvim_set_hl(0, 'MatchParen', { bg = '#c6c6c6' })
+    end,
+  },
+  {
+    repo = 'kuri-sun/yoda.nvim',
+    name = 'yoda',
+    config = function()
+      require('yoda').setup({
+        theme = 'light',
+      })
     end,
   },
 }
