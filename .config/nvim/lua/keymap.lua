@@ -278,6 +278,15 @@ util.set_repeat_keymap('n', 'gT', ':tabp<CR>', { silent = true })
 util.set_repeat_keymap('n', '<C-w>w', ':winc w<CR>', { silent = true })
 util.set_repeat_keymap('n', '<C-w>W', ':winc W<CR>', { silent = true })
 
+for _, entry in pairs({ { lhs = 'P', delta = -1 }, { lhs = 'N', delta = 1 } }) do
+  local lhs = entry.lhs
+  local delta = entry.delta
+  local rhs = ({ [-1] = 'O', [1] = 'I' })[delta]
+
+  -- Ctrl+P/N で jump
+  vim.keymap.set('n', '<C-' .. lhs .. '>', '<C-' .. rhs .. '>')
+end
+
 vim.keymap.set('n', '<leader>br', function()
   local filepath = vim.fn.expand('%')
   if vim.fn.filereadable(filepath) == 0 then
