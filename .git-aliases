@@ -7,6 +7,7 @@
     bd       = branch -d
     bD       = branch -D
     bm       = branch -m
+    bn       = rev-parse --abbrev-ref HEAD
     ch       = checkout
     chb      = checkout -b
     co       = commit -v
@@ -15,7 +16,7 @@
     coam     = commit --amend -v
     coamn    = commit --amend --no-edit
     cof      = !"git commit --fixup HEAD~${1}; exit;"
-    cofi     = !"git commit --fixup HEAD~${1}; GIT_SEQUENCE_EDITOR=: git rebase -i HEAD~$((${1}+2)); exit;"
+    cofi     = !"git cof ${1}; GIT_SEQUENCE_EDITOR=: git rebase -i HEAD~$((${1}+2)); exit;"
     conp     = commit --no-verify -m '!!!no-push'
     cp       = cherry-pick
     cpa      = cherry-pick --abort
@@ -36,12 +37,14 @@
     m        = merge
     ms       = merge --squash
     pushs    = push-skip
-    pushsu   = !"branch=\"$(git rev-parse --abbrev-ref HEAD)\"; git config branch."$branch".remote origin; git config branch."$branch".merge refs/heads/"$branch"; git pushs; exit"
+    pushsu   = !"git u; branch=\"$(git bn)\"; git config branch."$branch".merge refs/heads/"$branch"; git pushs; exit"
     pushs-fwl= pushs --force-with-lease
-    rb       = rebase
+    rb       = rebase --rebase-merges
     rba      = rebase --abort
     rbc      = rebase --continue
-    rbi      = rebase -i
+    rbe      = rebase --edit-todo
+    rbi      = rb --interactive
+    rbs      = rebase --show-current-patch
     rl       = !"git l \"remotes/origin/${1}\"; exit;"
     rdH      = !"git dH \"remotes/origin/${1}\" ${2}"
     rs       = reset
@@ -55,7 +58,7 @@
     ssp      = stash save -p
     sl       = stash list
     st       = status -sb
-    v        = !"vim $1; exit;"
+    u        = !"branch=\"$(git bn)\"; git config branch."$branch".remote origin; exit;"
     wa       = !"git worktree add \"./.git/worktree-dir/$1\" \"$1\"; exit;"
     wc       = !"dir=\"./.git/worktree-dir/$1\"; if [[ ! -d \"$dir\" ]]; then git wa \"$1\" || exit 1; fi; cd \"$dir\"; prepend-ps1 'gwc' $SHELL; exit;"
     wl       = worktree list
