@@ -278,6 +278,11 @@ util.set_repeat_keymap('n', 'gT', ':tabp<CR>', { silent = true })
 util.set_repeat_keymap('n', '<C-w>w', ':winc w<CR>', { silent = true })
 util.set_repeat_keymap('n', '<C-w>W', ':winc W<CR>', { silent = true })
 
+-- Tab/Shift+Tab でウィンドウ移動
+vim.keymap.set('n', '<TAB>', ':winc w<CR>', { silent = true })
+vim.keymap.set('n', '<S-TAB>', ':winc W<CR>', { silent = true })
+vim.keymap.set('n', '<C-O>', '<nop>')
+
 for _, entry in pairs({ { lhs = 'P', delta = -1 }, { lhs = 'N', delta = 1 } }) do
   local lhs = entry.lhs
   local delta = entry.delta
