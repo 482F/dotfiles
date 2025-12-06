@@ -307,13 +307,23 @@ vim.keymap.set('n', '<leader>br', function()
   vim.fn.winrestview(view)
 end, { desc = 'バッファを開き直す' })
 
-vim.keymap.set('i', '<C-x><C-a>', function()
-  local prev = vim.api.nvim_get_current_line():sub(1, vim.api.nvim_win_get_cursor(0)[2])
+function gf_weekday(type)
+  if type == nil then
+    vim.o.operatorfunc = 'v:lua.gf_weekday'
+    return 'g@ '
+  end
+
+  local line = vim.api.nvim_get_current_line()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local len = line:len()
+  local start_col = len - (line:reverse():find('%s', len - cursor[2] + 1) or len + 2) + 2
+  local end_col = (line:find('.%s', cursor[2] + 1) or len)
+  local target = vim.api.nvim_get_current_line():sub(start_col, end_col)
   local md_pattern = '(%d%d)[-/](%d%d)$'
-  local y, m, d = prev:match('(%d%d%d%d)[-/]' .. md_pattern)
+  local y, m, d = target:match('^(%d%d%d%d)[-/]' .. md_pattern)
   if y == nil then
     y = os.date('%Y')
-    m, d = prev:match(md_pattern)
+    m, d = target:match('^' .. md_pattern)
   end
 
   if m == nil then
@@ -325,8 +335,9 @@ vim.keymap.set('i', '<C-x><C-a>', function()
     os.time({ year = y, month = m, day = d })
   ).wday]
 
-  vim.api.nvim_input(' (' .. weekday .. ')')
-end, { desc = '曜日を挿入' })
+  vim.api.nvim_buf_set_text(0, cursor[1] - 1, end_col, cursor[1] - 1, end_col, { ' (' .. weekday .. ')' })
+end
+vim.keymap.set('n', '<leader><leader>wd', gf_weekday, { expr = true, desc = '曜日を挿入' })
 
 vim.keymap.set('n', '<F1>', '<Nop>')
 
