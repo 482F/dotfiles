@@ -28,6 +28,7 @@ local configs = {
   fixendofline = false, -- 最終行への空行挿入を無効化
   splitbelow = true, -- 新規ウィンドウを下に表示
   splitright = true, -- 新規ウィンドウを右に表示
+  diffopt = { 'indent-heuristic', unpack(vim.opt.diffopt:get()) },
 }
 
 for key, value in pairs(configs) do
