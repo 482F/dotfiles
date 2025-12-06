@@ -341,6 +341,40 @@ vim.keymap.set('n', '<leader><leader>wd', gf_weekday, { expr = true, desc = '曜
 
 vim.keymap.set('n', '<F1>', '<Nop>')
 
+for _, value in ipairs({
+  {
+    suffix = 't',
+    func = function()
+      vim.cmd.diffthis()
+      vim.cmd.wincmd('w')
+      vim.cmd.diffthis()
+      vim.cmd.wincmd('W')
+    end,
+    desc = '隣接ウィンドウとの diff を有効化',
+  },
+  { suffix = 'g', cmd = 'diffget', desc = '向こうの差分をこちらに適用' },
+  { suffix = 'p', cmd = 'diffput', desc = 'こちらの差分を向こうに適用' },
+  {
+    suffix = 'T',
+    func = function()
+      vim.cmd.diffoff({ bang = true })
+    end,
+    desc = 'タブ内全てのウィンドウの diff を無効化',
+  },
+  {
+    suffix = 'oi',
+    func = function()
+      util.toggle_opts(vim.opt.diffopt, { 'iblank', 'icase', 'iwhiteall' })
+    end,
+    desc = '空白などの検出オプションを切り替え',
+  },
+}) do
+  local fn = value.func or function()
+    vim.cmd[value.cmd]()
+  end
+  vim.keymap.set('n', '<leader>d' .. value.suffix, fn, { desc = value.desc })
+end
+
 vim.keymap.set('n', '!', function()
   local succ, command = pcall(function()
     return vim.fn.input({
