@@ -319,4 +319,29 @@ function M.mult_color(color, multipliers)
   return '#' .. mcols.r .. mcols.g .. mcols.b
 end
 
+---@param opt
+---@param values any[]
+---@param state? boolean
+function M.toggle_opts(opt, values, state)
+  if #values <= 0 then
+    return state
+  end
+
+  local stream = require('util/stream')
+  state = state or not stream.includes(opt:get(), values[1])
+
+  local fn
+  if state then
+    fn = opt.append
+  else
+    fn = opt.remove
+  end
+
+  vim.fn.foreach(values, function(_, value)
+    fn(opt, value)
+  end)
+
+  return state
+end
+
 return M
