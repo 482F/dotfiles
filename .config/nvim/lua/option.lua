@@ -22,14 +22,13 @@ local configs = {
   virtualedit = { 'block', 'onemore' }, -- 矩形選択時に行末を超えて選択できるように
   startofline = false, -- バッファ切替などした時にカーソル位置が変わらないように
   laststatus = 3, -- statusline を常に表示
-  backupcopy = "yes", -- バックアップファイルは基のファイルを再利用せず新しく作るようにする。これにより nvim で編集したファイルの inode が変化しない
+  backupcopy = 'yes', -- バックアップファイルは基のファイルを再利用せず新しく作るようにする。これにより nvim で編集したファイルの inode が変化しない
   breakindent = true, -- 行折り返し表示もインデントされるように
   showbreak = '  > ', -- 行折り返しの追加表示
   fixendofline = false, -- 最終行への空行挿入を無効化
   splitbelow = true, -- 新規ウィンドウを下に表示
   splitright = true, -- 新規ウィンドウを右に表示
 }
-
 
 for key, value in pairs(configs) do
   vim.opt[key] = value
