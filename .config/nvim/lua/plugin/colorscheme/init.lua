@@ -1,3 +1,4 @@
+local util = require('util')
 local random = require('util/random')
 local stream = require('util/stream')
 
@@ -37,6 +38,46 @@ local colorscheme_fns = stream
       vim.api.nvim_set_hl(0, 'TabLineSel', { link = 'Normal' })
 
       vim.api.nvim_set_hl(0, 'TelescopeSelection', { link = 'Visual' })
+
+      local normal_hl = vim.api.nvim_get_hl(0, { name = 'Normal' })
+      stream
+        .start({
+          {
+            color = 'g',
+            names = { 'Added', 'DiffAdded', 'DiffAdd', '@diff.plus' },
+          },
+          {
+            color = 'r',
+            names = { 'Removed', 'DiffRemoved', 'DiffDelete', '@diff.minus' },
+          },
+        })
+        .map_1nf(function(v)
+          return v.names
+        end)
+        .for_each(function(v)
+          local color = v[1].color
+          local hname = v[2]
+          local hl = vim.api.nvim_get_hl(0, { name = hname })
+
+          while hl.link do
+            hl = vim.api.nvim_get_hl(0, { name = hl.link })
+          end
+
+          if hl.bg or hl.guibg then
+            return
+          end
+
+          local multipliers = { r = 0.9, g = 0.9, b = 0.9 }
+          multipliers[color] = 1.1
+          vim.api.nvim_set_hl(
+            0,
+            hname,
+            vim.tbl_extend('force', hl, {
+              bg = util.mult_color(normal_hl.bg or normal_hl.guibg, multipliers),
+            })
+          )
+        end)
+
       return name
     end
   end)
