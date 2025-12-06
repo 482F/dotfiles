@@ -185,10 +185,12 @@ local function install()
 end
 
 local function config()
-  local lsps = {
+  local specials = {
     'denols',
-    'lua_ls',
     'vtsls',
+  }
+  local lsps = {
+    'lua_ls',
     'vue_ls',
     'pylsp',
     'rust_analyzer',
@@ -196,6 +198,7 @@ local function config()
 
   stream
     .start(lsps)
+    .inserted_all(specials)
     .map(function(name)
       return { name, require('plugin/lsp/' .. name) }
     end)
@@ -204,6 +207,44 @@ local function config()
       vim.lsp.config(key, func())
     end)
   vim.lsp.enable(lsps)
+
+  vim.api.nvim_create_autocmd('FileType', {
+    callback = function(ctx)
+      local is_compatible = stream.map({ denols = false, vtsls = false }, function(_, name)
+        return vim.tbl_contains(vim.lsp.config[name].filetypes, ctx.match)
+      end)
+
+      if not is_compatible.denols and not is_compatible.vtsls then
+        return
+      end
+
+      local target_name = nil
+      if is_compatible.denols then
+        target_name = 'denols'
+      end
+      if is_compatible.vtsls then
+        target_name = 'vtsls'
+      end
+
+      if is_compatible.denols and is_compatible.vtsls then
+        local has_deno_json = stream
+          .start({ 'deno.json', 'deno.jsonc' })
+          .map(function(name)
+            return vim.fn.findfile(name, '.;')
+          end)
+          .find(function(v)
+            return v ~= ''
+          end) ~= nil
+
+        if has_deno_json then
+          target_name = 'denols'
+        else
+          target_name = 'vtsls'
+        end
+      end
+      vim.lsp.start(vim.lsp.config[target_name])
+    end,
+  })
 end
 
 local ft2ext_map = {
@@ -284,13 +325,16 @@ local function formatter()
       },
       data = {
         function(...)
-          local util = require('util')
-          local is_deno = util.find_ancestors(
-            { 'deno.jsonc', 'deno.json' },
-            vim.fs.dirname(vim.fs.normalize(vim.api.nvim_buf_get_name(0)))
-          )[0] ~= nil
+          local has_deno_json = stream
+            .start({ 'deno.json', 'deno.jsonc' })
+            .map(function(name)
+              return vim.fn.findfile(name, '.;')
+            end)
+            .find(function(v)
+              return v ~= ''
+            end) ~= nil
           local is_json = vim.bo.filetype:find('json', 0, true) ~= nil
-          if is_deno and not is_json then
+          if has_deno_json and not is_json then
             -- 引数が追加されるかもしれないので受け取ったものをそのまま渡す
             ---@diagnostic disable-next-line: redundant-parameter
             return require('formatter/defaults/denofmt')(...)
