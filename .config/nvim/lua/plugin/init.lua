@@ -31,7 +31,6 @@ local plugin_names = {
   'colorscheme', -- カラースキーマ
   'nvim-dap', -- デバッグ
   'open-web', -- ブラウザで開く
-  'nvim-dbee', -- DB クライアント
   'which-key', -- キーマップ表示
   'translate', -- 翻訳
   'git-conflict', -- git コンフリクト関連
