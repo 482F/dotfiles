@@ -310,17 +310,22 @@ local function formatter()
     },
     {
       filetypes = {
+        'vue',
+        'json',
+        'jsonc',
+        'json5',
+      },
+      data = { require('formatter/defaults/prettier') },
+    },
+    {
+      filetypes = {
         'javascript',
         'typescript',
-        'vue',
         'jsx',
         'tsx',
         'css',
         'scss',
         'html',
-        'json',
-        'jsonc',
-        'json5',
         'yaml',
       },
       data = {
