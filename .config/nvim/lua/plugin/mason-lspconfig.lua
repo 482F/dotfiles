@@ -248,7 +248,8 @@ local function config()
       end) then
         return
       end
-      vim.lsp.start(vim.lsp.config[target_name])
+      vim.lsp.enable(target_name)
+      -- vim.lsp.start(vim.lsp.config[target_name]) -- start すると :healthcheck vim.lsp が動かなくなる。neovim の更新で直る？
     end,
   })
 end
