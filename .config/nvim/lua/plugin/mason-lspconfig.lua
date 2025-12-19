@@ -242,6 +242,12 @@ local function config()
           target_name = 'vtsls'
         end
       end
+
+      if stream.some(vim.lsp.get_clients(), function(client)
+        return client.name == target_name
+      end) then
+        return
+      end
       vim.lsp.start(vim.lsp.config[target_name])
     end,
   })
