@@ -54,16 +54,13 @@ end)
 vim.keymap.set('n', '<C-j>', ':bnext<CR>', { desc = '前のバッファへ移動', silent = true })
 vim.keymap.set('n', '<C-k>', ':bprev<CR>', { desc = '次のバッファへ移動', silent = true })
 
-vim.keymap.set('x', '<Leader>q', function()
-  vim.fn.feedkeys(':', 'nx') -- ビジュアルモード解除
-  local s = vim.fn.getpos("'<")
-  local e = vim.fn.getpos("'>")
-  local text = vim.api.nvim_buf_get_lines(s[1], s[2] - 1, e[2], false)
-  local script = stream
+---@param script string | string[]
+local function eval_lua(script)
+  local full_script = stream
     .start({
       '(function()',
       '  local raw_result = (function()',
-      text,
+      script,
       '  end)()',
       '  local result = vim.inspect(raw_result)',
       '  vim.notify(result)',
@@ -74,8 +71,20 @@ vim.keymap.set('x', '<Leader>q', function()
     })
     .flatten()
     .join('\n')
-  vim.fn.luaeval(script)
+  vim.fn.luaeval(full_script)
+end
+vim.keymap.set('x', '<Leader>q', function()
+  vim.fn.feedkeys(':', 'nx') -- ビジュアルモード解除
+  local s = vim.fn.getpos("'<")
+  local e = vim.fn.getpos("'>")
+  local script = vim.api.nvim_buf_get_lines(s[1], s[2] - 1, e[2], false)
+  eval_lua(script)
 end, { desc = 'lua スクリプト実行' })
+
+vim.keymap.set('n', '<Leader>qq', function()
+  local script = vim.fn.getreg(vim.v.register)
+  eval_lua(script)
+end, { desc = 'レジスタから lua スクリプト実行' })
 
 for _, entry in pairs({
   { key = 'd', write = false, bang = false, winclose = false, desc = '現在のバッファを閉じる' },
