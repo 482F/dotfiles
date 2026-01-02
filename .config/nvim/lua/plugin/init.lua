@@ -39,6 +39,7 @@ local plugin_names = {
   'oil', -- ファイラ
   'lsp-signature', -- 関数シグネチャ表示
   'async-clip', -- 非同期コピー・ペースト
+  'overlook', -- 定義ジャンプ float window 化
 
   -- 複数用途
   -- - ステータスライン
