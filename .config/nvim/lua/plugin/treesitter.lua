@@ -6,6 +6,12 @@ return {
     local stream = require('util/stream')
     local ts = require('nvim-treesitter')
 
+    vim.treesitter.start = (function(original)
+      return function(...)
+        pcall(original, ...)
+      end
+    end)(vim.treesitter.start)
+
     local installed_map = stream
       .start(ts.get_installed())
       .map(function(lang)
