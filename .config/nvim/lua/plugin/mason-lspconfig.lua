@@ -276,6 +276,23 @@ local get_file_path = function()
   return path .. name .. '.' .. ext
 end
 
+local function prettier(args)
+  args = args or {}
+  local bufname = vim.api.nvim_buf_get_name(0)
+  if bufname == '' then
+    bufname = 'temp.' .. vim.bo.filetype
+  end
+  return {
+    exe = 'prettier',
+    args = stream.inserted_all({
+      '--stdin-filepath',
+      vim.fn.shellescape(bufname, true),
+    }, args),
+    stdin = true,
+    try_node_modules = true,
+  }
+end
+
 local function formatter()
   local filetypes = {}
   filetypes = stream.from_pairs(stream.flat_map({
@@ -299,19 +316,12 @@ local function formatter()
       filetypes = { 'markdown' },
       data = {
         function()
-          return {
-            exe = 'prettier',
-            args = {
-              '--tab-width',
-              '4',
-              '--stdin-filepath',
-              require('formatter/util').escape_path(get_file_path()),
-              '--parser',
-              'markdown',
-            },
-            stdin = true,
-            try_node_modules = false,
-          }
+          return prettier({
+            '--tab-width',
+            '4',
+            '--parser',
+            'markdown',
+          })
         end,
       },
     },
@@ -322,7 +332,11 @@ local function formatter()
         'jsonc',
         'json5',
       },
-      data = { require('formatter/defaults/prettier') },
+      data = {
+        function()
+          return prettier()
+        end,
+      },
     },
     {
       filetypes = {
@@ -351,7 +365,7 @@ local function formatter()
             ---@diagnostic disable-next-line: redundant-parameter
             return require('formatter/defaults/denofmt')(...)
           else
-            return stream.inserted_all(require('formatter/defaults/prettier')(...), { try_node_modules = false }, 0)
+            return prettier()
           end
         end,
       },
