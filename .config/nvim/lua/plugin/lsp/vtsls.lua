@@ -22,6 +22,11 @@ return function()
     root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json' },
 
     settings = {
+      typescript = {
+        preferences = {
+          preferTypeOnlyAutoImports = { enabled = true },
+        },
+      },
       vtsls = {
         tsserver = {
           globalPlugins = {
