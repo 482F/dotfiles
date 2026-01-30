@@ -289,7 +289,7 @@ local function prettier(args)
       vim.fn.shellescape(bufname, true),
     }, args),
     stdin = true,
-    try_node_modules = true,
+    try_node_modules = false,
   }
 end
 
