@@ -42,7 +42,7 @@ end
 ---@param bufnr integer
 function M.get_winnr_by_bufnr(bufnr)
   local winids = vim.fn.win_findbuf(bufnr)
-  local tabnr = vim.fn.tabpagenr()
+  local tabnr = vim.api.nvim_win_get_tabpage(0)
   for _, winid in pairs(winids) do
     if tabnr == vim.api.nvim_win_get_tabpage(winid) then
       local winnr = vim.fn.win_id2win(winid)
